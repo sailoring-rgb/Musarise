@@ -12,6 +12,8 @@ struct LoginView: View{
     @State var errorMessage: String = ""
     @State var isLoading: Bool = false
 
+    @AppStorage("log_status") var logStatus: Bool = false
+    
     var body: some View{
         VStack(spacing: 10){
             Text("Let's sign you in..")
@@ -62,6 +64,7 @@ struct LoginView: View{
             do {
                 try await Auth.auth().signIn(withEmail: email, password: password)
                 print("User Found")
+                logStatus = true
             } catch {
                 await setError(error)
             }
@@ -79,6 +82,6 @@ struct LoginView: View{
 
 struct LoginView_Previews: PreviewProvider{
     static var previews: some View{
-        LoginView()
+        ContentView()
     }
 }
