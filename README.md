@@ -1,4 +1,4 @@
-# Musarise
+# Musarise App
 
 `Type Something Later`
 
