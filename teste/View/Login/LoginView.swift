@@ -11,7 +11,7 @@ struct LoginView: View{
     @State var showError: Bool = false
     @State var errorMessage: String = ""
     @State var isLoading: Bool = false
-    
+    // Hello Henriqui
     @AppStorage("log_status") var logStatus: Bool = false
     @AppStorage("user_profile_url") var downloadURL: URL?
     @AppStorage("user_name") var userNameStored: String = ""
