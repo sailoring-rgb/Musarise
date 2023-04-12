@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>562290659325-f15htr0edgdt2jsdu0vgf0e2ova4dng3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.562290659325-f15htr0edgdt2jsdu0vgf0e2ova4dng3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBtu1qsAjDS0L4vwQuApak7ne-gJfi3fTc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>562290659325</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app-da-paulinha</string>
+	<key>PROJECT_ID</key>
+	<string>csound-967d4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>csound-967d4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:562290659325:ios:136f8defe328f916229394</string>
+</dict>
+</plist>

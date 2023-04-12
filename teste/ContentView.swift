@@ -1,21 +1,13 @@
-//
-//  ContentView.swift
-//  teste
-//
-//  Created by annaphens on 05/04/2023.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("log_status") var logStatus: Bool = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        if logStatus{
+            Text("Main View")
+        } else {
+            LoginView()
         }
-        .padding()
     }
 }
 
