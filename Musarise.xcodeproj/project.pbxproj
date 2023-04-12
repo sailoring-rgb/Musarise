@@ -50,15 +50,15 @@
 		106FA46129E724DC0007903B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		106FA46529E729DB0007903B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		106FA46829E72A990007903B /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
-		10899C6529DE1A7D00AC874C /* Musarise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Musarise.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		10899C6529DE1A7D00AC874C /* testeusarise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testeusarise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10899C6829DE1A7D00AC874C /* testeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testeApp.swift; sourceTree = "<group>"; };
 		10899C6A29DE1A7D00AC874C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		10899C6C29DE1A7E00AC874C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10899C6E29DE1A7E00AC874C /* teste.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = teste.entitlements; sourceTree = "<group>"; };
 		10899C7029DE1A7E00AC874C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		10899C7629DE1A7E00AC874C /* MusariseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusariseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		10899C7629DE1A7E00AC874C /* testeusariseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testeusariseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		10899C7A29DE1A7E00AC874C /* testeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testeTests.swift; sourceTree = "<group>"; };
-		10899C8029DE1A7E00AC874C /* MusariseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusariseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		10899C8029DE1A7E00AC874C /* testeusariseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testeusariseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		10899C8429DE1A7E00AC874C /* testeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testeUITests.swift; sourceTree = "<group>"; };
 		10899C8629DE1A7E00AC874C /* testeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,9 +156,9 @@
 		10899C6629DE1A7D00AC874C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				10899C6529DE1A7D00AC874C /* Musarise.app */,
-				10899C7629DE1A7E00AC874C /* MusariseTests.xctest */,
-				10899C8029DE1A7E00AC874C /* MusariseUITests.xctest */,
+				10899C6529DE1A7D00AC874C /* testeusarise.app */,
+				10899C7629DE1A7E00AC874C /* testeusariseTests.xctest */,
+				10899C8029DE1A7E00AC874C /* testeusariseUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,10 +167,10 @@
 			isa = PBXGroup;
 			children = (
 				106FA45E29E71DC60007903B /* Model */,
-				100D84AB29E233910047290D /* GoogleService-Info.plist */,
 				100D84A529E21AD00047290D /* View */,
 				10899C6829DE1A7D00AC874C /* testeApp.swift */,
 				10899C6A29DE1A7D00AC874C /* ContentView.swift */,
+				100D84AB29E233910047290D /* GoogleService-Info.plist */,
 				10899C6C29DE1A7E00AC874C /* Assets.xcassets */,
 				10899C6E29DE1A7E00AC874C /* teste.entitlements */,
 				10899C6F29DE1A7E00AC874C /* Preview Content */,
@@ -206,9 +206,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		10899C6429DE1A7D00AC874C /* Musarise */ = {
+		10899C6429DE1A7D00AC874C /* testeusarise */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 10899C8A29DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "Musarise" */;
+			buildConfigurationList = 10899C8A29DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "testeusarise" */;
 			buildPhases = (
 				10899C6129DE1A7D00AC874C /* Sources */,
 				10899C6229DE1A7D00AC874C /* Frameworks */,
@@ -218,7 +218,7 @@
 			);
 			dependencies = (
 			);
-			name = Musarise;
+			name = testeusarise;
 			packageProductDependencies = (
 				100F875F29E234B500212225 /* FirebaseAuth */,
 				106FA45829E71BD70007903B /* FirebaseFirestore */,
@@ -226,12 +226,12 @@
 				106FA45C29E71BE90007903B /* FirebaseFirestoreSwift */,
 			);
 			productName = teste;
-			productReference = 10899C6529DE1A7D00AC874C /* Musarise.app */;
+			productReference = 10899C6529DE1A7D00AC874C /* testeusarise.app */;
 			productType = "com.apple.product-type.application";
 		};
-		10899C7529DE1A7E00AC874C /* MusariseTests */ = {
+		10899C7529DE1A7E00AC874C /* testeusariseTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 10899C8D29DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "MusariseTests" */;
+			buildConfigurationList = 10899C8D29DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "testeusariseTests" */;
 			buildPhases = (
 				10899C7229DE1A7E00AC874C /* Sources */,
 				10899C7329DE1A7E00AC874C /* Frameworks */,
@@ -242,14 +242,14 @@
 			dependencies = (
 				10899C7829DE1A7E00AC874C /* PBXTargetDependency */,
 			);
-			name = MusariseTests;
+			name = testeusariseTests;
 			productName = testeTests;
-			productReference = 10899C7629DE1A7E00AC874C /* MusariseTests.xctest */;
+			productReference = 10899C7629DE1A7E00AC874C /* testeusariseTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		10899C7F29DE1A7E00AC874C /* MusariseUITests */ = {
+		10899C7F29DE1A7E00AC874C /* testeusariseUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 10899C9029DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "MusariseUITests" */;
+			buildConfigurationList = 10899C9029DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "testeusariseUITests" */;
 			buildPhases = (
 				10899C7C29DE1A7E00AC874C /* Sources */,
 				10899C7D29DE1A7E00AC874C /* Frameworks */,
@@ -260,9 +260,9 @@
 			dependencies = (
 				10899C8229DE1A7E00AC874C /* PBXTargetDependency */,
 			);
-			name = MusariseUITests;
+			name = testeusariseUITests;
 			productName = testeUITests;
-			productReference = 10899C8029DE1A7E00AC874C /* MusariseUITests.xctest */;
+			productReference = 10899C8029DE1A7E00AC874C /* testeusariseUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -304,9 +304,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				10899C6429DE1A7D00AC874C /* Musarise */,
-				10899C7529DE1A7E00AC874C /* MusariseTests */,
-				10899C7F29DE1A7E00AC874C /* MusariseUITests */,
+				10899C6429DE1A7D00AC874C /* testeusarise */,
+				10899C7529DE1A7E00AC874C /* testeusariseTests */,
+				10899C7F29DE1A7E00AC874C /* testeusariseUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -375,12 +375,12 @@
 /* Begin PBXTargetDependency section */
 		10899C7829DE1A7E00AC874C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 10899C6429DE1A7D00AC874C /* Musarise */;
+			target = 10899C6429DE1A7D00AC874C /* testeusarise */;
 			targetProxy = 10899C7729DE1A7E00AC874C /* PBXContainerItemProxy */;
 		};
 		10899C8229DE1A7E00AC874C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 10899C6429DE1A7D00AC874C /* Musarise */;
+			target = 10899C6429DE1A7D00AC874C /* testeusarise */;
 			targetProxy = 10899C8129DE1A7E00AC874C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -592,7 +592,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Musarise.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Musarise";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/testeusarise.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/testeusarise";
 			};
 			name = Debug;
 		};
@@ -615,7 +615,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Musarise.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Musarise";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/testeusarise.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/testeusarise";
 			};
 			name = Release;
 		};
@@ -675,7 +675,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		10899C8A29DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "Musarise" */ = {
+		10899C8A29DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "testeusarise" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				10899C8B29DE1A7E00AC874C /* Debug */,
@@ -684,7 +684,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		10899C8D29DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "MusariseTests" */ = {
+		10899C8D29DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "testeusariseTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				10899C8E29DE1A7E00AC874C /* Debug */,
@@ -693,7 +693,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		10899C9029DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "MusariseUITests" */ = {
+		10899C9029DE1A7E00AC874C /* Build configuration list for PBXNativeTarget "testeusariseUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				10899C9129DE1A7E00AC874C /* Debug */,

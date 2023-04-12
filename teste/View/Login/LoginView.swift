@@ -11,12 +11,7 @@ struct LoginView: View{
     @State var showError: Bool = false
     @State var errorMessage: String = ""
     @State var isLoading: Bool = false
-    // Hello Henriqui
-    @AppStorage("log_status") var logStatus: Bool = false
-    @AppStorage("user_profile_url") var downloadURL: URL?
-    @AppStorage("user_name") var userNameStored: String = ""
-    @AppStorage("user_UID") var userUID: String = ""
-    
+
     var body: some View{
         VStack(spacing: 10){
             Text("Let's sign you in..")
@@ -67,26 +62,11 @@ struct LoginView: View{
             do {
                 try await Auth.auth().signIn(withEmail: email, password: password)
                 print("User Found")
-                // try await fetch()
             } catch {
                 await setError(error)
             }
         }
     }
-    
-    /*
-    // In case user already exists (restore data)
-    func fetch() async throws {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        let userObject = try await Firestore.firestore().collection("Users").document(userID).getDocument(as: User.self)
-        await MainActor.run(body: {
-            userUID = userID
-            userNameStored = userObject.username
-            downloadURL = userObject.profileURL
-            logStatus = true
-        })
-    }
-    */
     
     func setError(_ error: Error) async {
         await MainActor.run(body: {

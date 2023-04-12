@@ -13,6 +13,7 @@ extension View{
     func closeKeyboard(){
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+    
     func disableOpacity(_ condition: Bool) -> some View{
         self
             .disabled(condition)
