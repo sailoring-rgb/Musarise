@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "10899C6429DE1A7D00AC874C"
-               BuildableName = "testeusarise.app"
-               BlueprintName = "testeusarise"
+               BuildableName = "Musarise.app"
+               BlueprintName = "Musarise"
                ReferencedContainer = "container:Musarise.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,28 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "10899C7529DE1A7E00AC874C"
-               BuildableName = "testeusariseTests.xctest"
-               BlueprintName = "testeusariseTests"
-               ReferencedContainer = "container:Musarise.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "10899C7F29DE1A7E00AC874C"
-               BuildableName = "testeusariseUITests.xctest"
-               BlueprintName = "testeusariseUITests"
-               ReferencedContainer = "container:Musarise.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -67,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "10899C6429DE1A7D00AC874C"
-            BuildableName = "testeusarise.app"
-            BlueprintName = "testeusarise"
+            BuildableName = "Musarise.app"
+            BlueprintName = "Musarise"
             ReferencedContainer = "container:Musarise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -84,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "10899C6429DE1A7D00AC874C"
-            BuildableName = "testeusarise.app"
-            BlueprintName = "testeusarise"
+            BuildableName = "Musarise.app"
+            BlueprintName = "Musarise"
             ReferencedContainer = "container:Musarise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
