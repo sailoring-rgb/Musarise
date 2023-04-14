@@ -32,6 +32,7 @@
 		10CE667A29E83A8D007992F1 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667929E83A8D007992F1 /* ProfileView.swift */; };
 		10CE667C29E84461007992F1 /* ReusableProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667B29E84461007992F1 /* ReusableProfileContent.swift */; };
 		10CE667F29E84732007992F1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 10CE667E29E84732007992F1 /* SDWebImageSwiftUI */; };
+		10FF203329E990DA0033CB1F /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF203229E990DA0033CB1F /* PostCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		10CE667729E836B0007992F1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = Musarise/View/MainView/MainView.swift; sourceTree = SOURCE_ROOT; };
 		10CE667929E83A8D007992F1 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = Musarise/View/MainView/ProfileView.swift; sourceTree = SOURCE_ROOT; };
 		10CE667B29E84461007992F1 /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReusableProfileContent.swift; path = Musarise/View/MainView/ReusableProfileContent.swift; sourceTree = SOURCE_ROOT; };
+		10FF203229E990DA0033CB1F /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				1021B38129E8D2C90012A1CA /* NewPostView.swift */,
 				1021B38529E8DE600012A1CA /* PostsView.swift */,
 				104DF30129E94C4300ADC3EC /* ReusablePostsView.swift */,
+				10FF203229E990DA0033CB1F /* PostCardView.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				108C676529E7490C008D7428 /* ViewDesign.swift in Sources */,
 				1021B38629E8DE600012A1CA /* PostsView.swift in Sources */,
 				108C676429E74909008D7428 /* RegisterView.swift in Sources */,
+				10FF203329E990DA0033CB1F /* PostCardView.swift in Sources */,
 				108C676329E748FE008D7428 /* LoginView.swift in Sources */,
 				108C676229E748FC008D7428 /* User.swift in Sources */,
 			);

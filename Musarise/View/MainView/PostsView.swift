@@ -22,7 +22,9 @@ struct PostsView: View {
                     .padding(15)
                 }
                 .fullScreenCover(isPresented: $newPost){
-                    NewPostView{ post in }
+                    NewPostView{ post in
+                        recentPosts.insert(post, at: 0)
+                    }
                 }
         }
         .navigationTitle("Recent Posts")
