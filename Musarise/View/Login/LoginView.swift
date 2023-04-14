@@ -2,11 +2,13 @@ import SwiftUI
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseAuth
 
 struct LoginView: View{
     
     @State var email: String = ""
     @State var password: String = ""
+    @State var userName: String = ""
     @State var createAccount: Bool = false
     @State var showError: Bool = false
     @State var errorMessage: String = ""
@@ -23,7 +25,7 @@ struct LoginView: View{
                 .font(.title3)
                 .hAlign(.leading)
             VStack(spacing: 12){
-                TextField("Email", text: $email)
+                TextField("Email / Username", text: $email)
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
                 SecureField("Password", text: $password)
@@ -58,19 +60,47 @@ struct LoginView: View{
     }
     
     func login(){
-        isLoading = true
-        closeKeyboard()
-        Task{
-            do {
-                try await Auth.auth().signIn(withEmail: email, password: password)
-                print("User Found")
-                logStatus = true
-            } catch {
-                await setError(error)
+            isLoading = true
+            closeKeyboard()
+            Task{
+                do {
+                    if isValidEmail(email) {
+                        try await Auth.auth().signIn(withEmail: email, password: password)
+                        print("User Found")
+                        logStatus = true
+                        isLoading = false
+                    }
+                    else {
+                        guard let emailReturned = try await getEmailFromUsername(username: email) else { return }
+                        self.email = emailReturned
+                        try await Auth.auth().signIn(withEmail: email, password: password)
+                        print("User Found")
+                        logStatus = true
+                        isLoading = false
+                    }
+                } catch {
+                    await setError(error)
+                    isLoading = false
+                }
             }
         }
+
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
     
+    func getEmailFromUsername(username: String) async throws -> String? {
+        let userReference = Firestore.firestore().collection("Users")
+        let query = userReference.whereField("username", isEqualTo: username)
+        let snapshot = try await query.getDocuments()
+
+        guard let email = snapshot.documents.first?.data()["email"] as? String else { return nil }
+        
+        return email
+    }
+
     func setError(_ error: Error) async {
         await MainActor.run(body: {
             errorMessage = error.localizedDescription

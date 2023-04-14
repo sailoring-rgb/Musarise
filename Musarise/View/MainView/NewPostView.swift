@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import Firebase
 import FirebaseStorage
 import FirebaseFirestore
 
@@ -8,7 +9,7 @@ struct NewPostView: View {
     @State private var text: String = ""
     @State private var imageData: Data?
     
-    @AppStorage("profile_url") private var profileURL: URL?
+    @AppStorage("user_profile_url") private var profileURL: URL?
     @AppStorage("user_name") private var userName: String = ""
     @AppStorage("user_UID") private var userUID: String = ""
     
@@ -18,7 +19,7 @@ struct NewPostView: View {
     @State private var errorMessage: String = ""
     @State private var showError: Bool = false
     @State private var showImagePicker: Bool = false
-    @State private var photoItem: PhotosPickerItem
+    @State private var photoItem: PhotosPickerItem?
     @FocusState private var showKeyboard: Bool
     
     var body: some View {
@@ -35,7 +36,7 @@ struct NewPostView: View {
                 }
                 .hAlign(.leading)
                 
-                Button(action: {}){
+                Button(action: createPost){
                     Text("Post")
                         .font(.callout)
                         .foregroundColor(.white)
@@ -130,11 +131,12 @@ struct NewPostView: View {
         Task{
             do{
                 guard let profileURL = profileURL else {return}
+                guard let userid = Auth.auth().currentUser?.uid else { return }
                 let imageReferenceID = "\(userUID)\(Date())"
-                let storageRef = Storage.storage().reference().child("Post_media").child(imageReferenceID)
+                let storageReference = Storage.storage().reference().child("Post_media").child(userid)
                 if let imageData {
-                    let _ = try await storageRef.putDataAsync(imageData)
-                    let downloadURL = try await storageRef.downloadURL()
+                    let _ = try await storageReference.putDataAsync(imageData)
+                    let downloadURL = try await storageReference.downloadURL()
                     
                     let post = Post(text: text, imageURL: downloadURL, imageReferenceID: imageReferenceID, userName: userName, userid: userUID, profileURL: profileURL)
                     try await createDocAtFirebase(post)
@@ -169,6 +171,8 @@ struct NewPostView: View {
 
 struct NewPostView_Previews: PreviewProvider {
     static var previews: some View {
-        NewPostView{ post in}
+        NewPostView{ _ in
+            
+        }
     }
 }

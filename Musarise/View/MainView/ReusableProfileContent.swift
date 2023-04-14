@@ -1,10 +1,3 @@
-//
-//  ReusableProfileContent.swift
-//  Musarise
-//
-//  Created by annaphens on 13/04/2023.
-//
-
 import SwiftUI
 import SDWebImageSwiftUI
 
@@ -31,7 +24,7 @@ struct ReusableProfileContent: View {
                     .hAlign(.leading)
                 }
                 
-                Text("Post's")
+                Text("Your Posts")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(.black)

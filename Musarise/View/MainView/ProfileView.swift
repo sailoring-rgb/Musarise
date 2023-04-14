@@ -1,10 +1,3 @@
-//
-//  ProfileView.swift
-//  Musarise
-//
-//  Created by annaphens on 13/04/2023.
-//
-
 import SwiftUI
 import Firebase
 import FirebaseStorage
@@ -48,9 +41,7 @@ struct ProfileView: View {
         .overlay{
             LoadingView(show: $isLoading)
         }
-        .alert(errorMessage, isPresented: $showError){
-            
-        }
+        .alert(errorMessage, isPresented: $showError){}
         .task {
             if myProfile != nil{return}
             await fetchUserData()
