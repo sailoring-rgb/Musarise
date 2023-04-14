@@ -43,16 +43,18 @@ struct ProfileView: View {
         }
         .alert(errorMessage, isPresented: $showError){}
         .task {
-            if myProfile != nil{return}
+            //if myProfile != nil{return}
             await fetchUserData()
         }
     }
     
     func fetchUserData() async{
         guard let userID = Auth.auth().currentUser?.uid else{return}
+        print(userID)
         guard let user = try? await Firestore.firestore().collection("Users").document(userID).getDocument(as: User.self) else{return}
             await MainActor.run(body: {
                 myProfile = user
+                print(user)
             })
     }
     

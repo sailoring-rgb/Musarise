@@ -45,6 +45,20 @@ struct PostCardView: View {
             }
         }
         .hAlign(.leading)
+        .overlay(alignment: .topTrailing, content:{
+            if post.userid == userUID{
+                Menu{
+                    Button("Delete",role:.destructive,action:deletePost)
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.caption)
+                        .rotationEffect(.init(degrees: -90))
+                        .foregroundColor(.black)
+                        .padding(8)
+                        .contentShape(Rectangle())
+                }
+            }
+        })
         .onAppear{
             if docListener == nil{
                 guard let postid = post.id else {return}
@@ -60,6 +74,13 @@ struct PostCardView: View {
                         }
                     }
                 })
+            }
+        }
+        
+        .onDisappear(){
+            if let docListener{
+                docListener.remove()
+                self.docListener = nil
             }
         }
     }
@@ -90,6 +111,21 @@ struct PostCardView: View {
                 try await Firestore.firestore().collection("Posts").document(postid).updateData([
                     "likedIDs": FieldValue.arrayUnion([userUID])
                 ])
+            }
+        }
+    }
+    
+    func deletePost(){
+        Task{
+            do{
+                print("deleting post: "+post.imageReferenceID)
+                if post.imageReferenceID != "" {
+                    try await Storage.storage().reference().child("Post_media").child(post.imageReferenceID).delete()
+                }
+                guard let postid = post.id else{return}
+                try await Firestore.firestore().collection("Posts").document(postid).delete()
+            }catch{
+                print(error.localizedDescription)
             }
         }
     }

@@ -131,9 +131,11 @@ struct NewPostView: View {
         Task{
             do{
                 guard let profileURL = profileURL else {return}
-                guard let userid = Auth.auth().currentUser?.uid else { return }
+                //guard let userid = Auth.auth().currentUser?.uid else { return }
+                //print(userid)
                 let imageReferenceID = "\(userUID)\(Date())"
-                let storageReference = Storage.storage().reference().child("Post_media").child(userid)
+                let storageReference = Storage.storage().reference().child("Post_media").child(imageReferenceID)
+                print("creating post: "+imageReferenceID)
                 if let imageData {
                     let _ = try await storageReference.putDataAsync(imageData)
                     let downloadURL = try await storageReference.downloadURL()
@@ -152,10 +154,13 @@ struct NewPostView: View {
     }
     
     func createDocAtFirebase(_ post: Post) async throws{
-        let _ = try Firestore.firestore().collection("Posts").addDocument(from: post, completion: {
+        let doc = Firestore.firestore().collection("Posts").document()
+        let _ = try doc.setData(from: post, completion: {
             error in if error == nil {
                 isLoading = false
-                onPost(post)
+                var updatedPost = post
+                updatedPost.id = doc.documentID
+                onPost(updatedPost)
                 dismiss()
             }
         })

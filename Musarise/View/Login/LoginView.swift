@@ -15,6 +15,9 @@ struct LoginView: View{
     @State var isLoading: Bool = false
 
     @AppStorage("log_status") var logStatus: Bool = false
+    @AppStorage("user_profile_url") var downloadURL: URL?
+    @AppStorage("user_name") var userNameStored: String = ""
+    @AppStorage("user_UID") var userUID: String = ""
     
     var body: some View{
         VStack(spacing: 10){
@@ -66,15 +69,33 @@ struct LoginView: View{
                 do {
                     if isValidEmail(email) {
                         try await Auth.auth().signIn(withEmail: email, password: password)
+                        
+                        guard let id = try await getIdFromEmail(email: email) else {return}
+                        guard let iconURL = try await getIconFromEmail(email: email) else {return}
+                        guard let username = try await getUsernameFromEmail(email: email) else {return}
+                        
                         print("User Found")
+                        userNameStored = username
+                        userUID = id
+                        downloadURL = iconURL
                         logStatus = true
                         isLoading = false
                     }
                     else {
-                        guard let emailReturned = try await getEmailFromUsername(username: email) else { return }
+                        let username = email
+                        print(username)
+                        guard let emailReturned = try await getEmailFromUsername(username: username) else { return }
                         self.email = emailReturned
                         try await Auth.auth().signIn(withEmail: email, password: password)
+                        guard let id = try await getIdFromEmail(email: email) else {return}
+                        print(id)
+                        print(username)
+                        guard let iconURL = try await getIconFromEmail(email: email) else {return}
+                        print(iconURL)
                         print("User Found")
+                        userNameStored = username
+                        userUID = id
+                        downloadURL = iconURL
                         logStatus = true
                         isLoading = false
                     }
@@ -99,6 +120,36 @@ struct LoginView: View{
         guard let email = snapshot.documents.first?.data()["email"] as? String else { return nil }
         
         return email
+    }
+    
+    func getIdFromEmail(email: String) async throws -> String? {
+        let userReference = Firestore.firestore().collection("Users")
+        let query = userReference.whereField("email", isEqualTo: email)
+        let snapshot = try await query.getDocuments()
+
+        guard let id = snapshot.documents.first?.data()["userid"] as? String else { return nil }
+        
+        return id
+    }
+    
+    func getIconFromEmail(email: String) async throws -> URL? {
+        let userReference = Firestore.firestore().collection("Users")
+        let query = userReference.whereField("email", isEqualTo: email)
+        let snapshot = try await query.getDocuments()
+
+        guard let profileURL = snapshot.documents.first?.data()["profileURL"] as? String else { return nil }
+        
+        return URL(string: profileURL)
+    }
+    
+    func getUsernameFromEmail(email: String) async throws -> String? {
+        let userReference = Firestore.firestore().collection("Users")
+        let query = userReference.whereField("email", isEqualTo: email)
+        let snapshot = try await query.getDocuments()
+
+        guard let username = snapshot.documents.first?.data()["username"] as? String else { return nil }
+        
+        return username
     }
 
     func setError(_ error: Error) async {

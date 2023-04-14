@@ -24,7 +24,7 @@ struct ReusableProfileContent: View {
                     .hAlign(.leading)
                 }
                 
-                Text("Your Posts")
+                Text("My Posts")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
