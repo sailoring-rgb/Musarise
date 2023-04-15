@@ -8,22 +8,30 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import SDWebImageSwiftUI
 
 struct SearchUserView: View {
     @State private var fetchedUsers: [User] = []
+    @State var isSearching: Bool = false
     @State private var searchText: String = ""
     @Environment(\.dismiss) private var dismiss
     @State private var posts: [Post] = []
     
     var body: some View {
         List{
-            ForEach(fetchedUsers){ user in
-                NavigationLink{
-                   
-                } label:{
-                    Text(user.username)
-                        .font(.callout)
-                        .hAlign(.leading)
+            ForEach(fetchedUsers) { user in
+                NavigationLink(destination: OtherProfileView(username: user.username)) {
+                    HStack{
+                        WebImage(url: user.iconURL)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 35, height: 35)
+                            .clipShape(Circle())
+                        
+                        Text(user.username)
+                            .font(.callout)
+                            .hAlign(.leading)
+                    }
                 }
             }
         }
@@ -32,11 +40,13 @@ struct SearchUserView: View {
         .navigationTitle("Search User" )
         .searchable(text: $searchText)
         .onSubmit(of: .search, {
+            isSearching = true
             Task{await searchUsers()}
         })
         .onChange(of: searchText, perform: { newValue in
             if newValue.isEmpty{
                 fetchedUsers = []
+                isSearching = false
             }
         })
     }
@@ -53,6 +63,7 @@ struct SearchUserView: View {
             
             await MainActor.run(body:{
                 fetchedUsers = users
+                isSearching = false
             })
         }catch{
             print(error.localizedDescription)
