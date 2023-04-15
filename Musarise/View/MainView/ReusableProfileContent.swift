@@ -1,11 +1,17 @@
 import SwiftUI
 import SDWebImageSwiftUI
 import FirebaseFirestore
+import FirebaseStorage
+import PhotosUI
 
 struct ReusableProfileContent: View {
-    var user: User
+    @State var user: User
     @Binding var posts: [Post]
     @State var isFetching: Bool = false
+    @State private var showImagePicker: Bool = false
+    @State private var selectedImage: PhotosPickerItem?
+    
+    @AppStorage("user_profile_url") var downloadURL: URL?
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
@@ -19,7 +25,77 @@ struct ReusableProfileContent: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
-                    
+                    .onTapGesture {
+                        showImagePicker = true
+                    }
+                    .photosPicker(isPresented: $showImagePicker, selection: $selectedImage)
+                    .onChange(of: selectedImage){
+                        newValue in
+                        if let newValue{
+                            Task{
+                                do {
+                                    guard let imageData = try await newValue.loadTransferable(type: Data.self) else { return }
+                                    
+                                    let tempDirectory = FileManager.default.temporaryDirectory
+                                    let tempFileURL = tempDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("png")
+                                    
+                                    try imageData.write(to: tempFileURL)
+                                    
+                                    // Upload the image to Firebase Storage
+                                    let picsStorageReference = Storage.storage().reference().child("Profile_Pics").child(user.userid)
+                                    let _ = try await picsStorageReference.delete()
+                                    let _ = try await picsStorageReference.putDataAsync(imageData)
+                                    
+                                    let profileURL = try await picsStorageReference.downloadURL()
+                                    
+                                    let userObject = User(username: user.username, userid: user.userid, email: user.email, iconURL: profileURL)
+                                    
+                                    let _ = try Firestore.firestore().collection("Users").document(user.userid).setData(from: userObject, completion: {
+                                            error in
+                                            if error == nil {
+                                                print("Saved successfully!")
+                                                downloadURL = profileURL
+                                            }
+                                        }
+                                    )
+                                    
+                                    var refreshedPosts: [Post] = []
+                                    
+                                    Firestore.firestore().collection("Posts").whereField("userid", isEqualTo: user.userid).getDocuments() { (querySnapshot, error) in
+                                        guard let querySnapshot = querySnapshot else {
+                                            print("Error getting documents: \(error!)")
+                                            return
+                                        }
+
+                                        for document in querySnapshot.documents {
+                                            let post = try? document.data(as: Post.self)
+                                            if let post = post {
+                                                let updatedPost = Post(text: post.text, userName: post.userName, userid: post.userid, iconURL: profileURL)
+                                                
+                                                refreshedPosts.append(updatedPost)
+                                                
+                                                let _ = try? Firestore.firestore().collection("Posts").document(document.documentID).setData(from: updatedPost) { error in
+                                                    if let error = error {
+                                                        print("Error updating document: \(error)")
+                                                    } else {
+                                                        print("Document successfully updated")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    await fetchPosts()
+                                    
+                                    await MainActor.run(body: {
+                                        user.iconURL = profileURL
+                                    })
+                                } catch {
+                                    print(error)
+                                }
+                            }
+                        }
+                    }
+
                     VStack(alignment: .leading, spacing: 6){
                         Text(user.username)
                             .font(.title3)
@@ -45,7 +121,7 @@ struct ReusableProfileContent: View {
                             .foregroundColor(.gray)
                             .padding(.top, 30)
                     } else {
-                        Posts2()
+                        Posts()
                     }
                 }
             }
@@ -62,7 +138,7 @@ struct ReusableProfileContent: View {
     }
         
     @ViewBuilder
-    func Posts2()->some View {
+    func Posts()->some View {
         ForEach(posts){ post in
             PostCardView(post: post){ updatedPost in
                 if let index = posts.firstIndex(where: {

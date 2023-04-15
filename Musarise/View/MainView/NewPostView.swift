@@ -131,11 +131,10 @@ struct NewPostView: View {
         Task{
             do{
                 guard let profileURL = profileURL else {return}
-                //guard let userid = Auth.auth().currentUser?.uid else { return }
-                //print(userid)
+
                 let imageReferenceID = "\(userUID)\(Date())"
                 let storageReference = Storage.storage().reference().child("Post_media").child(imageReferenceID)
-                print("creating post: "+imageReferenceID)
+
                 if let imageData {
                     let _ = try await storageReference.putDataAsync(imageData)
                     let downloadURL = try await storageReference.downloadURL()
