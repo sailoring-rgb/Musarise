@@ -125,7 +125,7 @@ struct RegisterView: View{
                 let profileURL = try await storageReference.downloadURL()
                 
                 // Step 4: Create a User Firestore Object
-                let userObject = User(username: userName, userid: userid, email: email, iconURL: profileURL)
+                let userObject = User(username: userName, userid: userid, email: email, iconURL: profileURL,following: [], followers: [])
                 
                 // Step 5: Save User in Database
                 let _ = try Firestore.firestore().collection("Users").document(userid).setData(from: userObject, completion: {

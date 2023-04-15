@@ -27,20 +27,7 @@ struct OtherProfileView: View {
                 }
             }
             .padding(.horizontal,20)
-            .navigationTitle("My Profile")
-            .toolbar{
-                ToolbarItem(placement: .navigationBarTrailing){
-                    Menu{
-                        Button("Logout", action: logOutUser)
-                        Button("Delete Account",role: .destructive, action: deleteAccount)
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .rotationEffect(.init(degrees: 90))
-                            .tint(.black)
-                            .scaleEffect(0.8)
-                    }
-                }
-            }
+            .navigationTitle("User Profile")
         }
         .overlay{
             LoadingView(show: $isLoading)
@@ -77,26 +64,6 @@ struct OtherProfileView: View {
         }
     }
     
-    func logOutUser(){
-        try? Auth.auth().signOut()
-        logStatus = false
-    }
-    
-    func deleteAccount(){
-        isLoading = true
-        Task{
-            do{
-                guard let userID = Auth.auth().currentUser?.uid else {return}
-                let reference = Storage.storage().reference().child("Profile_Pics").child(userID)
-                try await reference.delete()
-                try await Firestore.firestore().collection("Users").document(userID).delete()
-                try await Auth.auth().currentUser?.delete()
-                logStatus = false
-            }catch{
-                await setError(error)
-            }
-        }
-    }
     
     func setError(_ error: Error) async {
         await MainActor.run(body: {

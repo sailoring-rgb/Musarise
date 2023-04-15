@@ -13,6 +13,7 @@ struct ReusableProfileContent: View {
     @State private var selectedImage: PhotosPickerItem?
     
     @AppStorage("user_profile_url") var downloadURL: URL?
+    @AppStorage("user_UID") var userUID: String = ""
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
@@ -27,7 +28,9 @@ struct ReusableProfileContent: View {
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
                     .onTapGesture {
-                        showImagePicker = true
+                        if user.email  == Auth.auth().currentUser?.email{
+                            showImagePicker = true
+                        }
                     }
                     .photosPicker(isPresented: $showImagePicker, selection: $selectedImage)
                     .onChange(of: selectedImage){
@@ -49,7 +52,7 @@ struct ReusableProfileContent: View {
                                     
                                     let profileURL = try await picsStorageReference.downloadURL()
                                     
-                                    let userObject = User(username: user.username, userid: user.userid, email: user.email, iconURL: profileURL)
+                                    let userObject = User(username: user.username, userid: user.userid, email: user.email, iconURL: profileURL,following:user.following,followers:user.followers)
                                     
                                     let _ = try Firestore.firestore().collection("Users").document(user.userid).setData(from: userObject, completion: {
                                             error in
@@ -101,6 +104,35 @@ struct ReusableProfileContent: View {
                         Text(user.username)
                             .font(.title3)
                             .fontWeight(.semibold)
+                        if user.userid != userUID{
+                            Button(action: {
+                                if user.followers.contains(userUID){       Task{await unfollow()}
+                                }else if user.id != userUID{
+                                    Task{await follow()}
+                                    
+                                }
+                                
+                            }) {
+                                HStack {
+                                    Image(systemName: "person.badge.plus.fill")
+                                    if user.followers.contains(userUID){                                 Text("Unfollow")
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.white)
+                                        
+                                    }else if user.id != userUID{
+                                        Text("Follow")
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.white)
+                                        
+                                    }
+                                    
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 10)
+                                .background(Color.yellow)
+                                .cornerRadius(15)
+                            }
+                        }
                     }
                     .hAlign(.leading)
                 }
@@ -182,4 +214,56 @@ struct ReusableProfileContent: View {
             print(error.localizedDescription)
         }
     }
+    
+    func follow() async{
+        // update selected user followers
+        user.followers.append(userUID)
+        Firestore.firestore().collection("Users").document(user.userid).updateData(["followers": user.followers]) { error in
+               if let error = error {
+                   print("Erro ao atualizar a lista de seguidores: \(error.localizedDescription)")
+               } else {
+                   print("Você passou a estar na lista de seguidos do usuário com sucesso")
+               }
+           }
+        
+        // update my user following
+        let myFollowingRef = Firestore.firestore().collection("Users").document(userUID)
+
+        myFollowingRef.updateData([
+            "following": FieldValue.arrayUnion([user.userid])
+        ]) { error in
+            if let error = error {
+                print("Erro ao seguir usuário: \(error.localizedDescription)")
+                return
+            }
+            
+            print("Usuário adicionado a sua lista de seguidos")
+        }
+    }
+    
+    func unfollow() async{
+        // update selected user followers
+        user.followers.removeAll { $0 == userUID}
+        
+        Firestore.firestore().collection("Users").document(user.userid).updateData(["followers": user.followers]) { error in
+               if let error = error {
+                   print("Erro ao atualizar a lista de seguidores: \(error.localizedDescription)")
+               } else {
+                   print("Você deixou de seguir o usuário com sucesso")
+               }
+           }
+        
+        // update my user following
+        let myFollowingRef = Firestore.firestore().collection("Users").document(userUID)
+
+        myFollowingRef.updateData([
+            "following": FieldValue.arrayRemove([user.userid])
+        ]) { error in
+            if let error = error {
+                print("Erro ao seguir usuário: \(error.localizedDescription)")
+                return
+            }
+            
+            print("Usuário removido da sua lista de seguidos")
+        }    }
 }

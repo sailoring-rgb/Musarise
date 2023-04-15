@@ -34,6 +34,7 @@
 		10CE667C29E84461007992F1 /* ReusableProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667B29E84461007992F1 /* ReusableProfileContent.swift */; };
 		10CE667F29E84732007992F1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 10CE667E29E84732007992F1 /* SDWebImageSwiftUI */; };
 		10FF203329E990DA0033CB1F /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF203229E990DA0033CB1F /* PostCardView.swift */; };
+		FC6ED28129EB1E4A00C1BA91 /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6ED28029EB1E4A00C1BA91 /* SearchUserView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,8 +59,8 @@
 		100D84AB29E233910047290D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1021B38129E8D2C90012A1CA /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
 		1021B38329E8D2D70012A1CA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		1021B38529E8DE600012A1CA /* PostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsView.swift; sourceTree = "<group>"; };
-		104DF30129E94C4300ADC3EC /* ReusablePostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusablePostsView.swift; sourceTree = "<group>"; };
+		1021B38529E8DE600012A1CA /* PostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostsView.swift; path = PostView/PostsView.swift; sourceTree = "<group>"; };
+		104DF30129E94C4300ADC3EC /* ReusablePostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReusablePostsView.swift; path = PostView/ReusablePostsView.swift; sourceTree = "<group>"; };
 		1057B28D29EACABD008A32AE /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		106FA45F29E71DE30007903B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		106FA46129E724DC0007903B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -77,9 +78,10 @@
 		10899C8429DE1A7E00AC874C /* MusariseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusariseUITests.swift; sourceTree = "<group>"; };
 		10899C8629DE1A7E00AC874C /* MusariseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusariseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		10CE667729E836B0007992F1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = Musarise/View/MainView/MainView.swift; sourceTree = SOURCE_ROOT; };
-		10CE667929E83A8D007992F1 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = Musarise/View/MainView/ProfileView.swift; sourceTree = SOURCE_ROOT; };
-		10CE667B29E84461007992F1 /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReusableProfileContent.swift; path = Musarise/View/MainView/ReusableProfileContent.swift; sourceTree = SOURCE_ROOT; };
-		10FF203229E990DA0033CB1F /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
+		10CE667929E83A8D007992F1 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = Musarise/View/MainView/ProfileView/ProfileView.swift; sourceTree = SOURCE_ROOT; };
+		10CE667B29E84461007992F1 /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReusableProfileContent.swift; path = Musarise/View/MainView/ProfileView/ReusableProfileContent.swift; sourceTree = SOURCE_ROOT; };
+		10FF203229E990DA0033CB1F /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostCardView.swift; path = PostView/PostCardView.swift; sourceTree = "<group>"; };
+		FC6ED28029EB1E4A00C1BA91 /* SearchUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 				104DF30129E94C4300ADC3EC /* ReusablePostsView.swift */,
 				10FF203229E990DA0033CB1F /* PostCardView.swift */,
 				1057B28D29EACABD008A32AE /* OtherProfileView.swift */,
+				FC6ED28029EB1E4A00C1BA91 /* SearchUserView.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				10CE667C29E84461007992F1 /* ReusableProfileContent.swift in Sources */,
 				1021B38429E8D2D70012A1CA /* Post.swift in Sources */,
 				10CE667829E836B0007992F1 /* MainView.swift in Sources */,
+				FC6ED28129EB1E4A00C1BA91 /* SearchUserView.swift in Sources */,
 				108C676729E74912008D7428 /* testeApp.swift in Sources */,
 				1021B38229E8D2C90012A1CA /* NewPostView.swift in Sources */,
 				104DF30229E94C4300ADC3EC /* ReusablePostsView.swift in Sources */,
@@ -545,7 +549,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Musarise/Preview Content\"";
-				DEVELOPMENT_TEAM = 25U8MLD355;
+				DEVELOPMENT_TEAM = D4B9FQ4H5S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -584,7 +588,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Musarise/Preview Content\"";
-				DEVELOPMENT_TEAM = 25U8MLD355;
+				DEVELOPMENT_TEAM = D4B9FQ4H5S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

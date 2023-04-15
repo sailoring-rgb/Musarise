@@ -21,6 +21,17 @@ struct PostsView: View {
                     }
                     .padding(15)
                 }
+                .toolbar(content: {
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        NavigationLink{
+                            SearchUserView()
+                        } label:{
+                             Image(systemName: "magnifyingglass")
+                                .tint(.black)
+                                .scaleEffect(0.9)
+                        }
+                    }
+                })
                 .fullScreenCover(isPresented: $newPost){
                     NewPostView{ post in
                         recentPosts.insert(post, at: 0)

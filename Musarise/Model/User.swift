@@ -7,6 +7,8 @@ struct User: Identifiable, Codable{
     var userid: String
     var email: String
     var iconURL: URL
+    var following: [String]
+    var followers: [String]
 
     enum CodingKeys: CodingKey{
         case id
@@ -14,5 +16,7 @@ struct User: Identifiable, Codable{
         case userid
         case email
         case iconURL
+        case following
+        case followers
     }
 }

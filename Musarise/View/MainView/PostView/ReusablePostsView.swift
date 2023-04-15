@@ -5,7 +5,7 @@ struct ReusablePostsView: View {
     @Binding var posts: [Post]
     @State var isFetching: Bool = true
     @State private var paginationDoc : QueryDocumentSnapshot?
-    
+    @AppStorage("user_UID") var userUID: String = ""
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
             LazyVStack{
@@ -62,27 +62,39 @@ struct ReusablePostsView: View {
 
     func fetchPosts() async{
         do {
+            let userReference = Firestore.firestore().collection("Users")
+            let query0 = userReference.whereField("userid", isEqualTo: userUID)
+            let snapshot = try await query0.getDocuments()
+
+            var following = snapshot.documents.first?.data()["following"] as? [String] ?? []
+
+            following += [userUID] // Adiciona o novo elemento ao array
+            print(following)
+
             var query: Query!
-            if let paginationDoc{
+            if let paginationDoc {
                 query = Firestore.firestore().collection("Posts")
+                    .whereField("userid", in:following)
                     .order(by: "publishedDate", descending: true)
-                    .start(afterDocument : paginationDoc)
+                    .start(afterDocument: paginationDoc)
                     .limit(to: 10)
-                
-            }else{
+            } else {
                 query = Firestore.firestore().collection("Posts")
+                    .whereField("userid", in:following)
                     .order(by: "publishedDate", descending: true)
                     .limit(to: 10)
             }
+            
             let docs = try await query.getDocuments()
             let fetchedPosts = docs.documents.compactMap{ doc -> Post? in
                 try? doc.data(as: Post.self)
             }
-            await MainActor.run(body: {
+            
+            await MainActor.run {
                 posts.append(contentsOf: fetchedPosts)
                 paginationDoc = docs.documents.last
                 isFetching = false
-            })
+            }
         } catch {
             print(error.localizedDescription)
         }
