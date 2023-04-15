@@ -36,25 +36,22 @@ struct ReusablePostsView: View {
     }
     
     @ViewBuilder
-    func Posts()->some View {
-        ForEach(posts){ post in
-            PostCardView(post: post){ updatedPost in
-                if let index = posts.firstIndex(where: {
-                    post in post.id == updatedPost.id
-                }){
+    func Posts() -> some View {
+        ForEach(posts) { post in
+            PostCardView(post: post) { updatedPost in
+                if let index = posts.firstIndex(where: { post in post.id == updatedPost.id }) {
                     posts[index].likedIDs = updatedPost.likedIDs
                 }
             } onDelete: {
                 withAnimation(.easeInOut(duration: 0.25)){
-                    posts.removeAll{post.id == $0.id}
+                    posts.removeAll { post.id == $0.id }
                 }
             }
-            
             Divider()
-                .padding(.horizontal,5)
+                .padding(.horizontal, 5)
         }
     }
-    
+
     func fetchPosts() async{
         do {
             var query: Query!
@@ -73,6 +70,17 @@ struct ReusablePostsView: View {
             print(error.localizedDescription)
         }
     }
+    
+    func getUserFromUsername(username: String) async throws -> User? {
+        let userReference = Firestore.firestore().collection("Users")
+        let query = userReference.whereField("username", isEqualTo: username)
+        let snapshot = try await query.getDocuments()
+
+        guard let userSnapshot = snapshot.documents.first else { return nil }
+        let user = try userSnapshot.data(as: User.self)
+        return user
+    }
+
 }
 
 struct ReusablePostsView_Previews: PreviewProvider {

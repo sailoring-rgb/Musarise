@@ -12,16 +12,20 @@ struct PostCardView: View {
     @State private var docListener: ListenerRegistration?
     var body: some View {
         HStack(alignment: .top, spacing: 12){
-            WebImage(url: post.iconURL)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 35, height: 35)
-                .clipShape(Circle())
+            NavigationLink(destination: OtherProfileView(username: post.userName)) {
+                WebImage(url: post.iconURL)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 35, height: 35)
+                    .clipShape(Circle())
+            }
             
             VStack(alignment: .leading, spacing: 6){
-                Text(post.userName)
-                    .font(.callout)
-                    .fontWeight(.semibold)
+                NavigationLink(destination: OtherProfileView(username: post.userName)) {
+                    Text(post.userName)
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                }
                 Text(post.publishedDate.formatted(date: .numeric, time: .shortened))
                     .font(.caption2)
                     .foregroundColor(.gray)
@@ -47,13 +51,11 @@ struct PostCardView: View {
         .hAlign(.leading)
         .overlay(alignment: .topTrailing, content:{
             if post.userid == userUID{
-                Menu{
-                    Button("Delete",role:.destructive,action:deletePost)
-                } label: {
-                    Image(systemName: "ellipsis")
+                Button(role:.destructive,action:deletePost) {
+                    Image(systemName: "trash")
                         .font(.caption)
-                        .rotationEffect(.init(degrees: -90))
-                        .foregroundColor(.black)
+                        .rotationEffect(.init(degrees: 0))
+                        .foregroundColor(.red)
                         .padding(8)
                         .contentShape(Rectangle())
                 }

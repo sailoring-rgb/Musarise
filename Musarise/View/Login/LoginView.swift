@@ -88,7 +88,7 @@ struct LoginView: View{
                         try await Auth.auth().signIn(withEmail: email, password: password)
                         guard let id = try await getIdFromEmail(email: email) else {return}
                         guard let iconURL = try await getIconFromEmail(email: email) else {return}
-                        print(iconURL)
+                        
                         print("User Found")
                         userNameStored = username
                         userUID = id

@@ -126,10 +126,42 @@
             filePath = "Musarise/View/MainView/ReusablePostsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "ReusablePostsView"
             landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "11333574-FC9B-4F54-BA29-01A166D67FC8 - bd1b90a975daa682"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Musarise.ReusablePostsView.getUserFromUsername(username: Swift.String) async throws -&gt; Swift.Optional&lt;Musarise.User&gt;"
+                  moduleName = "Musarise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/annaphens/Desktop/college/S&amp;A/Musarise/Musarise/View/MainView/ReusablePostsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "740">
+               </Location>
+               <Location
+                  uuid = "11333574-FC9B-4F54-BA29-01A166D67FC8 - ee1024bb38c9c485"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Musarise.ReusablePostsView.getUserFromUsername(username: Swift.String) async throws -&gt; Swift.Optional&lt;Musarise.User&gt;"
+                  moduleName = "Musarise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/annaphens/Desktop/college/S&amp;A/Musarise/Musarise/View/MainView/ReusablePostsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "148">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

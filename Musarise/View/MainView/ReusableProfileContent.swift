@@ -3,6 +3,7 @@ import SDWebImageSwiftUI
 import FirebaseFirestore
 import FirebaseStorage
 import PhotosUI
+import FirebaseAuth
 
 struct ReusableProfileContent: View {
     @State var user: User
@@ -103,13 +104,21 @@ struct ReusableProfileContent: View {
                     }
                     .hAlign(.leading)
                 }
-                
-                Text("My Posts")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
-                    .hAlign(.leading)
-                    .padding(.vertical,15)
+                if Auth.auth().currentUser?.email == user.email{
+                    Text("My Posts")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.black)
+                        .hAlign(.leading)
+                        .padding(.vertical,15)
+                } else {
+                    Text("Their Posts")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.black)
+                        .hAlign(.leading)
+                        .padding(.vertical,15)
+                }
                 
                 if isFetching{
                     ProgressView()
