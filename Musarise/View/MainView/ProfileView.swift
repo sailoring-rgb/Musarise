@@ -5,20 +5,22 @@ import FirebaseFirestore
 
 struct ProfileView: View {
     @State private var myProfile: User?
+    @State private var posts: [Post] = []
     @AppStorage("log_status") var logStatus: Bool = false
     @State var errorMessage: String = ""
     @State var showError: Bool = false
     @State var isLoading: Bool = false
+
     var body: some View {
         NavigationStack{
             VStack{
-                if let myProfile{
-                    ReusableProfileContent(user: myProfile)
+                if let myProfile {
+                    ReusableProfileContent(user: myProfile, posts: $posts)
                         .refreshable {
                             self.myProfile = nil
                             await fetchUserData()
                         }
-                }else{
+                } else {
                     ProgressView()
                 }
             }
@@ -43,19 +45,21 @@ struct ProfileView: View {
         }
         .alert(errorMessage, isPresented: $showError){}
         .task {
-            //if myProfile != nil{return}
+            if myProfile != nil {return}
             await fetchUserData()
         }
+        
+        
     }
     
     func fetchUserData() async{
         guard let userID = Auth.auth().currentUser?.uid else{return}
-        print(userID)
+        print("userID: " + userID)
         guard let user = try? await Firestore.firestore().collection("Users").document(userID).getDocument(as: User.self) else{return}
-            await MainActor.run(body: {
-                myProfile = user
-                print(user)
-            })
+        print("user: " + user.username)
+        await MainActor.run(body: {
+            myProfile = user
+        })
     }
     
     func logOutUser(){

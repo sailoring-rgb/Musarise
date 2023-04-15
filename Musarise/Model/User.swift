@@ -6,15 +6,13 @@ struct User: Identifiable, Codable{
     var username: String
     var userid: String
     var email: String
-    var profileURL: URL // ICON
-    var postsURL: [URL]
-    
+    var iconURL: URL
+
     enum CodingKeys: CodingKey{
         case id
         case username
         case userid
         case email
-        case profileURL
-        case postsURL
+        case iconURL
     }
 }

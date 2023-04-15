@@ -12,7 +12,7 @@ struct PostCardView: View {
     @State private var docListener: ListenerRegistration?
     var body: some View {
         HStack(alignment: .top, spacing: 12){
-            WebImage(url: post.profileURL)
+            WebImage(url: post.iconURL)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 35, height: 35)

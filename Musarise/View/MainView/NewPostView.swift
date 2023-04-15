@@ -140,11 +140,11 @@ struct NewPostView: View {
                     let _ = try await storageReference.putDataAsync(imageData)
                     let downloadURL = try await storageReference.downloadURL()
                     
-                    let post = Post(text: text, imageURL: downloadURL, imageReferenceID: imageReferenceID, userName: userName, userid: userUID, profileURL: profileURL)
+                    let post = Post(text: text, imageURL: downloadURL, imageReferenceID: imageReferenceID, userName: userName, userid: userUID, iconURL: profileURL)
                     try await createDocAtFirebase(post)
                 }
                 else {
-                    let post = Post(text: text, userName: userName, userid: userUID, profileURL: profileURL)
+                    let post = Post(text: text, userName: userName, userid: userUID, iconURL: profileURL)
                     try await createDocAtFirebase(post)
                 }
             } catch {

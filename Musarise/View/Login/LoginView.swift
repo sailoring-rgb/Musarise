@@ -83,13 +83,10 @@ struct LoginView: View{
                     }
                     else {
                         let username = email
-                        print(username)
                         guard let emailReturned = try await getEmailFromUsername(username: username) else { return }
                         self.email = emailReturned
                         try await Auth.auth().signIn(withEmail: email, password: password)
                         guard let id = try await getIdFromEmail(email: email) else {return}
-                        print(id)
-                        print(username)
                         guard let iconURL = try await getIconFromEmail(email: email) else {return}
                         print(iconURL)
                         print("User Found")
@@ -137,9 +134,9 @@ struct LoginView: View{
         let query = userReference.whereField("email", isEqualTo: email)
         let snapshot = try await query.getDocuments()
 
-        guard let profileURL = snapshot.documents.first?.data()["profileURL"] as? String else { return nil }
+        guard let iconURL = snapshot.documents.first?.data()["iconURL"] as? String else { return nil }
         
-        return URL(string: profileURL)
+        return URL(string: iconURL)
     }
     
     func getUsernameFromEmail(email: String) async throws -> String? {

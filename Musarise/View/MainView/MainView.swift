@@ -1,10 +1,3 @@
-//
-//  MainView.swift
-//  Musarise
-//
-//  Created by annaphens on 13/04/2023.
-//
-
 import SwiftUI
 
 struct MainView: View {

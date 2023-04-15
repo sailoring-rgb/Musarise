@@ -18,7 +18,7 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
     var likedIDs: [String] = []
     var userName: String
     var userid: String
-    var profileURL: URL
+    var iconURL: URL
     
     enum CodingKeys: CodingKey{
         case id
@@ -29,6 +29,6 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
         case likedIDs
         case userName
         case userid
-        case profileURL
+        case iconURL
     }
 }
