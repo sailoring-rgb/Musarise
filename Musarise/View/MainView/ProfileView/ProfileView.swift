@@ -10,7 +10,8 @@ struct ProfileView: View {
     @State var errorMessage: String = ""
     @State var showError: Bool = false
     @State var isLoading: Bool = false
-
+    @AppStorage("isDarkMode") var isDarkMode: Bool = false
+    
     var body: some View {
         NavigationStack{
             VStack{
@@ -31,6 +32,8 @@ struct ProfileView: View {
                     Menu{
                         Button("Logout", action: logOutUser)
                         Button("Delete Account",role: .destructive, action: deleteAccount)
+                        Toggle("Dark Mode", isOn: $isDarkMode)
+                        
                     } label: {
                         Image(systemName: "ellipsis")
                             .rotationEffect(.init(degrees: 90))

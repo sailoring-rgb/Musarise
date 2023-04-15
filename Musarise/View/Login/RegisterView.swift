@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 
+
 struct RegisterView: View{
     
     @State var email: String = ""

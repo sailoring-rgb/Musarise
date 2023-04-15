@@ -17,7 +17,7 @@ struct PostsView: View {
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
                             .padding(13)
-                            .background(.black, in: Circle())
+                            .background(.yellow, in: Circle())
                     }
                     .padding(15)
                 }

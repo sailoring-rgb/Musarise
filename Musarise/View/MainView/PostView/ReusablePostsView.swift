@@ -4,6 +4,7 @@ import FirebaseFirestore
 struct ReusablePostsView: View {
     @Binding var posts: [Post]
     @State var isFetching: Bool = true
+    @State private var paginationDoc : QueryDocumentSnapshot?
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
@@ -47,6 +48,13 @@ struct ReusablePostsView: View {
                     posts.removeAll { post.id == $0.id }
                 }
             }
+            
+            .onAppear{
+                if post.id == posts.last?.id && paginationDoc != nil{
+                    Task{await fetchPosts() }
+                }
+            }
+            
             Divider()
                 .padding(.horizontal, 5)
         }
@@ -55,15 +63,24 @@ struct ReusablePostsView: View {
     func fetchPosts() async{
         do {
             var query: Query!
-            query = Firestore.firestore().collection("Posts")
-                .order(by: "publishedDate", descending: true)
-                .limit(to: 15)
+            if let paginationDoc{
+                query = Firestore.firestore().collection("Posts")
+                    .order(by: "publishedDate", descending: true)
+                    .start(afterDocument : paginationDoc)
+                    .limit(to: 10)
+                
+            }else{
+                query = Firestore.firestore().collection("Posts")
+                    .order(by: "publishedDate", descending: true)
+                    .limit(to: 10)
+            }
             let docs = try await query.getDocuments()
             let fetchedPosts = docs.documents.compactMap{ doc -> Post? in
                 try? doc.data(as: Post.self)
             }
             await MainActor.run(body: {
-                posts = fetchedPosts
+                posts.append(contentsOf: fetchedPosts)
+                paginationDoc = docs.documents.last
                 isFetching = false
             })
         } catch {
