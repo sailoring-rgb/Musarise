@@ -3,7 +3,6 @@ import SDWebImageSwiftUI
 import FirebaseFirestore
 import FirebaseStorage
 import PhotosUI
-import FirebaseAuth
 
 struct ReusableProfileContent: View {
     @State var user: User
@@ -28,7 +27,7 @@ struct ReusableProfileContent: View {
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
                     .onTapGesture {
-                        if user.email  == Auth.auth().currentUser?.email{
+                        if user.userid  == userUID{
                             showImagePicker = true
                         }
                     }
@@ -104,6 +103,34 @@ struct ReusableProfileContent: View {
                         Text(user.username)
                             .font(.title3)
                             .fontWeight(.semibold)
+
+                        HStack{
+                            Text(String(posts.count) + " posts")
+                                .font(.system(size: 15))
+                                .fontWeight(.semibold)
+                                .padding(.horizontal,5)
+                                .padding(.vertical,10)
+                            
+                            if user.followers.count == 1 {
+                                Text(String(user.followers.count) + " follower")
+                                    .font(.system(size: 15))
+                                    .fontWeight(.semibold)
+                                    .padding(.horizontal,5)
+                                    .padding(.vertical,10)
+                            } else {
+                                Text(String(user.followers.count) + " followers")
+                                    .font(.system(size: 15))
+                                    .fontWeight(.semibold)
+                                    .padding(.horizontal,5)
+                                    .padding(.vertical,10)
+                                }
+                            
+                            Text(String(user.following.count) + " following")
+                                .font(.system(size: 15))
+                                .fontWeight(.semibold)
+                                .padding(.horizontal,5)
+                                .padding(.vertical,10)
+                        }
                         if user.userid != userUID{
                             Button(action: {
                                 if user.followers.contains(userUID){       Task{await unfollow()}
@@ -136,7 +163,7 @@ struct ReusableProfileContent: View {
                     }
                     .hAlign(.leading)
                 }
-                if Auth.auth().currentUser?.email == user.email{
+                if user.userid == userUID{
                     Text("My Posts")
                         .font(.title2)
                         .fontWeight(.semibold)
