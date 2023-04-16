@@ -32,9 +32,6 @@ struct OtherProfileView: View {
             LoadingView(show: $isLoading)
         }
         .alert(errorMessage, isPresented: $showError){}
-        .refreshable {
-            await fetchUserData(username: username)
-        }
         .task {
             if myProfile != nil {return}
             await fetchUserData(username: username)

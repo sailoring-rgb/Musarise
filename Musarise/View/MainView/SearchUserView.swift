@@ -12,7 +12,6 @@ import SDWebImageSwiftUI
 
 struct SearchUserView: View {
     @State private var fetchedUsers: [User] = []
-    @State var isSearching: Bool = false
     @State private var searchText: String = ""
     @Environment(\.dismiss) private var dismiss
     @State private var posts: [Post] = []
@@ -40,13 +39,11 @@ struct SearchUserView: View {
         .navigationTitle("Search User" )
         .searchable(text: $searchText)
         .onSubmit(of: .search, {
-            isSearching = true
             Task{await searchUsers()}
         })
         .onChange(of: searchText, perform: { newValue in
             if newValue.isEmpty{
                 fetchedUsers = []
-                isSearching = false
             }
         })
     }
@@ -63,7 +60,6 @@ struct SearchUserView: View {
             
             await MainActor.run(body:{
                 fetchedUsers = users
-                isSearching = false
             })
         }catch{
             print(error.localizedDescription)
