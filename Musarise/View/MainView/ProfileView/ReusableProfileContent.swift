@@ -106,29 +106,29 @@ struct ReusableProfileContent: View {
 
                         HStack{
                             Text(String(posts.count) + " posts")
-                                .font(.system(size: 15))
+                                .font(.system(size: 9))
                                 .fontWeight(.semibold)
-                                .padding(.horizontal,5)
+                                .padding(.horizontal,1)
                                 .padding(.vertical,10)
                             
                             if user.followers.count == 1 {
                                 Text(String(user.followers.count) + " follower")
-                                    .font(.system(size: 15))
+                                    .font(.system(size: 9))
                                     .fontWeight(.semibold)
-                                    .padding(.horizontal,5)
+                                    .padding(.horizontal,1)
                                     .padding(.vertical,10)
                             } else {
                                 Text(String(user.followers.count) + " followers")
-                                    .font(.system(size: 15))
+                                    .font(.system(size: 9))
                                     .fontWeight(.semibold)
-                                    .padding(.horizontal,5)
+                                    .padding(.horizontal,1)
                                     .padding(.vertical,10)
                                 }
                             
                             Text(String(user.following.count) + " following")
-                                .font(.system(size: 15))
+                                .font(.system(size: 9))
                                 .fontWeight(.semibold)
-                                .padding(.horizontal,5)
+                                .padding(.horizontal,1)
                                 .padding(.vertical,10)
                         }
                         if user.userid != userUID{
@@ -244,7 +244,7 @@ struct ReusableProfileContent: View {
     }
     
     func fetchUserData() async{
-        guard let user = try? await Firestore.firestore().collection("Users").document(userUID).getDocument(as: User.self) else{return}
+        guard let user = try? await Firestore.firestore().collection("Users").document(user.userid).getDocument(as: User.self) else{return}
         await MainActor.run(body: {
             self.user = user
         })
