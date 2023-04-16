@@ -51,8 +51,8 @@ struct ProfileView: View {
             if myProfile != nil {return}
             await fetchUserData()
         }
-        
-        
+
+            
     }
     
     func fetchUserData() async{

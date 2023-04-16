@@ -8,7 +8,7 @@ struct MainView: View {
                     Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
                     Text("Feed")
                 }
-            Text("Playground")
+            PlaygroundView()
                 .tabItem {
                     Image(systemName: "play.square.fill")
                     Text("Playground")

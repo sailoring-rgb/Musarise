@@ -198,6 +198,7 @@ struct ReusableProfileContent: View {
             isFetching = true
             posts = []
             await fetchPosts()
+            await fetchUserData()
         }
         .task {
             guard posts.isEmpty else {return}
@@ -240,6 +241,13 @@ struct ReusableProfileContent: View {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func fetchUserData() async{
+        guard let user = try? await Firestore.firestore().collection("Users").document(userUID).getDocument(as: User.self) else{return}
+        await MainActor.run(body: {
+            self.user = user
+        })
     }
     
     func follow() async{

@@ -29,6 +29,11 @@
 		108C676629E7490F008D7428 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106FA46129E724DC0007903B /* LoadingView.swift */; };
 		108C676729E74912008D7428 /* testeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10899C6829DE1A7D00AC874C /* testeApp.swift */; };
 		108C676829E74916008D7428 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10899C6A29DE1A7D00AC874C /* ContentView.swift */; };
+		10C8D39329EC83F5009B5B99 /* PlaygroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39229EC83F5009B5B99 /* PlaygroundView.swift */; };
+		10C8D39529EC865A009B5B99 /* GuitarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39429EC865A009B5B99 /* GuitarView.swift */; };
+		10C8D39729EC868F009B5B99 /* DrumsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39629EC868F009B5B99 /* DrumsView.swift */; };
+		10C8D39929EC86B4009B5B99 /* PianoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39829EC86B4009B5B99 /* PianoView.swift */; };
+		10C8D39B29EC86D8009B5B99 /* FreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39A29EC86D8009B5B99 /* FreeView.swift */; };
 		10CE667829E836B0007992F1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667729E836B0007992F1 /* MainView.swift */; };
 		10CE667A29E83A8D007992F1 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667929E83A8D007992F1 /* ProfileView.swift */; };
 		10CE667C29E84461007992F1 /* ReusableProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667B29E84461007992F1 /* ReusableProfileContent.swift */; };
@@ -77,6 +82,11 @@
 		10899C8029DE1A7E00AC874C /* MusariseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusariseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		10899C8429DE1A7E00AC874C /* MusariseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusariseUITests.swift; sourceTree = "<group>"; };
 		10899C8629DE1A7E00AC874C /* MusariseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusariseUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		10C8D39229EC83F5009B5B99 /* PlaygroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundView.swift; sourceTree = "<group>"; };
+		10C8D39429EC865A009B5B99 /* GuitarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarView.swift; sourceTree = "<group>"; };
+		10C8D39629EC868F009B5B99 /* DrumsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrumsView.swift; sourceTree = "<group>"; };
+		10C8D39829EC86B4009B5B99 /* PianoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoView.swift; sourceTree = "<group>"; };
+		10C8D39A29EC86D8009B5B99 /* FreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeView.swift; sourceTree = "<group>"; };
 		10CE667729E836B0007992F1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = Musarise/View/MainView/MainView.swift; sourceTree = SOURCE_ROOT; };
 		10CE667929E83A8D007992F1 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = Musarise/View/MainView/ProfileView/ProfileView.swift; sourceTree = SOURCE_ROOT; };
 		10CE667B29E84461007992F1 /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReusableProfileContent.swift; path = Musarise/View/MainView/ProfileView/ReusableProfileContent.swift; sourceTree = SOURCE_ROOT; };
@@ -144,6 +154,11 @@
 				10FF203229E990DA0033CB1F /* PostCardView.swift */,
 				1057B28D29EACABD008A32AE /* OtherProfileView.swift */,
 				FC6ED28029EB1E4A00C1BA91 /* SearchUserView.swift */,
+				10C8D39229EC83F5009B5B99 /* PlaygroundView.swift */,
+				10C8D39429EC865A009B5B99 /* GuitarView.swift */,
+				10C8D39629EC868F009B5B99 /* DrumsView.swift */,
+				10C8D39829EC86B4009B5B99 /* PianoView.swift */,
+				10C8D39A29EC86D8009B5B99 /* FreeView.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -402,15 +417,20 @@
 				FC6ED28129EB1E4A00C1BA91 /* SearchUserView.swift in Sources */,
 				108C676729E74912008D7428 /* testeApp.swift in Sources */,
 				1021B38229E8D2C90012A1CA /* NewPostView.swift in Sources */,
+				10C8D39729EC868F009B5B99 /* DrumsView.swift in Sources */,
 				104DF30229E94C4300ADC3EC /* ReusablePostsView.swift in Sources */,
+				10C8D39929EC86B4009B5B99 /* PianoView.swift in Sources */,
 				108C676629E7490F008D7428 /* LoadingView.swift in Sources */,
 				108C676529E7490C008D7428 /* ViewDesign.swift in Sources */,
 				1021B38629E8DE600012A1CA /* PostsView.swift in Sources */,
 				108C676429E74909008D7428 /* RegisterView.swift in Sources */,
+				10C8D39329EC83F5009B5B99 /* PlaygroundView.swift in Sources */,
 				10FF203329E990DA0033CB1F /* PostCardView.swift in Sources */,
 				108C676329E748FE008D7428 /* LoginView.swift in Sources */,
 				108C676229E748FC008D7428 /* User.swift in Sources */,
 				1057B28E29EACABD008A32AE /* OtherProfileView.swift in Sources */,
+				10C8D39B29EC86D8009B5B99 /* FreeView.swift in Sources */,
+				10C8D39529EC865A009B5B99 /* GuitarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
