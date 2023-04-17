@@ -54,12 +54,12 @@ struct ReusableProfileContent: View {
                                     let userObject = User(username: user.username, userid: user.userid, email: user.email, iconURL: profileURL,following:user.following,followers:user.followers)
                                     
                                     let _ = try Firestore.firestore().collection("Users").document(user.userid).setData(from: userObject, completion: {
-                                            error in
-                                            if error == nil {
-                                                print("Saved successfully!")
-                                                downloadURL = profileURL
-                                            }
+                                        error in
+                                        if error == nil {
+                                            print("Saved successfully!")
+                                            downloadURL = profileURL
                                         }
+                                    }
                                     )
                                     
                                     var refreshedPosts: [Post] = []
@@ -69,7 +69,7 @@ struct ReusableProfileContent: View {
                                             print("Error getting documents: \(error!)")
                                             return
                                         }
-
+                                        
                                         for document in querySnapshot.documents {
                                             let post = try? document.data(as: Post.self)
                                             if let post = post {
@@ -98,42 +98,42 @@ struct ReusableProfileContent: View {
                             }
                         }
                     }
-
+                    
                     VStack(alignment: .leading, spacing: 6){
                         Text(user.username)
                             .font(.title3)
                             .fontWeight(.semibold)
-
+                        
                         HStack{
-                            Text(String(posts.count) + " posts")
-                                .font(.system(size: 9))
-                                .fontWeight(.semibold)
-                                .padding(.horizontal,1)
-                                .padding(.vertical,10)
-                            
-                            if user.followers.count == 1 {
-                                Text(String(user.followers.count) + " follower")
-                                    .font(.system(size: 9))
+                                Text(String(posts.count) + " posts")
                                     .fontWeight(.semibold)
-                                    .padding(.horizontal,1)
+                                    .padding(.horizontal,5)
                                     .padding(.vertical,10)
-                            } else {
-                                Text(String(user.followers.count) + " followers")
-                                    .font(.system(size: 9))
-                                    .fontWeight(.semibold)
-                                    .padding(.horizontal,1)
-                                    .padding(.vertical,10)
+                                
+                                if user.followers.count == 1 {
+                                    Text(String(user.followers.count) + " follower")
+                                        .fontWeight(.semibold)
+                                        .padding(.horizontal,5)
+                                        .padding(.vertical,10)
+                                } else {
+                                    Text(String(user.followers.count) + " followers")
+                                        .fontWeight(.semibold)
+                                        .padding(.horizontal,5)
+                                        .padding(.vertical,10)
                                 }
-                            
-                            Text(String(user.following.count) + " following")
-                                .font(.system(size: 9))
-                                .fontWeight(.semibold)
-                                .padding(.horizontal,1)
-                                .padding(.vertical,10)
-                        }
+                                
+                                Text(String(user.following.count) + " following")
+                                    .fontWeight(.semibold)
+                                    .padding(.horizontal,5)
+                                    .padding(.vertical,10)
+                            }
+                        .font(.system(size: fontSize()))
+
+                        
                         if user.userid != userUID{
                             Button(action: {
-                                if user.followers.contains(userUID){       Task{await unfollow()}
+                                if user.followers.contains(userUID){
+                                    Task{await unfollow()}
                                 }else if user.id != userUID{
                                     Task{await follow()}
                                     
@@ -205,7 +205,7 @@ struct ReusableProfileContent: View {
             await fetchPosts()
         }
     }
-        
+    
     @ViewBuilder
     func Posts()->some View {
         ForEach(posts){ post in
@@ -223,6 +223,28 @@ struct ReusableProfileContent: View {
             
             Divider()
                 .padding(.horizontal,5)
+        }
+    }
+    
+    func adjustFontSize(label: UILabel){
+        let width = UIScreen.main.bounds.size.width
+        
+        if width == 375 || width == 390{
+            // iPhone 6, iPhone 6s, iPhone 7, iPhone 8, iPod touch (7th gen)
+            // iPhone X, iPhone XS, iPhone 11 Pro, iPhone 12 mini
+            // iPhone 12, iPhone 12 Pro
+            // iPhone 13 mini
+            // iPhone 13/13 Pro
+            label.font = label.font.withSize(9)
+            //.font(.system(size: 9))
+        }
+        else if width == 414 {
+            label.font = label.font.withSize(12)
+            //.font(.system(size: 12))
+        }
+        else {
+            label.font = label.font.withSize(14)
+            //.font(.system(size: 14))
         }
     }
     
@@ -244,7 +266,7 @@ struct ReusableProfileContent: View {
     }
     
     func fetchUserData() async{
-        guard let user = try? await Firestore.firestore().collection("Users").document(user.userid).getDocument(as: User.self) else{return}
+        guard let user = try? await Firestore.firestore().collection("Users").document(userUID).getDocument(as: User.self) else{return}
         await MainActor.run(body: {
             self.user = user
         })

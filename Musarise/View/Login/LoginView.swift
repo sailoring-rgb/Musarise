@@ -41,6 +41,10 @@ struct LoginView: View{
                         .fillView(.black)
                 } .padding(.top, 10)
             }
+            .frame(maxWidth: .infinity)
+            .alignmentGuide(.custom) { _ in
+                    UIScreen.main.bounds.size.height / 2
+            }
             
             HStack{
                 Text("Not a member yet?")
