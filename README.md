@@ -1,12 +1,12 @@
-<h1 style="font-size:80px" align="center"><img height=63cm src="docImages/logo.png"> Musarise</h1>
-<center>
+<h1 style="font-size:80px" align="center"><img height=28cm src="docImages/logo.png"> Musarise</h1>
 
-Uma aplicação **IOS** que traz toda a experiência de produção de uma música até você! 
+<p align="center">Uma aplicação <i>IOS</i> que traz toda a experiência de produção de uma música até você!</p> 
 
-  <a href="https://formulae.brew.sh/formula/semgrep">
-    <img src="https://img.shields.io/badge/Swift-5.5-orange" alt="Homebrew" />
-  </a>
-</center>
+<p align="center">
+<a href="https://formulae.brew.sh/formula/semgrep">
+<img src="https://img.shields.io/badge/Swift-5.5-orange" alt="Homebrew" />
+</a>
+</p>
 
 <h2> Features </h2>
 
