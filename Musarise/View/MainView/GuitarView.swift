@@ -1,10 +1,3 @@
-//
-//  GuitarView.swift
-//  Musarise
-//
-//  Created by annaphens on 16/04/2023.
-//
-
 import SwiftUI
 import CoreMotion
 
@@ -27,6 +20,7 @@ struct GuitarView: View {
             stopAccelerometerUpdates()
         }
     }
+
 
     func startAccelerometerUpdates() {
         if motionManager.isAccelerometerAvailable {

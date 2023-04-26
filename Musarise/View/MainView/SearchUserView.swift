@@ -1,10 +1,3 @@
-//
-//  SearchUserView.swift
-//  Musarise
-//
-//  Created by parola on 15/04/2023.
-//
-
 import SwiftUI
 import Firebase
 import FirebaseFirestore
