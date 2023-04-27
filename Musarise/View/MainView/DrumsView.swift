@@ -5,109 +5,60 @@ import FirebaseFirestore
 import AVKit
 
 struct DrumsView: View {
-    let motionManager = CMMotionManager()
-    @State private var accelerationData : CMAcceleration? = nil
-    @State private var isDetected : Bool = false
-    @State private var played : Bool = false
     @State private var drums: [Drum] = []
+    @State private var player: AVPlayer?
+    @State private var showModal : Bool = false
+    @State private var audioSelected : URL?
     
     var body: some View {
         VStack{
-            if let acceleration = accelerationData {
-                //Text("X: \(acceleration.x)\nY: \(acceleration.y)\nZ: \(acceleration.z)")
-                //if played {
-                //    Text("BATEU!")
-                //}
                 Text("Choose the sound")
                     .font(.system(size: 40).bold())
+                
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                         ForEach(drums) { drum in
                             VStack {
                                 Text(drum.name)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 15))
                                     .padding(10)
                                 Button(action: {
+                                    self.audioSelected = drum.soundURL
+                                    showModal = true
                                     do{
-                                        var player: AVPlayer!
-                                        player = AVPlayer(url: drum.soundURL)
-                                        print(player)
-                                        player.volume = 1.0
-                                        player.play()
-                                    }catch{
+                                        let playerItem:AVPlayerItem = AVPlayerItem(url: drum.soundURL)
+                                        player = AVPlayer(playerItem: playerItem)
+                                        player?.volume = 0.5
+                                        player?.play()
+                                    }
+                                    catch{
                                         print("Error playing audio")
                                     }
                                 }) {
                                     Image(systemName: "music.note")
-                                        .font(.system(size: 50))
+                                        .font(.system(size: 40))
                                         .foregroundColor(.yellow)
+                                }
+                                .sheet(isPresented: $showModal){
+                                    if let player = player, let audioSelected = audioSelected{
+                                        PlayCard(player: player, audioURL: audioSelected)
+                                    }
                                 }
                             }
                             .background(Color.gray.opacity(0.2))
-                            .cornerRadius(20)
-                            .frame(width:100)
+                            .cornerRadius(12)
+                            .padding(10)
+                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                         }
                     }
                     .frame(maxWidth: .infinity)
                 }
-            } else {
-                ProgressView()
-            }
-            
-        }
-        .onAppear {
-            startAccelerometerUpdates()
-        }
-        .onDisappear {
-            stopAccelerometerUpdates()
         }
         .task {
             await fetchDrumsAudios()
         }
         
     }
-    
-    func checkAcceleration(acceleration: CMAcceleration) {
-        var startTime : TimeInterval = 0
-        var duration : TimeInterval = 0
-        
-        // aceleração inicialmente positiva
-        if (acceleration.z >= 0 && !isDetected) {
-            isDetected = false
-            played = false
-            startTime = Date().timeIntervalSinceReferenceDate
-        }
-        // aceleração positiva para negativa
-        else if (acceleration.z < 0 && !isDetected) {
-            isDetected = true
-            startTime = Date().timeIntervalSinceReferenceDate
-        }
-        // aceleração negativa para positiva
-        else if (acceleration.z >= 0 && isDetected){
-            duration = Date().timeIntervalSinceReferenceDate - startTime
-            // getAmplitude(duration: duration)
-            isDetected = false
-            played = true
-        }
-    }
-
-    func startAccelerometerUpdates() {
-        if motionManager.isAccelerometerAvailable {
-            motionManager.accelerometerUpdateInterval = 0.1
-            motionManager.startAccelerometerUpdates(to: .main) { data, error in
-                if let acceleration = data?.acceleration {
-                    accelerationData = acceleration
-                    checkAcceleration(acceleration: acceleration)
-                }
-            }
-        }
-    }
-
-    func stopAccelerometerUpdates() {
-        // Para a atualização dos dados de aceleração
-        motionManager.stopAccelerometerUpdates()
-    }
-    
     
     func fetchDrumsAudios() async{
         do{
