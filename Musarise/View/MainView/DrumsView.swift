@@ -21,11 +21,12 @@ struct DrumsView: View {
                 Text("Choose the sound")
                     .font(.system(size: 40).bold())
                 ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible(minimum: 0, maximum: .infinity)), GridItem(.flexible(minimum: 0, maximum: .infinity))], spacing: 10) {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                         ForEach(drums) { drum in
                             VStack {
-                                Text("Drum")
+                                Text(drum.name)
                                     .font(.system(size: 20))
+                                    .padding(10)
                                 Button(action: {
                                     do{
                                         var player: AVPlayer!
@@ -44,8 +45,10 @@ struct DrumsView: View {
                             }
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(20)
+                            .frame(width:100)
                         }
                     }
+                    .frame(maxWidth: .infinity)
                 }
             } else {
                 ProgressView()
