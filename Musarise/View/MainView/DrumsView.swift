@@ -11,53 +11,49 @@ struct DrumsView: View {
     @State private var audioSelected : URL?
     
     var body: some View {
-        VStack{
-                Text("Choose the sound")
-                    .font(.system(size: 40).bold())
-                
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                        ForEach(drums) { drum in
-                            VStack {
-                                Text(drum.name)
-                                    .font(.system(size: 15))
-                                    .padding(10)
-                                Button(action: {
-                                    self.audioSelected = drum.soundURL
-                                    showModal = true
-                                    do{
-                                        let playerItem:AVPlayerItem = AVPlayerItem(url: drum.soundURL)
-                                        player = AVPlayer(playerItem: playerItem)
-                                        player?.volume = 0.5
-                                        player?.play()
-                                    }
-                                    catch{
-                                        print("Error playing audio")
-                                    }
-                                }) {
-                                    Image(systemName: "music.note")
-                                        .font(.system(size: 40))
-                                        .foregroundColor(.yellow)
-                                }
-                                .sheet(isPresented: $showModal){
-                                    if let player = player, let audioSelected = audioSelected{
-                                        PlayCard(player: player, audioURL: audioSelected)
-                                    }
-                                }
-                            }
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(12)
-                            .padding(10)
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        NavigationView{
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))],spacing: 20) {
+                    ForEach(drums) { drum in
+                        VStack {
+                            Text(drum.name)
+                                .font(.system(size: 22))
+                                .padding(10)
+                                .foregroundColor(Color.black)
+                            Image(systemName: "music.note")
+                                .font(.system(size: 40))
+                                .foregroundColor(.yellow)
+                            
                         }
+                        .frame(width:140,height:140)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(12)
+                        .gesture(TapGesture().onEnded{
+                            self.audioSelected = drum.soundURL
+                            showModal = true
+                            do {
+                                let playerItem: AVPlayerItem = AVPlayerItem(url: drum.soundURL)
+                                player = AVPlayer(playerItem: playerItem)
+                                player?.volume = 0.5
+                                player?.play()
+                            } catch {
+                                print("Error playing audio")
+                            }
+                        })
                     }
-                    .frame(maxWidth: .infinity)
                 }
+                .frame(maxWidth: .infinity)
+            }
+            .navigationTitle("Choose sound")
         }
         .task {
             await fetchDrumsAudios()
         }
-        
+        .sheet(isPresented: $showModal){
+            if let audioSelected = audioSelected{
+                PlayCard(audioURL: audioSelected)
+            }
+        }
     }
     
     func fetchDrumsAudios() async{

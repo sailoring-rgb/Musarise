@@ -8,14 +8,50 @@ struct PlayCard: View {
     @State private var accelerationData : CMAcceleration? = nil
     @State private var isDetected : Bool = false
     @State private var played : Bool = false
-    @State var player: AVPlayer
+    @State var player: AVPlayer?
     @State var audioURL: URL
+    @State private var isRecording = false
+    @State private var elapsedTime: TimeInterval = 0
+    @State private var timer: Timer?
     
     var body: some View {
         VStack{
-            Text("Funciona please")
             if let acceleration = accelerationData {
-                Text("X: \(acceleration.x)\nY: \(acceleration.y)\nZ: \(acceleration.z)")
+                //Text("X: \(acceleration.x)\nY: \(acceleration.y)\nZ: \(acceleration.z)")
+                        Circle()
+                        .fill(Color.yellow)
+                        .frame(width: 150, height: 150)
+                        .overlay(
+                            VStack{
+                                Text("Record")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 30))
+                                Text("\(elapsedTime, specifier: "%.1f")s")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding(.top, 10)
+                            }
+                        )
+                        .gesture(
+                                LongPressGesture(minimumDuration: 100.0)
+                                .onEnded { _ in
+                                    self.isRecording = false
+                                    self.timer?.invalidate()
+                                }
+                                .onChanged { _ in
+                                    self.isRecording = true
+                                    self.elapsedTime = 0
+                                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+                                        if self.isRecording {
+                                            self.elapsedTime += 0.1
+                                        } else {
+                                            timer.invalidate()
+                                        }
+                                    }
+                                })
+                if played{
+                    let _ = playSound(audioURL:audioURL)
+                }
             }
             else {
                 ProgressView()
@@ -27,14 +63,13 @@ struct PlayCard: View {
         .onDisappear {
             stopAccelerometerUpdates()
         }
-        .onChange(of: played) { newValue in
-            if newValue == true {
-                let playerItem: AVPlayerItem = AVPlayerItem(url: audioURL)
-                player = AVPlayer(playerItem: playerItem)
-                player.volume = 0.5
-                player.play()
-            }
-        }
+    }
+    
+    func playSound(audioURL:URL){
+        let playerItem: AVPlayerItem = AVPlayerItem(url:audioURL)
+        self.player = AVPlayer(playerItem: playerItem)
+        self.player?.volume = 0.5
+        self.player?.play()
     }
     
     func checkAcceleration(acceleration: CMAcceleration) {
@@ -46,6 +81,7 @@ struct PlayCard: View {
             isDetected = false
             played = false
             startTime = Date().timeIntervalSinceReferenceDate
+            print(played)
         }
         // aceleração positiva para negativa
         else if (acceleration.z < 0 && !isDetected) {
@@ -58,6 +94,8 @@ struct PlayCard: View {
             // getAmplitude(duration: duration)
             isDetected = false
             played = true
+            print(played)
+            playSound(audioURL: audioURL)
         }
     }
 
