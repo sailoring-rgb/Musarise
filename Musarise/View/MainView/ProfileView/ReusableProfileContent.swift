@@ -142,7 +142,8 @@ struct ReusableProfileContent: View {
                             }) {
                                 HStack {
                                     Image(systemName: "person.badge.plus.fill")
-                                    if user.followers.contains(userUID){                                 Text("Unfollow")
+                                    if user.followers.contains(userUID){
+                                        Text("Unfollow")
                                             .fontWeight(.semibold)
                                             .foregroundColor(.white)
                                         

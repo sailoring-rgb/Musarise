@@ -11,47 +11,76 @@ struct DrumsView: View {
     @State private var audioSelected : URL?
     
     var body: some View {
-        NavigationView{
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))],spacing: 20) {
-                    ForEach(drums) { drum in
-                        VStack {
-                            Text(drum.name)
-                                .font(.system(size: 22))
-                                .padding(10)
-                                .foregroundColor(Color.black)
-                            Image(systemName: "music.note")
-                                .font(.system(size: 40))
-                                .foregroundColor(.yellow)
-                            
-                        }
-                        .frame(width:140,height:140)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(12)
-                        .gesture(TapGesture().onEnded{
-                            self.audioSelected = drum.soundURL
-                            showModal = true
-                            do {
-                                let playerItem: AVPlayerItem = AVPlayerItem(url: drum.soundURL)
-                                player = AVPlayer(playerItem: playerItem)
-                                player?.volume = 0.5
-                                player?.play()
-                            } catch {
-                                print("Error playing audio")
+        ZStack {
+            NavigationView{
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))],spacing: 20) {
+                        ForEach(drums) { drum in
+                            VStack {
+                                Text(drum.name)
+                                    .font(.system(size: 22))
+                                    .padding(10)
+                                    .foregroundColor(Color.black)
+                                Image(systemName: "music.note")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(.yellow)
                             }
-                        })
+                            .frame(width:140,height:140)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(12)
+                            .gesture(TapGesture().onEnded{
+                                self.audioSelected = drum.soundURL
+                                withAnimation{
+                                    self.showModal = true
+                                }
+                                do {
+                                    let playerItem: AVPlayerItem = AVPlayerItem(url: drum.soundURL)
+                                    player = AVPlayer(playerItem: playerItem)
+                                    player?.volume = 0.5
+                                    player?.play()
+                                } catch {
+                                    print("Error playing audio")
+                                }
+                            })
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .navigationTitle("Choose sound")
+            }
+            .task {
+                await fetchDrumsAudios()
+            }
+            /*
+             .sheet(isPresented: $showModal){
+             if let audioSelected = audioSelected{
+             PlayCard(audioURL: audioSelected)
+             }
+             }
+             */
+            if showModal{
+                GeometryReader{geo in
+                    if let audioSelected = audioSelected{
+                        PopupView(
+                            onClose: {
+                                withAnimation{
+                                    self.showModal = false
+                                };
+                            },
+                            audioSelected: audioSelected
+                        )
+                        .frame(width: geo.size.width, height: geo.size.height)
+                        .position(x: geo.size.width/2, y: geo.size.height/2)
                     }
                 }
-                .frame(maxWidth: .infinity)
-            }
-            .navigationTitle("Choose sound")
-        }
-        .task {
-            await fetchDrumsAudios()
-        }
-        .sheet(isPresented: $showModal){
-            if let audioSelected = audioSelected{
-                PlayCard(audioURL: audioSelected)
+                .background(Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        withAnimation{
+                            self.showModal = false
+                        }
+                    }
+                )
             }
         }
     }

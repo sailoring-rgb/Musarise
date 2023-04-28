@@ -14,6 +14,9 @@
 		1021B38629E8DE600012A1CA /* PostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1021B38529E8DE600012A1CA /* PostsView.swift */; };
 		104DF30229E94C4300ADC3EC /* ReusablePostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104DF30129E94C4300ADC3EC /* ReusablePostsView.swift */; };
 		1057B28E29EACABD008A32AE /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1057B28D29EACABD008A32AE /* OtherProfileView.swift */; };
+		1065FACB29FBFA2400303ADD /* Drum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1065FACA29FBFA2400303ADD /* Drum.swift */; };
+		1065FACD29FBFA4300303ADD /* PlayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1065FACC29FBFA4300303ADD /* PlayCard.swift */; };
+		1065FACF29FBFA8E00303ADD /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1065FACE29FBFA8E00303ADD /* PopupView.swift */; };
 		106FA45929E71BD70007903B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45829E71BD70007903B /* FirebaseFirestore */; };
 		106FA45B29E71BDD0007903B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45A29E71BDD0007903B /* FirebaseStorage */; };
 		106FA45D29E71BE90007903B /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45C29E71BE90007903B /* FirebaseFirestoreSwift */; };
@@ -67,6 +70,9 @@
 		1021B38529E8DE600012A1CA /* PostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostsView.swift; path = PostView/PostsView.swift; sourceTree = "<group>"; };
 		104DF30129E94C4300ADC3EC /* ReusablePostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReusablePostsView.swift; path = PostView/ReusablePostsView.swift; sourceTree = "<group>"; };
 		1057B28D29EACABD008A32AE /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
+		1065FACA29FBFA2400303ADD /* Drum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drum.swift; sourceTree = "<group>"; };
+		1065FACC29FBFA4300303ADD /* PlayCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayCard.swift; sourceTree = "<group>"; };
+		1065FACE29FBFA8E00303ADD /* PopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		106FA45F29E71DE30007903B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		106FA46129E724DC0007903B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		106FA46529E729DB0007903B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -157,8 +163,10 @@
 				10C8D39229EC83F5009B5B99 /* PlaygroundView.swift */,
 				10C8D39429EC865A009B5B99 /* GuitarView.swift */,
 				10C8D39629EC868F009B5B99 /* DrumsView.swift */,
+				1065FACC29FBFA4300303ADD /* PlayCard.swift */,
 				10C8D39829EC86B4009B5B99 /* PianoView.swift */,
 				10C8D39A29EC86D8009B5B99 /* FreeView.swift */,
+				1065FACE29FBFA8E00303ADD /* PopupView.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -167,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				106FA45F29E71DE30007903B /* User.swift */,
+				1065FACA29FBFA2400303ADD /* Drum.swift */,
 				1021B38329E8D2D70012A1CA /* Post.swift */,
 			);
 			path = Model;
@@ -417,6 +426,9 @@
 				FC6ED28129EB1E4A00C1BA91 /* SearchUserView.swift in Sources */,
 				108C676729E74912008D7428 /* testeApp.swift in Sources */,
 				1021B38229E8D2C90012A1CA /* NewPostView.swift in Sources */,
+				1065FACF29FBFA8E00303ADD /* PopupView.swift in Sources */,
+				1065FACB29FBFA2400303ADD /* Drum.swift in Sources */,
+				1065FACD29FBFA4300303ADD /* PlayCard.swift in Sources */,
 				10C8D39729EC868F009B5B99 /* DrumsView.swift in Sources */,
 				104DF30229E94C4300ADC3EC /* ReusablePostsView.swift in Sources */,
 				10C8D39929EC86B4009B5B99 /* PianoView.swift in Sources */,
@@ -569,7 +581,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Musarise/Preview Content\"";
-				DEVELOPMENT_TEAM = D4B9FQ4H5S;
+				DEVELOPMENT_TEAM = 25U8MLD355;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -588,7 +600,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "app-da-paulinha";
+				PRODUCT_BUNDLE_IDENTIFIER = musarise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
