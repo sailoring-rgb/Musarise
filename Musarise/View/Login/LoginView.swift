@@ -20,50 +20,59 @@ struct LoginView: View{
     @AppStorage("user_UID") var userUID: String = ""
     
     var body: some View{
-        VStack(spacing: 10){
-            Text("Let's sign you in..")
-                .font(.largeTitle.bold())
-                .hAlign(.leading)
-            Text("Welcome back!")
-                .font(.title3)
-                .hAlign(.leading)
-            VStack(spacing: 12){
-                TextField("Email / Username", text: $email)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                SecureField("Password", text: $password)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                Button(action: login){
-                    Text("Sign in")
-                        .foregroundColor(.white)
-                        .hAlign(.center)
-                        .fillView(.black)
-                } .padding(.top, 10)
+        GeometryReader{geo in
+                VStack(alignment: .center, spacing: 15){
+                    Text("Let's sign you in..")
+                        .font(.largeTitle.bold())
+                        .hAlign(.leading)
+                    Text("Welcome back!")
+                        .font(.title3)
+                        .hAlign(.leading)
+                    VStack(spacing: 12){
+                        TextField("Email / Username", text: $email)
+                            .textContentType(.emailAddress)
+                            .border(1, .gray.opacity(0.5))
+                        SecureField("Password", text: $password)
+                            .textContentType(.emailAddress)
+                            .border(1, .gray.opacity(0.5))
+                        Button(action: login){
+                            Text("Sign in")
+                                .foregroundColor(.white)
+                                .hAlign(.center)
+                                .fillView(.black)
+                        }
+                        .disableOpacity(email == "" || password == "")
+                        .padding(.top, 10)
+                    }
+                    
+                    HStack{
+                        Text("Not a member yet?")
+                            .foregroundColor(.gray)
+                        Button("Create account"){
+                            createAccount.toggle()
+                        }
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                    }
+                    .font(.callout)
+                    .vAlign(.bottom)
+                }
+                .frame(width: geo.size.width / 1.2, height: geo.size.height / 2)
+                .position(x: geo.size.width / 2, y: geo.size.height / 2)
+                .padding(.bottom, 10)
+                .padding(.top, 20)
+                .background(Color.white)
+                .vAlign(.top)
+                .overlay(content: {
+                    LoadingView(show: $isLoading)
+                })
+                .fullScreenCover(isPresented: $createAccount){
+                    RegisterView()
+                }
+                .alert(errorMessage, isPresented: $showError, actions: {})
             }
-            .frame(maxWidth: .infinity)
-            .alignmentGuide(.custom) { _ in
-                    UIScreen.main.bounds.size.height / 2
-            }
-            
-            HStack{
-                Text("Not a member yet?")
-                    .foregroundColor(.gray)
-                Button("Create account"){
-                    createAccount.toggle()
-                } .fontWeight(.bold)
-                    .foregroundColor(.black)
-            } .font(.callout)
-                .vAlign(.bottom)
-        } .vAlign(.center)
-            .padding(15)
-            .overlay(content: {
-                LoadingView(show: $isLoading)
-            })
-            .fullScreenCover(isPresented: $createAccount){
-                RegisterView()
-            }
-            .alert(errorMessage, isPresented: $showError, actions: {})
+        .background(Color.white
+            .edgesIgnoringSafeArea(.all))
     }
     
     func login(){

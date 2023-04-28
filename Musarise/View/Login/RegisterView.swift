@@ -24,80 +24,90 @@ struct RegisterView: View{
     @AppStorage("user_UID") var userUID: String = ""
     
     var body: some View{
-        VStack(spacing: 10){
-            Text("Let's create your account..")
-                .font(.largeTitle.bold())
-                .hAlign(.leading)
-            Text("Welcome back!")
-                .font(.title3)
-                .hAlign(.leading)
-            VStack(spacing: 12){
-                ZStack{
-                    if let profileIcon, let image = UIImage(data: profileIcon){
-                        Image(uiImage: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } else {
-                        Image("NullProfile")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
+        GeometryReader{geo in
+            VStack(alignment: .center, spacing: 10){
+                Text("Let's create your account..")
+                    .font(.largeTitle.bold())
+                    .hAlign(.leading)
+                Text("Nice to meet you!")
+                    .font(.title3)
+                    .hAlign(.leading)
+                VStack(spacing: 12){
+                    ZStack{
+                        if let profileIcon, let image = UIImage(data: profileIcon){
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        } else {
+                            Image("NullProfile")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        }
+                    } .frame(width: 115, height: 115)
+                        .clipShape(Circle())
+                        .contentShape(Circle())
+                        .onTapGesture {
+                            showImagePicker.toggle()
+                        }
+                        .padding(.top, 25)
+                    
+                    TextField("Email", text: $email)
+                        .textContentType(.emailAddress)
+                        .border(1, .gray.opacity(0.5))
+                    TextField("Username", text: $userName)
+                        .textContentType(.emailAddress)
+                        .border(1, .gray.opacity(0.5))
+                    SecureField("Password", text: $password)
+                        .textContentType(.emailAddress)
+                        .border(1, .gray.opacity(0.5))
+                    Button(action: register){
+                        Text("Sign up")
+                            .foregroundColor(.white)
+                            .hAlign(.center)
+                            .fillView(.black)
                     }
-                } .frame(width: 115, height: 115)
-                    .clipShape(Circle())
-                    .contentShape(Circle())
-                    .onTapGesture {
-                        showImagePicker.toggle()
-                    }
-                    .padding(.top, 25)
-                
-                TextField("Email", text: $email)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                TextField("Username", text: $userName)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                SecureField("Password", text: $password)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                Button(action: register){
-                    Text("Sign up")
-                        .foregroundColor(.white)
-                        .hAlign(.center)
-                        .fillView(.black)
+                    .disableOpacity(userName == "" || email == "" || password == "" /*|| profileIcon == nil*/)
+                    .padding(.top, 10)
                 }
-                .disableOpacity(userName == "" || email == "" || password == "" /*|| profileIcon == nil*/)
-                .padding(.top, 10)
+                
+                HStack{
+                    Text("Already a member?")
+                        .foregroundColor(.gray)
+                    Button("Sign in"){
+                        dismiss()
+                    } .fontWeight(.bold)
+                        .foregroundColor(.black)
+                } .font(.callout)
+                    .vAlign(.bottom)
             }
-            
-            HStack{
-                Text("Already a member?")
-                    .foregroundColor(.gray)
-                Button("Sign in"){
-                    dismiss()
-                } .fontWeight(.bold)
-                    .foregroundColor(.black)
-            } .font(.callout)
-                .vAlign(.bottom)
-        } .vAlign(.top)
-            .padding(15)
+            .frame(width: geo.size.width/1.2, height: geo.size.height/1.2)
+            .position(x: geo.size.width/2, y: geo.size.height/2)
+            .padding(.bottom, 10)
+            .padding(.top, 20)
+            .background(Color.white)
+            .vAlign(.top)
             .overlay(content: {
                 LoadingView(show: $isLoading)
             })
             .photosPicker(isPresented: $showImagePicker, selection: $photoItem)
-        .onChange(of: photoItem){
-            newValue in
-            if let newValue{
-                Task{
-                    do{
-                        guard let imageData = try await newValue.loadTransferable(type: Data.self) else { return }
-                        await MainActor.run(body: {
-                            profileIcon = imageData
-                        })
+            .onChange(of: photoItem){
+                newValue in
+                if let newValue{
+                    Task{
+                        do{
+                            guard let imageData = try await newValue.loadTransferable(type: Data.self) else { return }
+                            await MainActor.run(body: {
+                                profileIcon = imageData
+                            })
+                        }
                     }
                 }
             }
+            .alert(errorMessage, isPresented: $showError, actions: {})
         }
-        .alert(errorMessage, isPresented: $showError, actions: {})
+        .background(Color.white
+            .edgesIgnoringSafeArea(.all)
+        )
     }
     
     func register(){
