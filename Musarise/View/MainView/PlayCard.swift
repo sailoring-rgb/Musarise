@@ -15,7 +15,7 @@ struct PlayCard: View {
     @State private var systemNameCancel = "xmark.circle"
     @State private var systemNameDone = "checkmark.circle"
     
-    @State var player: AVPlayer?
+    @State var players: [AVPlayer] = []
     @State var audioURL: URL
     
     var body: some View {
@@ -88,9 +88,6 @@ struct PlayCard: View {
                     .padding(.top, 30)
                 }
                 
-                if itsTimeToPlay {
-                    let _ = playSound(audioURL:audioURL)
-                }
                 
             } else {
                 ProgressView()
@@ -106,14 +103,17 @@ struct PlayCard: View {
         }
         .onDisappear {
             stopAccelerometerUpdates()
+            players.forEach { $0.pause() }
+            players.removeAll()
         }
     }
     
     func playSound(audioURL:URL){
         let playerItem: AVPlayerItem = AVPlayerItem(url:audioURL)
-        self.player = AVPlayer(playerItem: playerItem)
-        self.player?.volume = 0.5
-        self.player?.play()
+        let player = AVPlayer(playerItem: playerItem)
+        self.players.append(player)
+        player.volume = 1
+        player.play()
     }
     
     func checkAcceleration(acceleration: CMAcceleration) {
@@ -137,8 +137,8 @@ struct PlayCard: View {
             duration = Date().timeIntervalSinceReferenceDate - startTime
             // getAmplitude(duration: duration)
             isDetected = false
-            itsTimeToPlay = true
-            print(itsTimeToPlay)
+            //itsTimeToPlay = true
+            //print(itsTimeToPlay)
             playSound(audioURL: audioURL)
         }
     }
