@@ -8,7 +8,7 @@ struct PlayCard: View {
     
     @State private var accelerationData : CMAcceleration? = nil
     @State private var isDetected : Bool = false
-    @State private var itsTimeToPlay : Bool = false
+    //@State private var itsTimeToPlay : Bool = false
     @State private var isRecording = false
     @State private var elapsedTime: TimeInterval = 0
     @State private var timer: Timer?
@@ -108,38 +108,41 @@ struct PlayCard: View {
         }
     }
     
-    func playSound(audioURL:URL){
+    func playSound(audioURL: URL, volume: Float){
         let playerItem: AVPlayerItem = AVPlayerItem(url:audioURL)
         let player = AVPlayer(playerItem: playerItem)
         self.players.append(player)
-        player.volume = 1
+        player.volume = volume
         player.play()
     }
     
+    func getAmplitude(duration: TimeInterval) -> Double{
+        let fractionalPart = abs(duration.truncatingRemainder(dividingBy: 1))
+        let volume = 1 - fractionalPart
+        return volume
+    }
+    
     func checkAcceleration(acceleration: CMAcceleration) {
-        var startTime : TimeInterval = 0
-        var duration : TimeInterval = 0
+        //var startTime : Date
         
         // aceleração inicialmente positiva
         if (acceleration.z >= 0 && !isDetected) {
             isDetected = false
-            itsTimeToPlay = false
-            startTime = Date().timeIntervalSinceReferenceDate
-            print(itsTimeToPlay)
+            //itsTimeToPlay = false
         }
         // aceleração positiva para negativa
         else if (acceleration.z < 0 && !isDetected) {
             isDetected = true
-            startTime = Date().timeIntervalSinceReferenceDate
+            //startTime = Date()
         }
         // aceleração negativa para positiva
         else if (acceleration.z >= 0 && isDetected){
-            duration = Date().timeIntervalSinceReferenceDate - startTime
-            // getAmplitude(duration: duration)
+            //let duration = Date().timeIntervalSince(startTime)
+            //print("duration: "+String(duration))
+            //let volume = getAmplitude(duration: duration)
             isDetected = false
             //itsTimeToPlay = true
-            //print(itsTimeToPlay)
-            playSound(audioURL: audioURL)
+            playSound(audioURL: audioURL, volume: 0.5)
         }
     }
 

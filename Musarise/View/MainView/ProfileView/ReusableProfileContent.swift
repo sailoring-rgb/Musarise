@@ -105,28 +105,28 @@ struct ReusableProfileContent: View {
                             .fontWeight(.semibold)
                         
                         HStack{
-                                Text(String(posts.count) + " posts")
+                            Text(String(posts.count) + " posts")
+                                .fontWeight(.semibold)
+                                .padding(.horizontal,5)
+                                .padding(.vertical,10)
+                            
+                            if user.followers.count == 1 {
+                                Text(String(user.followers.count) + " follower")
                                     .fontWeight(.semibold)
                                     .padding(.horizontal,5)
                                     .padding(.vertical,10)
-                                
-                                if user.followers.count == 1 {
-                                    Text(String(user.followers.count) + " follower")
-                                        .fontWeight(.semibold)
-                                        .padding(.horizontal,5)
-                                        .padding(.vertical,10)
-                                } else {
-                                    Text(String(user.followers.count) + " followers")
-                                        .fontWeight(.semibold)
-                                        .padding(.horizontal,5)
-                                        .padding(.vertical,10)
-                                }
-                                
-                                Text(String(user.following.count) + " following")
+                            } else {
+                                Text(String(user.followers.count) + " followers")
                                     .fontWeight(.semibold)
                                     .padding(.horizontal,5)
                                     .padding(.vertical,10)
                             }
+                            
+                            Text(String(user.following.count) + " following")
+                                .fontWeight(.semibold)
+                                .padding(.horizontal,5)
+                                .padding(.vertical,10)
+                        }
                         .font(.system(size: fontSize()))
 
                         
