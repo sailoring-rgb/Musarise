@@ -30,10 +30,9 @@ struct ProfileView: View {
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing){
                     Menu{
+                        Toggle("Dark Mode", isOn: $isDarkMode)
                         Button("Logout", action: logOutUser)
                         Button("Delete Account",role: .destructive, action: deleteAccount)
-                        Toggle("Dark Mode", isOn: $isDarkMode)
-                        
                     } label: {
                         Image(systemName: "ellipsis")
                             .rotationEffect(.init(degrees: 90))

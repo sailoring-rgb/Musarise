@@ -2,10 +2,12 @@ import SwiftUI
 import FirebaseFirestore
 
 struct ReusablePostsView: View {
+    
     @Binding var posts: [Post]
     @State var isFetching: Bool = true
     @State private var paginationDoc : QueryDocumentSnapshot?
     @AppStorage("user_UID") var userUID: String = ""
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
             LazyVStack{
@@ -56,7 +58,8 @@ struct ReusablePostsView: View {
             }
             
             Divider()
-                .padding(.horizontal, 5)
+                .padding(.top, 10)
+                .padding(.bottom, 20)
         }
     }
 

@@ -15,7 +15,7 @@ struct MainView: View {
                 }
             ProfileView()
                 .tabItem {
-                    Image(systemName: "gear")
+                    Image(systemName: "person.crop.circle.fill")
                     Text("Profile")
                 }
             

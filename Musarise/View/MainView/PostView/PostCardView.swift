@@ -57,6 +57,7 @@ struct PostCardView: View {
                         .rotationEffect(.init(degrees: 0))
                         .foregroundColor(.red)
                         .padding(8)
+                        .padding(8)
                         .contentShape(Rectangle())
                 }
             }

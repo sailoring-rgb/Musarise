@@ -26,7 +26,7 @@ extension View{
         
         switch screenWidth {
             case 375, 390:
-                fontSize = 9.0
+                fontSize = 7.0
             case 414:
                 fontSize = 12.0
             case 428:

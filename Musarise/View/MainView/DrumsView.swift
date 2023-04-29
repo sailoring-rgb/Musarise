@@ -51,13 +51,7 @@ struct DrumsView: View {
             .task {
                 await fetchDrumsAudios()
             }
-            /*
-             .sheet(isPresented: $showModal){
-             if let audioSelected = audioSelected{
-             PlayCard(audioURL: audioSelected)
-             }
-             }
-             */
+
             if showModal{
                 GeometryReader{geo in
                     if let audioSelected = audioSelected{

@@ -164,6 +164,12 @@ struct ReusableProfileContent: View {
                     }
                     .hAlign(.leading)
                 }
+                .padding(.top, 20)
+                
+                Divider()
+                    .padding(.top, 20)
+                    .padding(.bottom, 20)
+                
                 if user.userid == userUID{
                     Text("My Posts")
                         .font(.title2)
@@ -226,29 +232,7 @@ struct ReusableProfileContent: View {
                 .padding(.horizontal,5)
         }
     }
-    
-    func adjustFontSize(label: UILabel){
-        let width = UIScreen.main.bounds.size.width
-        
-        if width == 375 || width == 390{
-            // iPhone 6, iPhone 6s, iPhone 7, iPhone 8, iPod touch (7th gen)
-            // iPhone X, iPhone XS, iPhone 11 Pro, iPhone 12 mini
-            // iPhone 12, iPhone 12 Pro
-            // iPhone 13 mini
-            // iPhone 13/13 Pro
-            label.font = label.font.withSize(9)
-            //.font(.system(size: 9))
-        }
-        else if width == 414 {
-            label.font = label.font.withSize(12)
-            //.font(.system(size: 12))
-        }
-        else {
-            label.font = label.font.withSize(14)
-            //.font(.system(size: 14))
-        }
-    }
-    
+
     func fetchPosts() async{
         do {
             var query: Query!
