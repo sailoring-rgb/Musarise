@@ -6,9 +6,9 @@ struct PlayCard: View {
     let motionManager = CMMotionManager()
     var onClose: () -> Void
     
-    @State private var accelerationData : CMAcceleration? = nil
-    @State private var isDetected : Bool = false
-    //@State private var itsTimeToPlay : Bool = false
+    @State private var accelerationData: CMAcceleration? = nil
+    @State private var isDetected: Bool = false
+    @State private var startime: Date?
     @State private var isRecording = false
     @State private var elapsedTime: TimeInterval = 0
     @State private var timer: Timer?
@@ -21,9 +21,7 @@ struct PlayCard: View {
     var body: some View {
         VStack{
             if let acceleration = accelerationData {
-                
                 VStack{
-                    
                     Circle()
                         .fill(Color.yellow)
                         .frame(width: 150, height: 150)
@@ -76,7 +74,7 @@ struct PlayCard: View {
                         Button(action: {
                             systemNameDone = "checkmark.circle.fill"
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-                                // do something
+                                // RECORD AUDIO
                             }
                         }) {
                             Image(systemName: systemNameDone)
@@ -115,40 +113,40 @@ struct PlayCard: View {
         player.volume = volume
         player.play()
     }
-    
+
     func getAmplitude(duration: TimeInterval) -> Double{
-        let fractionalPart = abs(duration.truncatingRemainder(dividingBy: 1))
-        let volume = 1 - fractionalPart
+        let min_duration = 1.0
+        let max_duration = 10.0
+        
+        let volume = 1 - ((duration - min_duration) / (max_duration - min_duration))
         return volume
     }
     
     func checkAcceleration(acceleration: CMAcceleration) {
-        //var startTime : Date
         
         // aceleração inicialmente positiva
-        if (acceleration.z >= 0 && !isDetected) {
+        if (acceleration.y >= 0 && !isDetected) {
             isDetected = false
-            //itsTimeToPlay = false
         }
         // aceleração positiva para negativa
-        else if (acceleration.z < 0 && !isDetected) {
+        else if (acceleration.y < 0 && !isDetected) {
             isDetected = true
-            //startTime = Date()
+            startime = Date()
         }
         // aceleração negativa para positiva
-        else if (acceleration.z >= 0 && isDetected){
-            //let duration = Date().timeIntervalSince(startTime)
-            //print("duration: "+String(duration))
-            //let volume = getAmplitude(duration: duration)
+        else if (acceleration.y >= 0 && isDetected){
+            if let startime = startime{
+                let duration = Date().timeIntervalSince(startime)
+                let volume = getAmplitude(duration: duration)
+                playSound(audioURL: audioURL, volume: Float(volume))
+            }
             isDetected = false
-            //itsTimeToPlay = true
-            playSound(audioURL: audioURL, volume: 0.5)
         }
     }
 
     func startAccelerometerUpdates(){
         if motionManager.isAccelerometerAvailable {
-            motionManager.accelerometerUpdateInterval = 0.1
+            motionManager.accelerometerUpdateInterval = 0.001
             motionManager.startAccelerometerUpdates(to: .main) { data, error in
                 if let acceleration = data?.acceleration {
                     accelerationData = acceleration
