@@ -34,15 +34,19 @@ struct PostCardView: View {
                     .padding(.vertical,8)
                 
                 if let postMediaURL = post.imageURL{
-                    GeometryReader{
-                        let size = $0.size
+                    NavigationLink(destination: WebImage(url: postMediaURL)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)) {
+                        GeometryReader{
+                            let size = $0.size
                             WebImage(url: postMediaURL)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: size.width, height: size.height)
                                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        }
+                        .frame(height: 200)
                     }
-                    .frame(height: 200)
                 }
                 
                 PostInteration()
