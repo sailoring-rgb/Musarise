@@ -45,7 +45,7 @@ struct PopupView: View {
                         .fillView(.clear)
                 }
             }
-            .frame(width: 200)
+            .frame(width: UIScreen.main.bounds.size.width / 2.0)
             .padding(.bottom, 10)
             .padding(.top, 30)
             .background(Color.white)
@@ -54,10 +54,8 @@ struct PopupView: View {
         
         if showPlayCard{
             PlayCard(onClose: {
-                withAnimation{
-                    self.showPlayCard = false
-                    onClose()
-                };
+                self.showPlayCard = false
+                onClose()
             }, audioURL: audioSelected)
         }
     }

@@ -36,13 +36,13 @@
 		10C8D39529EC865A009B5B99 /* GuitarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39429EC865A009B5B99 /* GuitarView.swift */; };
 		10C8D39729EC868F009B5B99 /* DrumsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39629EC868F009B5B99 /* DrumsView.swift */; };
 		10C8D39929EC86B4009B5B99 /* PianoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39829EC86B4009B5B99 /* PianoView.swift */; };
-		10C8D39B29EC86D8009B5B99 /* FreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39A29EC86D8009B5B99 /* FreeView.swift */; };
+		10C8D39B29EC86D8009B5B99 /* VoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8D39A29EC86D8009B5B99 /* VoiceView.swift */; };
 		10CE667829E836B0007992F1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667729E836B0007992F1 /* MainView.swift */; };
 		10CE667A29E83A8D007992F1 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667929E83A8D007992F1 /* ProfileView.swift */; };
 		10CE667C29E84461007992F1 /* ReusableProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667B29E84461007992F1 /* ReusableProfileContent.swift */; };
 		10CE667F29E84732007992F1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 10CE667E29E84732007992F1 /* SDWebImageSwiftUI */; };
+		10D21DA42A0065FF0067A18D /* Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D21DA32A0065FF0067A18D /* Piano.swift */; };
 		10D4CAF229FCF8D50011F542 /* GuitarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CAF129FCF8D50011F542 /* GuitarView.swift */; };
-		10D4CAF429FCF9260011F542 /* Guitar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CAF329FCF9260011F542 /* Guitar.swift */; };
 		10D4CAF629FD0D8C0011F542 /* FollowersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CAF529FD0D8C0011F542 /* FollowersListView.swift */; };
 		10FF203329E990DA0033CB1F /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF203229E990DA0033CB1F /* PostCardView.swift */; };
 		FC6ED28129EB1E4A00C1BA91 /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6ED28029EB1E4A00C1BA91 /* SearchUserView.swift */; };
@@ -95,12 +95,12 @@
 		10C8D39429EC865A009B5B99 /* GuitarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarView.swift; sourceTree = "<group>"; };
 		10C8D39629EC868F009B5B99 /* DrumsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrumsView.swift; sourceTree = "<group>"; };
 		10C8D39829EC86B4009B5B99 /* PianoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoView.swift; sourceTree = "<group>"; };
-		10C8D39A29EC86D8009B5B99 /* FreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeView.swift; sourceTree = "<group>"; };
+		10C8D39A29EC86D8009B5B99 /* VoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceView.swift; sourceTree = "<group>"; };
 		10CE667729E836B0007992F1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = Musarise/View/MainView/MainView.swift; sourceTree = SOURCE_ROOT; };
 		10CE667929E83A8D007992F1 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = Musarise/View/MainView/ProfileView/ProfileView.swift; sourceTree = SOURCE_ROOT; };
 		10CE667B29E84461007992F1 /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReusableProfileContent.swift; path = Musarise/View/MainView/ProfileView/ReusableProfileContent.swift; sourceTree = SOURCE_ROOT; };
+		10D21DA32A0065FF0067A18D /* Piano.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piano.swift; sourceTree = "<group>"; };
 		10D4CAF129FCF8D50011F542 /* GuitarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuitarView.swift; sourceTree = "<group>"; };
-		10D4CAF329FCF9260011F542 /* Guitar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guitar.swift; sourceTree = "<group>"; };
 		10D4CAF529FD0D8C0011F542 /* FollowersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersListView.swift; sourceTree = "<group>"; };
 		10FF203229E990DA0033CB1F /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostCardView.swift; path = PostView/PostCardView.swift; sourceTree = "<group>"; };
 		FC6ED28029EB1E4A00C1BA91 /* SearchUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 				10C8D39629EC868F009B5B99 /* DrumsView.swift */,
 				1065FACC29FBFA4300303ADD /* PlayCard.swift */,
 				10C8D39829EC86B4009B5B99 /* PianoView.swift */,
-				10C8D39A29EC86D8009B5B99 /* FreeView.swift */,
+				10C8D39A29EC86D8009B5B99 /* VoiceView.swift */,
 				1065FACE29FBFA8E00303ADD /* PopupView.swift */,
 				10D4CAF529FD0D8C0011F542 /* FollowersListView.swift */,
 			);
@@ -184,8 +184,8 @@
 			children = (
 				106FA45F29E71DE30007903B /* User.swift */,
 				1065FACA29FBFA2400303ADD /* Drum.swift */,
-				10D4CAF329FCF9260011F542 /* Guitar.swift */,
 				1021B38329E8D2D70012A1CA /* Post.swift */,
+				10D21DA32A0065FF0067A18D /* Piano.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -430,7 +430,6 @@
 				108C676829E74916008D7428 /* ContentView.swift in Sources */,
 				10CE667A29E83A8D007992F1 /* ProfileView.swift in Sources */,
 				10CE667C29E84461007992F1 /* ReusableProfileContent.swift in Sources */,
-				10D4CAF429FCF9260011F542 /* Guitar.swift in Sources */,
 				1021B38429E8D2D70012A1CA /* Post.swift in Sources */,
 				10CE667829E836B0007992F1 /* MainView.swift in Sources */,
 				FC6ED28129EB1E4A00C1BA91 /* SearchUserView.swift in Sources */,
@@ -448,12 +447,13 @@
 				10D4CAF629FD0D8C0011F542 /* FollowersListView.swift in Sources */,
 				108C676429E74909008D7428 /* RegisterView.swift in Sources */,
 				10C8D39329EC83F5009B5B99 /* PlaygroundView.swift in Sources */,
+				10D21DA42A0065FF0067A18D /* Piano.swift in Sources */,
 				10FF203329E990DA0033CB1F /* PostCardView.swift in Sources */,
 				10D4CAF229FCF8D50011F542 /* GuitarView.swift in Sources */,
 				108C676329E748FE008D7428 /* LoginView.swift in Sources */,
 				108C676229E748FC008D7428 /* User.swift in Sources */,
 				1057B28E29EACABD008A32AE /* OtherProfileView.swift in Sources */,
-				10C8D39B29EC86D8009B5B99 /* FreeView.swift in Sources */,
+				10C8D39B29EC86D8009B5B99 /* VoiceView.swift in Sources */,
 				10C8D39529EC865A009B5B99 /* GuitarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

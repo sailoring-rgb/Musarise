@@ -45,6 +45,7 @@ struct DrumsView: View {
                         }
                     }
                     .frame(maxWidth: .infinity)
+                    .padding(30)
                 }
                 .navigationTitle("Choose sound")
             }
@@ -53,13 +54,17 @@ struct DrumsView: View {
             }
 
             if showModal{
+                Color.black
+                    .opacity(0.4) // Adjust the transparency here
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        self.showModal = false
+                    }
                 GeometryReader{geo in
                     if let audioSelected = audioSelected{
                         PopupView(
                             onClose: {
-                                withAnimation{
-                                    self.showModal = false
-                                };
+                                self.showModal = false
                             },
                             audioSelected: audioSelected
                         )
@@ -67,14 +72,6 @@ struct DrumsView: View {
                         .position(x: geo.size.width/2, y: geo.size.height/2)
                     }
                 }
-                .background(Color.black.opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        withAnimation{
-                            self.showModal = false
-                        }
-                    }
-                )
             }
         }
     }

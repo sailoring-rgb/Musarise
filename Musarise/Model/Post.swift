@@ -1,10 +1,3 @@
-//
-//  Post.swift
-//  Musarise
-//
-//  Created by annaphens on 14/04/2023.
-//
-
 import SwiftUI
 import FirebaseFirestoreSwift
 

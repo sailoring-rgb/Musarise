@@ -23,9 +23,9 @@ struct PlaygroundView: View {
                     })
                 
                 NavigationLink(
-                    destination: FreeView(),
+                    destination: VoiceView(),
                     label: {
-                        Label("Free", systemImage: "square.grid.3x3.topleft.fill")
+                        Label("Voice", systemImage: "music.mic")
                     })
                 
             }

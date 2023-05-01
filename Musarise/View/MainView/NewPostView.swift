@@ -92,6 +92,14 @@ struct NewPostView: View {
                 Button{
                     showImagePicker.toggle()
                 } label: {
+                    Image(systemName: "photo.on.rectangle.angled")
+                        .font(.title3)
+                }
+                .hAlign(.leading)
+                
+                Button{
+                    // showImagePicker.toggle()
+                } label: {
                     Image(systemName: "music.note.house")
                         .font(.title3)
                 }

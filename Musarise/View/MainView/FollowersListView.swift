@@ -9,31 +9,34 @@ struct FollowersListView: View {
     
     var body: some View {
         Color.clear
-        ScrollView(.vertical, showsIndicators: false){
-            VStack(alignment: .leading, spacing: 15){
-                if users.isEmpty{
-                    if !isFollowing{
-                        Text("No follower were found..")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .padding(.top, 30)
+        NavigationView{
+            ScrollView(.vertical, showsIndicators: false){
+                VStack(alignment: .leading, spacing: 15){
+                    if users.isEmpty{
+                        if !isFollowing{
+                            Text("No follower were found..")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                                .padding(.top, 30)
+                        } else {
+                            Text("No following were found..")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                                .padding(.top, 30)
+                        }
                     } else {
-                        Text("No following were found..")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .padding(.top, 30)
-                    }
-                } else {
-                    ForEach(users, id: \.self) { userid in
-                        FollowerCard(userid: userid)
+                        ForEach(users, id: \.self) { userid in
+                            FollowerCard(userid: userid)
+                        }
                     }
                 }
+                .padding(20)
             }
-            .padding(15)
+            .navigationBarTitle(isFollowing ? "Following" : "Followers")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .frame(width: 300, height:300)
+        .frame(width: UIScreen.main.bounds.size.width / 1.5, height: UIScreen.main.bounds.size.height / 3)
         .padding(.bottom, 10)
-        .padding(.top, 30)
         .background(Color.white)
         .cornerRadius(20)
     }
@@ -67,6 +70,7 @@ struct FollowerCard: View {
             self.username = try? await getUsername()
             self.iconURL = try? await getIconURL()
         }
+        .vAlign(.leading)
     }
     
     func getUsername() async throws -> String? {
@@ -87,5 +91,11 @@ struct FollowerCard: View {
         guard let iconURL = snapshot.documents.first?.data()["iconURL"] as? String else { return nil }
         
         return iconURL
+    }
+}
+
+struct Previews_FollowersListView_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

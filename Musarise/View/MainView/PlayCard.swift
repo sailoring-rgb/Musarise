@@ -91,7 +91,7 @@ struct PlayCard: View {
                 ProgressView()
             }
         }
-        .frame(width: 300, height: 400)
+        .frame(width: UIScreen.main.bounds.size.width / 1.3, height: UIScreen.main.bounds.size.height / 2)
         .padding(.bottom, 10)
         .padding(.top, 30)
         .background(Color.white)

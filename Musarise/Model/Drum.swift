@@ -1,10 +1,3 @@
-//
-//  Drum.swift
-//  Musarise
-//
-//  Created by parola on 27/04/2023.
-//
-
 import SwiftUI
 import FirebaseFirestoreSwift
 

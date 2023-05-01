@@ -1,7 +1,7 @@
 import SwiftUI
 import FirebaseFirestoreSwift
 
-struct Guitar: Identifiable, Hashable, Codable{
+struct Piano: Identifiable, Hashable, Codable{
     @DocumentID var id: String?
     var soundURL: URL
     var name: String
