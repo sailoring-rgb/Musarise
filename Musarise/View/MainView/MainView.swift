@@ -18,10 +18,9 @@ struct MainView: View {
                     Image(systemName: "person.crop.circle.fill")
                     Text("Profile")
                 }
-            
         }
         .tint(.black)
-        
+        .background(Color.gray.opacity(0.1))
     }
 }
 

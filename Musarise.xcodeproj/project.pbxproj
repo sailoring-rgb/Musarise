@@ -42,6 +42,7 @@
 		10CE667C29E84461007992F1 /* ReusableProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CE667B29E84461007992F1 /* ReusableProfileContent.swift */; };
 		10CE667F29E84732007992F1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 10CE667E29E84732007992F1 /* SDWebImageSwiftUI */; };
 		10D21DA42A0065FF0067A18D /* Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D21DA32A0065FF0067A18D /* Piano.swift */; };
+		10D21DA62A0068290067A18D /* Guitar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D21DA52A0068290067A18D /* Guitar.swift */; };
 		10D4CAF229FCF8D50011F542 /* GuitarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CAF129FCF8D50011F542 /* GuitarView.swift */; };
 		10D4CAF629FD0D8C0011F542 /* FollowersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CAF529FD0D8C0011F542 /* FollowersListView.swift */; };
 		10FF203329E990DA0033CB1F /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF203229E990DA0033CB1F /* PostCardView.swift */; };
@@ -100,6 +101,7 @@
 		10CE667929E83A8D007992F1 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = Musarise/View/MainView/ProfileView/ProfileView.swift; sourceTree = SOURCE_ROOT; };
 		10CE667B29E84461007992F1 /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReusableProfileContent.swift; path = Musarise/View/MainView/ProfileView/ReusableProfileContent.swift; sourceTree = SOURCE_ROOT; };
 		10D21DA32A0065FF0067A18D /* Piano.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piano.swift; sourceTree = "<group>"; };
+		10D21DA52A0068290067A18D /* Guitar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guitar.swift; sourceTree = "<group>"; };
 		10D4CAF129FCF8D50011F542 /* GuitarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuitarView.swift; sourceTree = "<group>"; };
 		10D4CAF529FD0D8C0011F542 /* FollowersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersListView.swift; sourceTree = "<group>"; };
 		10FF203229E990DA0033CB1F /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostCardView.swift; path = PostView/PostCardView.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			children = (
 				106FA45F29E71DE30007903B /* User.swift */,
 				1065FACA29FBFA2400303ADD /* Drum.swift */,
+				10D21DA52A0068290067A18D /* Guitar.swift */,
 				1021B38329E8D2D70012A1CA /* Post.swift */,
 				10D21DA32A0065FF0067A18D /* Piano.swift */,
 			);
@@ -431,6 +434,7 @@
 				10CE667A29E83A8D007992F1 /* ProfileView.swift in Sources */,
 				10CE667C29E84461007992F1 /* ReusableProfileContent.swift in Sources */,
 				1021B38429E8D2D70012A1CA /* Post.swift in Sources */,
+				10D21DA62A0068290067A18D /* Guitar.swift in Sources */,
 				10CE667829E836B0007992F1 /* MainView.swift in Sources */,
 				FC6ED28129EB1E4A00C1BA91 /* SearchUserView.swift in Sources */,
 				108C676729E74912008D7428 /* testeApp.swift in Sources */,

@@ -231,7 +231,6 @@ struct ReusableProfileContent: View {
             }
             
             if showModal{
-                Color.clear
                 GeometryReader{geo in
                     if !isFollowing{
                         FollowersListView(users: user.followers, isFollowing: $isFollowing)
@@ -252,7 +251,6 @@ struct ReusableProfileContent: View {
                 )
             }
         }
-        .background(Color.clear)
         .frame(maxWidth: .infinity)
     }
     

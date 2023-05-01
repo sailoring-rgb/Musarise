@@ -25,14 +25,8 @@ struct NewPostView: View {
     var body: some View {
         VStack{
             HStack{
-                Menu{
-                    Button("Cancel", role: .destructive){
-                        dismiss()
-                    }
-                } label: {
-                    Text("Cancel")
-                    .font(.callout)
-                    .foregroundColor(.black)
+                Button("Cancel", role: .destructive){
+                    dismiss()
                 }
                 .hAlign(.leading)
                 
