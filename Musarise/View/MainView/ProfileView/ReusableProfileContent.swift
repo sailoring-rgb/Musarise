@@ -152,7 +152,7 @@ struct ReusableProfileContent: View {
                                 Button(action: {
                                     if user.followers.contains(userUID){
                                         Task{await unfollow()}
-                                    }else if user.id != userUID{
+                                    } else if user.id != userUID{
                                         Task{await follow()}
                                         
                                     }
@@ -165,7 +165,7 @@ struct ReusableProfileContent: View {
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.white)
                                             
-                                        }else if user.id != userUID{
+                                        } else if user.id != userUID{
                                             Text("Follow")
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.white)

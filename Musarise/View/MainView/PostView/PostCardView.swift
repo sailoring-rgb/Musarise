@@ -8,8 +8,10 @@ struct PostCardView: View {
     var onUpdate: (Post)->()
     var onDelete: ()->()
     
-    @AppStorage("user_UID") private var userUID: String = ""
     @State private var docListener: ListenerRegistration?
+    
+    @AppStorage("user_UID") private var userUID: String = ""
+    
     var body: some View {
         HStack(alignment: .top, spacing: 12){
             NavigationLink(destination: OtherProfileView(username: post.userName)) {
@@ -34,9 +36,8 @@ struct PostCardView: View {
                     .padding(.vertical,8)
                 
                 if let postMediaURL = post.imageURL{
-                    NavigationLink(destination: WebImage(url: postMediaURL)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)) {
+                    NavigationLink(destination: DetailView(postMediaURL: postMediaURL)
+                    ) {
                         GeometryReader{
                             let size = $0.size
                             WebImage(url: postMediaURL)
@@ -47,6 +48,7 @@ struct PostCardView: View {
                         }
                         .frame(height: 200)
                     }
+                    .navigationBarBackButtonHidden(false)
                 }
                 
                 PostInteration()
@@ -83,7 +85,6 @@ struct PostCardView: View {
                 })
             }
         }
-        
         .onDisappear(){
             if let docListener{
                 docListener.remove()
@@ -137,3 +138,107 @@ struct PostCardView: View {
         }
     }
 }
+
+struct DetailView: View {
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State var postMediaURL: URL
+    @State private var offset = CGSize.zero
+    @State private var lastOffset = CGSize.zero
+    @State private var scale: CGFloat = 1.0
+    @State private var lastScale: CGFloat = 1.0
+    @State private var minScale: CGFloat = 1.0
+    @State private var maxScale: CGFloat = 5.0
+    @State private var isDragging = false
+    
+    var magnification: some Gesture {
+        MagnificationGesture()
+            .onChanged { state in
+                adjustScale(from: state)
+            }
+            .onEnded { state in
+                withAnimation {
+                    validateScaleLimits()
+                }
+                lastScale = 1.0
+            }
+    }
+    
+    var body: some View {
+        NavigationView{
+            ZStack {
+                WebImage(url: postMediaURL)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .scaleEffect(scale)
+                        .offset(offset)
+
+                        .gesture(magnification)
+                        .gesture(TapGesture(count: 2)
+                            .onEnded {
+                                withAnimation{
+                                    scale = 1.0
+                                }
+                            }
+                        )
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    withAnimation{
+                                        if scale > 1{
+                                            offset = value.translation
+                                        }
+                                    }
+                                }
+                                .onEnded { value in
+                                    if value.translation.width > UIScreen.main.bounds.width * 0.3 {
+                                        presentationMode.wrappedValue.dismiss()
+                                    } else {
+                                        withAnimation(.spring()) {
+                                            offset = .zero
+                                        }
+                                    }
+                                }
+                        )
+                }
+                
+                Color.black.opacity(offset.width > 0 ? Double(offset.width / UIScreen.main.bounds.width) : 0)
+                    .edgesIgnoringSafeArea(.all)
+            }
+    }
+    
+    func adjustScale(from state: MagnificationGesture.Value){
+        let delta = state / lastScale
+        scale *= delta
+        lastScale = state
+    }
+    
+    func adjustOffset(from value: DragGesture.Value) {
+        let currentOffset = value.translation
+        offset = CGSize(width: currentOffset.width + lastOffset.width, height: currentOffset.height + lastOffset.height)
+    }
+    
+    func getMinimumScaleAllowed() -> CGFloat {
+        return max(scale, minScale)
+    }
+    
+    func getMaximumScaleAllowed() -> CGFloat {
+        return min(scale, maxScale)
+    }
+    
+    func validateScaleLimits(){
+        scale = getMinimumScaleAllowed()
+        scale = getMaximumScaleAllowed()
+    }
+
+    
+    func resetImageState() {
+        return withAnimation(.spring()){
+            scale = 1
+            offset = .zero
+        }
+    }
+}
+
+
+    
