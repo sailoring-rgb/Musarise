@@ -5,7 +5,7 @@ import FirebaseFirestore
 
 struct OtherProfileView: View {
     var username: String
-    @State private var myProfile: User?
+    @State private var otherProfile: User?
     @State private var posts: [Post] = []
 
     @State var errorMessage: String = ""
@@ -15,10 +15,10 @@ struct OtherProfileView: View {
     var body: some View {
         NavigationStack{
             VStack{
-                if let myProfile {
-                    ReusableProfileContent(user: myProfile, posts: $posts)
+                if let otherProfile {
+                    ReusableProfileContent(user: otherProfile, posts: $posts)
                         .refreshable {
-                            self.myProfile = nil
+                            self.otherProfile = nil
                             await fetchUserData(username: username)
                         }
                 } else {
@@ -33,7 +33,7 @@ struct OtherProfileView: View {
         }
         .alert(errorMessage, isPresented: $showError){}
         .task {
-            if myProfile != nil {return}
+            if otherProfile != nil {return}
             await fetchUserData(username: username)
         }
 
@@ -62,7 +62,7 @@ struct OtherProfileView: View {
             let posts = try postsSnapshot.documents.compactMap { try $0.data(as: Post.self) }
             
             await MainActor.run {
-                myProfile = user
+                otherProfile = user
                 self.posts = posts
             }
         } catch {

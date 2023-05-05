@@ -292,7 +292,7 @@ struct ReusableProfileContent: View {
     }
     
     func fetchUserData() async{
-        guard let user = try? await Firestore.firestore().collection("Users").document(userUID).getDocument(as: User.self) else{return}
+        guard let user = try? await Firestore.firestore().collection("Users").document(user.userid).getDocument(as: User.self) else{return}
         await MainActor.run(body: {
             self.user = user
         })
