@@ -19,7 +19,10 @@ struct NewPostView: View {
     @State private var errorMessage: String = ""
     @State private var showError: Bool = false
     @State private var showImagePicker: Bool = false
-    @State private var photoItem: PhotosPickerItem?
+    @State private var showUserPicker: Bool = false
+    @State private var showAudioPicker: Bool = false
+    @State private var maxSelection: [PhotosPickerItem] = []
+    @State private var selectedPhotos: [UIImage] = []
     @FocusState private var showKeyboard: Bool
     
     var body: some View {
@@ -52,6 +55,52 @@ struct NewPostView: View {
                     TextField("What have you been listening to?", text: $text, axis: .vertical)
                         .focused($showKeyboard)
                     
+                    if selectedPhotos.count > 0{
+                        let _ = print(selectedPhotos.count)
+                        ScrollView(.horizontal){
+                            HStack{
+                                ForEach(selectedPhotos, id: \.self){ imageData in
+                                    //GeometryReader{
+                                            //let size = $0.size
+                                            Image(uiImage: imageData)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: UIScreen.main.bounds.size.width / 2.0, height: 120)
+                                                .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+                                                .overlay(alignment: .topTrailing){
+                                                    Button {
+                                                        withAnimation(.easeInOut(duration: 0.25)){
+                                                            selectedPhotos.removeAll(where: { $0 == imageData })
+                                                        }
+                                                    } label: {
+                                                        Image(systemName: "trash")
+                                                            .fontWeight(.bold)
+                                                            .tint(.red)
+                                                    }
+                                                    .padding(10)
+                                                }
+                                        //}
+                                        //.clipped()
+                                        //.frame(height: 220)
+                                    }
+                            }
+                        }
+                    }
+                    
+                    PhotosPicker(selection: $maxSelection, maxSelectionCount: 5, matching: .any(of: [.images, .not(.videos)])){
+                        Text("Hello")
+                    }
+                    .onChange(of: maxSelection){ newValue in
+                        Task{
+                            selectedPhotos = []
+                            for value in newValue {
+                                if let imageData = try? await value.loadTransferable(type: Data.self), let image = UIImage(data: imageData){
+                                    selectedPhotos.append(image)
+                                }
+                            }
+                        }
+                    }
+                    /*
                     if let imageData, let image = UIImage(data: imageData){
                         GeometryReader{
                             let size = $0.size
@@ -76,6 +125,7 @@ struct NewPostView: View {
                         .clipped()
                         .frame(height: 220)
                     }
+                     */
                 }
                 .padding(15)
             }
@@ -92,7 +142,7 @@ struct NewPostView: View {
                 .hAlign(.leading)
                 
                 Button{
-                    // showImagePicker.toggle()
+                    showAudioPicker.toggle()
                 } label: {
                     Image(systemName: "music.note.house")
                         .font(.title3)
@@ -108,19 +158,19 @@ struct NewPostView: View {
             .padding(.vertical, 10)
         }
         .vAlign(.top)
-        .photosPicker(isPresented: $showImagePicker, selection: $photoItem)
-        .onChange(of: photoItem){ newValue in
+        /*.photosPicker(isPresented: $showImagePicker, selection: $selectedPhotos, pickerType: .multi(4))
+        .onChange(of: selectedPhotos){ newValue in
             if let newValue {
                 Task{
                     if let rawImageData = try? await newValue.loadTransferable(type: Data.self), let image = UIImage(data: rawImageData), let compressedImageData = image.jpegData(compressionQuality: 0.5){
                         await MainActor.run(body: {
                             imageData = compressedImageData
-                            photoItem = nil
+                            selectedPhotos = nil
                         })
                     }
                 }
             }
-        }
+        }*/
         .alert(errorMessage, isPresented: $showError, actions: {})
         .overlay{
             LoadingView(show: $isLoading)

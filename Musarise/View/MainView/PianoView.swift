@@ -6,20 +6,82 @@ import AVKit
 struct PianoView: View {
     @State private var keys: [Piano] = []
     @State private var player: AVPlayer?
+    @State private var showModal: Bool = true
+    @State private var toRecord: Bool = false
     
     var body: some View {
         ZStack {
-            NavigationView{
-                VStack{
+            NavigationStack {
+                VStack(alignment: .center){
                     ForEach(Array(keys.enumerated()), id: \.1.id) { index, key in
                         BlackFrameView(colorCode: index+1, key: key)
                     }
                 }
-                .padding(.bottom, 85)
-                .padding(.top, 10)
+                .scaleEffect(0.9)
+                .padding(.top, -15)
+                .padding(.bottom, 70)
                 .task {
                     await fetchPianoSounds()
                 }
+                .toolbar(content: {
+                    if toRecord{
+                        ToolbarItem(placement: .navigationBarTrailing){
+                            Button(action: {
+                                toRecord = false
+                            }) {
+                                HStack{
+                                    Text("Stop")
+                                        .tint(.black)
+                                        .scaleEffect(0.9)
+                                    
+                                    Image(systemName: "stop.circle")
+                                        .tint(.black)
+                                        .scaleEffect(0.9)
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        ToolbarItem(placement: .navigationBarLeading){
+                            Button(action: {
+                                toRecord = true
+                            }) {
+                                HStack{
+                                    Image(systemName: "stop.circle.fill")
+                                        .tint(.black)
+                                        .scaleEffect(0.9)
+                                    
+                                    Text("Start")
+                                        .tint(.black)
+                                        .scaleEffect(0.9)
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .padding(.top,15)
+            
+            if showModal{
+                Color.black
+                    .opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        self.showModal = false
+                    }
+                GeometryReader{geo in
+                    RecordPianoView(onClose: {
+                        self.showModal = false
+                    }, toRecord: $toRecord)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .position(x: geo.size.width/2, y: geo.size.height/2.1)
+                    
+                }
+            }
+            
+            if toRecord{
+                // START RECORDING
             }
         }
     }
@@ -31,6 +93,8 @@ struct PianoView: View {
             let docs = try await query.getDocuments()
             let fetchedPianos = docs.documents.compactMap{ doc -> Piano? in
                 try? doc.data(as: Piano.self)
+            }.sorted { (piano1, piano2) -> Bool in
+                return piano1.name.lowercased() < piano2.name.lowercased()
             }
             
             await MainActor.run {
@@ -52,27 +116,30 @@ struct PianoView_Previews: PreviewProvider {
 struct BlackFrameView: View {
     @State var colorCode: Int
     @State var key: Piano
-    @State var players: [AVPlayer] = []
-    @State var isTapped: Bool = false
+    @State private var players: [AVPlayer] = []
+    @State private var isTapped: Bool = false
     @State private var scaleNote: CGFloat = 1.0
     
     var body: some View {
         Color.clear
         ZStack {
-            VStack(alignment: .center) {
+            VStack {
                 if colorCode % 3 == 0 {
                     Text("♫")
                         .font(.system(size: 25))
+                        .rotationEffect(.degrees(90))
                         .foregroundColor(.yellow)
                         .scaleEffect(scaleNote)
                 } else if colorCode % 2 == 0 {
                     Text("𝄞")
                         .font(.system(size: 50))
+                        .rotationEffect(.degrees(90))
                         .foregroundColor(.yellow)
                         .scaleEffect(scaleNote)
                 } else {
                     Text("♪")
                         .font(.system(size: 35))
+                        .rotationEffect(.degrees(90))
                         .foregroundColor(.yellow)
                         .scaleEffect(scaleNote)
                 }
@@ -88,15 +155,13 @@ struct BlackFrameView: View {
             .background(isTapped ? backgroundColor : .black)
             .cornerRadius(10)
             .onTapGesture {
-                do {
-                    playSound(audioURL: key.soundURL)
-                } catch {
-                    print("Error playing audio")
-                }
+                playSound(audioURL: key.soundURL)
+                
                 withAnimation(.easeInOut(duration: 0.4)) {
                     isTapped = true
                     scaleNote = 2.0
                 }
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         isTapped = false
@@ -129,8 +194,8 @@ struct BlackFrameView: View {
     func playSound(audioURL: URL){
         let playerItem: AVPlayerItem = AVPlayerItem(url:audioURL)
         let player = AVPlayer(playerItem: playerItem)
-        self.players.append(player)
-        player.volume = 1.0
+        player.volume = 0.5
         player.play()
+        self.players.append(player)
     }
 }

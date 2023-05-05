@@ -1,7 +1,7 @@
 import SwiftUI
 import FirebaseFirestore
 
-struct ReusablePostsView: View {
+struct ReusablePostsContent: View {
     
     @Binding var posts: [Post]
     @State var isFetching: Bool = true

@@ -62,7 +62,7 @@ struct DrumsView: View {
                     }
                 GeometryReader{geo in
                     if let audioSelected = audioSelected{
-                        PopupView(
+                        SelectSoundView(
                             onClose: {
                                 self.showModal = false
                             },

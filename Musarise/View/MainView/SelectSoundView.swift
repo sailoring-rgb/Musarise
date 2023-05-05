@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PopupView: View {
+struct SelectSoundView: View {
 
     var onClose: () -> Void
     @State var showPlayCard: Bool = false
@@ -53,7 +53,7 @@ struct PopupView: View {
         }
         
         if showPlayCard{
-            PlayCard(onClose: {
+            PlayCardView(onClose: {
                 self.showPlayCard = false
                 onClose()
             }, audioURL: audioSelected)

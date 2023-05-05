@@ -1,35 +1,41 @@
 import SwiftUI
 
 struct PlaygroundView: View {
+    
     var body: some View {
-        NavigationView {
-            List {
-                NavigationLink(
-                    destination: GuitarView(),
-                    label: {
-                        Label("Guitar", systemImage: "guitars.fill")
-                    })
-                
-                NavigationLink(
-                    destination: DrumsView(),
-                    label: {
-                        Label("Drums", systemImage: "play")
-                    })
-                
-                NavigationLink(
-                    destination: PianoView(),
-                    label: {
-                        Label("Piano", systemImage: "pianokeys.inverse")
-                    })
-                
-                NavigationLink(
-                    destination: VoiceView(),
-                    label: {
-                        Label("Voice", systemImage: "music.mic")
-                    })
-                
+        ZStack{
+            NavigationView {
+                VStack{
+                    List {
+                        NavigationLink(
+                            destination: GuitarView(),
+                            label: {
+                                Text("🎸    Guitar")
+                            })
+                        
+                        NavigationLink(
+                            destination: DrumsView(),
+                            label: {
+                                Text("🥁    Drums")
+                            })
+                        
+                        NavigationLink(
+                            destination: PianoView(),
+                            label: {
+                                Text("🎹    Piano")
+                            })
+                        
+                        NavigationLink(
+                            destination:  VoiceView(),
+                            label: {
+                                Text("🎙    Voice")
+                            })
+                    }
+                    .navigationTitle("Music Instruments")
+                    .padding(.top, 20)
+                }
+                .background(Color.white)
             }
-            .navigationTitle("Music Instruments")
         }
     }
 }

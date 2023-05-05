@@ -2,7 +2,7 @@ import SwiftUI
 import AVKit
 import CoreMotion
 
-struct PlayCard: View {
+struct PlayCardView: View {
     let motionManager = CMMotionManager()
     var onClose: () -> Void
     
