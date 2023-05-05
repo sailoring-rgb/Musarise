@@ -186,7 +186,7 @@ struct ReusableProfileContent: View {
                     
                     Divider()
                         .padding(.top, 20)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 15)
                     
                     if user.userid == userUID{
                         Text("My Posts")
@@ -271,6 +271,8 @@ struct ReusableProfileContent: View {
             
             Divider()
                 .padding(.horizontal,5)
+                .padding(.bottom, 20)
+                .padding(.top, 5)
         }
     }
 

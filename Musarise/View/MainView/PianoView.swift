@@ -54,12 +54,35 @@ struct BlackFrameView: View {
     @State var key: Piano
     @State var players: [AVPlayer] = []
     @State var isTapped: Bool = false
+    @State private var scaleNote: CGFloat = 1.0
     
     var body: some View {
         Color.clear
         ZStack {
-            LazyVStack(alignment: .center) {}
-                .frame(width: UIScreen.main.bounds.size.width / 1.2, height: UIScreen.main.bounds.size.height / 20.0)
+            VStack(alignment: .center) {
+                if colorCode % 3 == 0 {
+                    Text("♫")
+                        .font(.system(size: 25))
+                        .foregroundColor(.yellow)
+                        .scaleEffect(scaleNote)
+                } else if colorCode % 2 == 0 {
+                    Text("𝄞")
+                        .font(.system(size: 50))
+                        .foregroundColor(.yellow)
+                        .scaleEffect(scaleNote)
+                } else {
+                    Text("♪")
+                        .font(.system(size: 35))
+                        .foregroundColor(.yellow)
+                        .scaleEffect(scaleNote)
+                }
+                Spacer()
+                Spacer()
+                Spacer()
+                Spacer()
+                Spacer()
+            }
+            .frame(width: UIScreen.main.bounds.size.width / 1.2, height: UIScreen.main.bounds.size.height / 20.0)
             .padding(.bottom,10)
             .padding(.top, 50)
             .background(isTapped ? backgroundColor : .black)
@@ -72,10 +95,14 @@ struct BlackFrameView: View {
                 }
                 withAnimation(.easeInOut(duration: 0.4)) {
                     isTapped = true
+                    scaleNote = 2.0
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         isTapped = false
+                    }
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        scaleNote = 1.0
                     }
                 }
             }
