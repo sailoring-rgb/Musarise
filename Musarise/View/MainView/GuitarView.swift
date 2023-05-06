@@ -9,12 +9,9 @@ import ReplayKit
 struct GuitarView: View {
     @State private var guitarNotes: [Guitar] = []
     let motionManager = CMMotionManager()
-    @State private var accelerationData: CMAcceleration? = nil
+    @State private var rotationRateData: CMRotationRate? = nil
     @State var players: [AVPlayer] = []
     @State var audioURL: URL?
-    @State var previousAccY: Double = -10
-    @State var maxDistDebug: Double = 0
-    @State var minDistDebug: Double = 0
     @State private var systemNameCancel = "xmark.circle"
     @State private var systemNameDone = "checkmark.circle"
     @State private var elapsedTime: TimeInterval = 0
@@ -24,10 +21,14 @@ struct GuitarView: View {
     @StateObject var screenRecorder = ScreenRecorder()
     @State private var confirmSave: Bool = false
     @State private var soundDescription = ""
+    @State private var halfDistance: Double = 6.14
+    @State private var sumDistance: Double = 0.0
+    @State private var noteState: Int = 0
+    @State private var numberOfNotes: Int = 6
     
     var body: some View {
         VStack{
-            if let acceleration = accelerationData {
+            if let rotation = rotationRateData{
                 VStack{
                     ZStack {
                         Circle()
@@ -124,7 +125,7 @@ struct GuitarView: View {
         .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         .background(isRecording ? Color.yellow : Color.white)
         .onAppear {
-            startAccelerometerUpdates()
+            startGyroscopeUpdates()
         }
         .onDisappear {
             stopAccelerometerUpdates()
@@ -143,66 +144,53 @@ struct GuitarView: View {
         player.play()
     }
     
-    func checkAcceleration(acceleration: CMAcceleration) {
-        //playSound(audioURL: audioURL)
-        
-        /*
-         // debug to find max value
-         if distance > self.maxDistDebug{
-         self.maxDistDebug = distance
-         }
-         
-         // debug to find min value
-         if distance < self.minDistDebug{
-         self.minDistDebug = distance
-         }
-         
-         print("max:" + String(self.maxDistDebug))
-         print("min:" + String(self.minDistDebug))
-         */
-        
+    func getNumberOfNotesToPlay(angularVelocity:Double) -> Int {
+        let value = (angularVelocity * Double(self.numberOfNotes)) / self.halfDistance
+        if (value < 1.0){return -1}
+        return Int(value)
+    }
+    
+    func checkRotation(rotation: CMRotationRate) {
         do{
-            var distance:Double = 0
-            if (self.previousAccY != -10){
-                distance = acceleration.z + self.previousAccY
+            let numberOfNotesToPlay:Int = getNumberOfNotesToPlay(angularVelocity: abs(rotation.x))
+            if (numberOfNotesToPlay == -1){return}
+            if rotation.x > 0{
+                for i in 0...self.numberOfNotes{
+                    if (self.noteState == (self.numberOfNotes-1)){
+                        return
+                    }
+                    self.playSound(audioURL:self.guitarNotes[self.noteState].soundURL)
+                    self.noteState+=1
+                }
             }else{
-                distance = acceleration.z
-            }
-            var noteIndex = getNoteIndex(distance:distance)
-            if acceleration.z * self.previousAccY < 0{
-                
-                self.playSound(audioURL: self.guitarNotes[noteIndex].soundURL)
+                for i in 0...self.numberOfNotes{
+                    if (self.noteState == 0){
+                        return
+                    }
+                    self.playSound(audioURL:self.guitarNotes[self.noteState].soundURL)
+                    self.noteState-=1
+                }
             }
         }catch{
             print("Variation do not correspond to a note")
         }
-        self.previousAccY = acceleration.z
     }
     
-    func getNoteIndex(distance: Double) -> Int{
-        var index = Int(distance + 3)
-        if index < 0{
-            return 0
-        }else if (index > 5){
-            return 5
-        }
-        return index
-    }
     
-    func startAccelerometerUpdates(){
-        if motionManager.isAccelerometerAvailable {
-            motionManager.accelerometerUpdateInterval = 0.05
-            motionManager.startAccelerometerUpdates(to: .main) { data, error in
-                if let acceleration = data?.acceleration {
-                    accelerationData = acceleration
-                    checkAcceleration(acceleration: acceleration)
+    func startGyroscopeUpdates() {
+        if motionManager.isGyroAvailable {
+            motionManager.gyroUpdateInterval = 0.001
+            motionManager.startGyroUpdates(to: .main) { data, error in
+                if let rotationRate = data?.rotationRate {
+                    self.rotationRateData = rotationRate
+                    checkRotation(rotation:rotationRate)
                 }
             }
         }
     }
-    
+
     func stopAccelerometerUpdates(){
-        motionManager.stopAccelerometerUpdates()
+        motionManager.stopGyroUpdates()
     }
     
     func fetchGuitarAudios() async{
@@ -215,7 +203,8 @@ struct GuitarView: View {
             }
             
             await MainActor.run {
-                guitarNotes.append(contentsOf: fetchedGuitarNotes)
+                self.guitarNotes = fetchedGuitarNotes
+                self.numberOfNotes = self.guitarNotes.count
             }
         }
         catch {
