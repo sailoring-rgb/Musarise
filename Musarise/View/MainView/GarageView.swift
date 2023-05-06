@@ -20,20 +20,21 @@ struct GarageView: View {
             ScrollView {
                 LazyVGrid(columns: [GridItem()],spacing: 10) {
                     ForEach(sounds) { sound in
-                        VStack {
+                        VStack() {
                             Text(sound.instrumentIcon+sound.instrumentName)
                                 .font(.system(size: 16))
-                                .padding(10)
                                 .foregroundColor(Color.black)
+                                .bold()
                         }
-                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height/5)
+                        .frame(width: UIScreen.main.bounds.width - 25, height: UIScreen.main.bounds.height/5,alignment: .topLeading)
+                        .padding(10)
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(12)
                         .gesture(TapGesture().onEnded{
                             do {
                                 let playerItem: AVPlayerItem = AVPlayerItem(url: sound.soundURL)
                                 self.player = AVPlayer(playerItem: playerItem)
-                                self.player?.volume = 0.5
+                                self.player?.volume = 1
                                 self.player?.play()
                             } catch {
                                 print("Error playing audio")

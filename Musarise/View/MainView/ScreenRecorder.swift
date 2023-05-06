@@ -14,12 +14,15 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
     @Published var isRecording = false
     @Published var recorded = false
     
-    func startRecording() {
+    // start the recording
+    // mic only true in Voice mode
+    func startRecording(mic:Bool=false) {
         guard RPScreenRecorder.shared().isAvailable else {
             print("Screen recording is not available")
             return
         }
         
+        RPScreenRecorder.shared().isMicrophoneEnabled = mic
         RPScreenRecorder.shared().startRecording { [weak self] (error) in
             guard error == nil else {
                 print("Error starting screen recording: \(error!.localizedDescription)")
@@ -31,6 +34,7 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
         }
     }
     
+    // create a temporary directory (used to save the recorded screen)
     func tempURL(extensionS: String) -> URL? {
         let directory = NSTemporaryDirectory() as NSString
         
@@ -42,6 +46,7 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
         return nil
     };
     
+    // stop the recording
     func stopRecording() {
         
         let outputURL = tempURL(extensionS:".mov")
@@ -62,6 +67,7 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
         
     }
     
+    // internal function used in "saveSoundInFirebase" to save the audio file and return downloadURL
     func uploadRecordingToFirebase(completion: @escaping (Result<URL, Error>) -> Void) {
         guard let videoFileURL = self.videoFileURL else {
             print("Error uploading recording: no file URL found")
@@ -109,6 +115,7 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
         
     }
     
+    // extract audio from recorded video
     func extractAudioFromVideo(at videoURL: URL, completion: @escaping (Result<URL, Error>) -> Void) {
         let asset = AVURLAsset(url: videoURL)
         let audioOutputURL = tempURL(extensionS:".m4a")
@@ -136,6 +143,8 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
         }
     }
         
+    // save the recorded audio in Firebase with the instrument name and instrument icon
+    // see GuitarView for an example
     func saveSoundInFirebase(instrumentName:String,instrumentIcon:String){
         self.uploadRecordingToFirebase { result in
            switch result {
