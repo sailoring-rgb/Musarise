@@ -13,6 +13,11 @@ struct MainView: View {
                     Image(systemName: "play.square.fill")
                     Text("Playground")
                 }
+            GarageView()
+                .tabItem {
+                    Image(systemName: "music.note")
+                    Text("Garage")
+                }
             ProfileView()
                 .tabItem {
                     Image(systemName: "person.crop.circle.fill")
