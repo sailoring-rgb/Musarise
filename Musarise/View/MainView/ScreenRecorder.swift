@@ -60,7 +60,7 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
             if let error = error {
                 print("Failed to save video: \(error.localizedDescription)")
             } else {
-                print("Video saved successfully")
+                print("Video stop successfully")
                 self.videoFileURL = outputURL
             }
         }
@@ -145,13 +145,13 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
         
     // save the recorded audio in Firebase with the instrument name and instrument icon
     // see GuitarView for an example
-    func saveSoundInFirebase(instrumentName:String,instrumentIcon:String){
+    func saveSoundInFirebase(instrumentName:String,instrumentIcon:String,soundDescription:String){
         self.uploadRecordingToFirebase { result in
            switch result {
            case .success(let downloadURL):
                print("Upload successful. Download URL: \(downloadURL)")
                
-               let playgroundSound = PlaygroundSound(soundURL: downloadURL, instrumentName: instrumentName, instrumentIcon: instrumentIcon,userid: self.userUID)
+               let playgroundSound = PlaygroundSound(soundURL: downloadURL, instrumentName: instrumentName, instrumentIcon: instrumentIcon,userid: self.userUID,soundDescription: soundDescription)
                
                let doc = Firestore.firestore().collection("Playground").document()
                do{

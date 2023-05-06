@@ -22,6 +22,8 @@ struct GuitarView: View {
     @State private var recorded = false
     @State private var timer: Timer?
     @StateObject var screenRecorder = ScreenRecorder()
+    @State private var confirmSave: Bool = false
+    @State private var soundDescription = ""
     
     var body: some View {
         VStack{
@@ -68,8 +70,7 @@ struct GuitarView: View {
                     }
                     Button(action: {
                         print("let's save!")
-                        screenRecorder.saveSoundInFirebase(instrumentName: "Guitar", instrumentIcon: "🎸")
-                        self.recorded = false
+                        self.confirmSave = true // open PopUp
                     }) {
                         Text("Save")
                     }
@@ -78,6 +79,47 @@ struct GuitarView: View {
             }else {
                 ProgressView()
             }
+        }
+        .sheet(isPresented: $confirmSave) {
+            VStack(alignment: .leading){
+                Text("Enter a description")
+                    .bold()
+                    .font(.system(size: 32))
+                    .padding(.horizontal,16)
+                TextField("Enter text", text: $soundDescription)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal,16)
+                HStack {
+                    Button(action: {
+                        screenRecorder.saveSoundInFirebase(instrumentName: "Guitar", instrumentIcon: "🎸",soundDescription: self.soundDescription)
+                        confirmSave.toggle()
+                        self.recorded = false
+                        
+                    }){
+                        Text("Confirm")
+                            .padding(10)
+                    }
+                    .foregroundColor(.white)
+                    .cornerRadius(5)
+                    .background(Color.yellow)
+                    .frame(width: 150)
+                    .padding(.horizontal,16)
+                    .cornerRadius(5)
+                    Spacer()
+                    Button(action: {
+                        confirmSave.toggle()
+                    }){
+                        Text("Cancel")
+                            .padding(10)
+                    }
+                    .foregroundColor(.white)
+                    .cornerRadius(5)
+                    .background(Color.red)
+                    .frame(width: 150)
+                    .padding(.horizontal,10)
+                }
+            }
+            .frame(maxHeight: UIScreen.main.bounds.height / 2)
         }
         .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         .background(isRecording ? Color.yellow : Color.white)
