@@ -37,11 +37,12 @@ struct GarageView: View {
                                 .foregroundColor(Color.black)
                                 .padding(.horizontal, 10)
                                 .padding(.top,4)
-                            
+                            Divider()
+                                .padding(.horizontal,5)
+                                .padding(.bottom, 20)
+                                .padding(.top, 5)
                         }
                         .frame(width: UIScreen.main.bounds.width - 25, height: UIScreen.main.bounds.height/5,alignment: .topLeading)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(12)
                         .gesture(TapGesture().onEnded{
                             do {
                                 let playerItem: AVPlayerItem = AVPlayerItem(url: sound.soundURL)
