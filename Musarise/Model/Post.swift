@@ -12,6 +12,7 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
     var userName: String
     var userid: String
     var iconURL: URL
+    var soundURL: URL?
     
     enum CodingKeys: CodingKey{
         case id
@@ -23,5 +24,6 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
         case userName
         case userid
         case iconURL
+        case soundURL
     }
 }
