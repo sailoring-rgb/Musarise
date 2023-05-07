@@ -2,6 +2,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 import FirebaseFirestore
 import FirebaseStorage
+import AVKit
 
 struct PostCardView: View {
     var post: Post
@@ -9,6 +10,8 @@ struct PostCardView: View {
     var onDelete: ()->()
     
     @State private var docListener: ListenerRegistration?
+    @State private var isPlaying: Bool = false
+    @State private var player: AVPlayer?
     
     @AppStorage("user_UID") private var userUID: String = ""
     
@@ -36,15 +39,31 @@ struct PostCardView: View {
                     .padding(.vertical,8)
                 
                 if let postMediaURL = post.imageURL{
-                    NavigationLink(destination: DetailView(postMediaURL: postMediaURL)
-                    ) {
-                        GeometryReader{
-                            let size = $0.size
-                            WebImage(url: postMediaURL)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: size.width, height: size.height)
-                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    NavigationLink(destination: DetailView(postMediaURL: postMediaURL)) {
+                        GeometryReader { geometry in
+                            let size = geometry.size
+                            ZStack {
+                                WebImage(url: postMediaURL)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: size.width, height: size.height)
+                                    .overlay(Color.black.opacity(0.1))
+                                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                if let soundURL = post.soundURL{
+                                    Button(action: {
+                                        self.isPlaying.toggle()
+                                        let playerItem: AVPlayerItem = AVPlayerItem(url: post.soundURL ?? URL(fileURLWithPath: ""))
+                                        self.player = AVPlayer(playerItem: playerItem)
+                                        self.player?.volume = 1
+                                        self.player?.play()
+                                    }) {
+                                        Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                                            .font(.system(size: 50))
+                                            .foregroundColor(.white)
+                                            .colorMultiply(.yellow)
+                                    }
+                                }
+                            }
                         }
                         .frame(height: 200)
                     }
@@ -239,6 +258,3 @@ struct DetailView: View {
         }
     }
 }
-
-
-    

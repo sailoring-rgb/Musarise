@@ -76,7 +76,7 @@ struct ReusableProfileContent: View {
                                             for document in querySnapshot.documents {
                                                 let post = try? document.data(as: Post.self)
                                                 if let post = post {
-                                                    let updatedPost = Post(text: post.text, imageURL: post.imageURL, imageReferenceID: post.imageReferenceID, userName: post.userName, userid: post.userid, iconURL: profileURL)
+                                                    let updatedPost = Post(text: post.text, imageURL: post.imageURL, imageReferenceID: post.imageReferenceID, userName: post.userName, userid: post.userid, iconURL: profileURL,soundURL: post.soundURL)
                                                     
                                                     refreshedPosts.append(updatedPost)
                                                     

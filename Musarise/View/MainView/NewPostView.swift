@@ -24,6 +24,7 @@ struct NewPostView: View {
     
     @State private var showGarage: Bool = false
     @State private var sounds: [PlaygroundSound] = []
+    @State private var soundURLSelected: URL?
     
     var body: some View {
         ZStack{
@@ -157,18 +158,28 @@ struct NewPostView: View {
                 
                 let imageReferenceID = "\(userUID)\(Date())"
                 let storageReference = Storage.storage().reference().child("Post_media").child(imageReferenceID)
-                
-                if let imageData {
+
+                // have both image and sound
+                if let imageData, let soundURLSelected {
                     let _ = try await storageReference.putDataAsync(imageData)
                     let downloadURL = try await storageReference.downloadURL()
-                    
+                    let post = Post(text: text, imageURL: downloadURL, imageReferenceID: imageReferenceID, userName: userName, userid: userUID, iconURL: profileURL, soundURL: self.soundURLSelected)
+                    try await createDocAtFirebase(post)
+                } // have just sound
+                else if let soundURLSelected{
+                    let post = Post(text: text, userName: userName, userid: userUID, iconURL: profileURL,soundURL: self.soundURLSelected)
+                    try await createDocAtFirebase(post)
+                    // have just image
+                }else if let imageData{
+                    let _ = try await storageReference.putDataAsync(imageData)
+                    let downloadURL = try await storageReference.downloadURL()
                     let post = Post(text: text, imageURL: downloadURL, imageReferenceID: imageReferenceID, userName: userName, userid: userUID, iconURL: profileURL)
                     try await createDocAtFirebase(post)
-                }
-                else {
+                }else{ // do not have image and sound
                     let post = Post(text: text, userName: userName, userid: userUID, iconURL: profileURL)
                     try await createDocAtFirebase(post)
                 }
+                
             } catch {
                 await setError(error)
             }
@@ -240,6 +251,10 @@ struct NewPostView: View {
                             
                         }
                         .frame(width: UIScreen.main.bounds.size.width / 1.3,alignment: .topLeading)
+                        .gesture(TapGesture().onEnded{
+                            self.soundURLSelected = sound.soundURL
+                            self.showGarage = false
+                        })
                         Divider()
                             .padding(.horizontal,5)
                             .padding(.bottom, 20)
