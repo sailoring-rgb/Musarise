@@ -22,108 +22,129 @@ struct NewPostView: View {
     @State private var photoItem: PhotosPickerItem?
     @FocusState private var showKeyboard: Bool
     
+    @State private var showGarage: Bool = false
+    @State private var sounds: [PlaygroundSound] = []
+    
     var body: some View {
-        VStack{
-            HStack{
-                Button("Cancel", role: .destructive){
-                    dismiss()
-                }
-                .hAlign(.leading)
-                
-                Button(action: createPost){
-                    Text("Post")
-                        .font(.callout)
-                        .foregroundColor(.white)
-                        .padding(.horizontal,20)
-                        .padding(.vertical,6)
-                        .background(.black, in: Capsule())
-                }
-            }
-            .padding(.horizontal,15)
-            .padding(.vertical,10)
-            .background{
-                Rectangle()
-                    .fill(.gray.opacity(0.05))
-                    .ignoresSafeArea()
-            }
-            
-            ScrollView(.vertical, showsIndicators: false){
-                VStack(spacing: 15){
-                    TextField("What have you been listening to?", text: $text, axis: .vertical)
-                        .focused($showKeyboard)
+        ZStack{
+            VStack{
+                HStack{
+                    Button("Cancel", role: .destructive){
+                        dismiss()
+                    }
+                    .hAlign(.leading)
                     
-                    if let imageData, let image = UIImage(data: imageData){
-                        GeometryReader{
-                            let size = $0.size
-                            Image(uiImage: image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: size.width, height: size.height)
-                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                                .overlay(alignment: .topTrailing){
-                                    Button {
-                                        withAnimation(.easeInOut(duration: 0.25)){
-                                            self.imageData = nil
+                    Button(action: createPost){
+                        Text("Post")
+                            .font(.callout)
+                            .foregroundColor(.white)
+                            .padding(.horizontal,20)
+                            .padding(.vertical,6)
+                            .background(.black, in: Capsule())
+                    }
+                }
+                .padding(.horizontal,15)
+                .padding(.vertical,10)
+                .background{
+                    Rectangle()
+                        .fill(.gray.opacity(0.05))
+                        .ignoresSafeArea()
+                }
+                
+                ScrollView(.vertical, showsIndicators: false){
+                    VStack(spacing: 15){
+                        TextField("What have you been listening to?", text: $text, axis: .vertical)
+                            .focused($showKeyboard)
+                        
+                        if let imageData, let image = UIImage(data: imageData){
+                            GeometryReader{
+                                let size = $0.size
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: size.width, height: size.height)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                    .overlay(alignment: .topTrailing){
+                                        Button {
+                                            withAnimation(.easeInOut(duration: 0.25)){
+                                                self.imageData = nil
+                                            }
+                                        } label: {
+                                            Image(systemName: "trash")
+                                                .fontWeight(.bold)
+                                                .tint(.red)
                                         }
-                                    } label: {
-                                        Image(systemName: "trash")
-                                            .fontWeight(.bold)
-                                            .tint(.red)
+                                        .padding(10)
                                     }
-                                    .padding(10)
-                                }
+                            }
+                            .clipped()
+                            .frame(height: 220)
                         }
-                        .clipped()
-                        .frame(height: 220)
+                    }
+                    .padding(15)
+                }
+                
+                Divider()
+                
+                HStack{
+                    Button{
+                        showImagePicker.toggle()
+                    } label: {
+                        Image(systemName: "photo.on.rectangle.angled")
+                            .font(.title3)
+                    }
+                    .hAlign(.leading)
+                    
+                    Button{
+                        showGarage.toggle()
+                    } label: {
+                        Image(systemName: "music.note.house")
+                            .font(.title3)
+                    }
+                    .hAlign(.leading)
+                    
+                    Button("Done"){
+                        showKeyboard = false
                     }
                 }
-                .padding(15)
+                .foregroundColor(.black)
+                .padding(.horizontal, 15)
+                .padding(.vertical, 10)
             }
-            
-            Divider()
-            
-            HStack{
-                Button{
-                    showImagePicker.toggle()
-                } label: {
-                    Image(systemName: "photo.on.rectangle.angled")
-                        .font(.title3)
-                }
-                .hAlign(.leading)
-                
-                Button{
-                    // showImagePicker.toggle()
-                } label: {
-                    Image(systemName: "music.note.house")
-                        .font(.title3)
-                }
-                .hAlign(.leading)
-                
-                Button("Done"){
-                    showKeyboard = false
-                }
-            }
-            .foregroundColor(.black)
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
-        }
-        .vAlign(.top)
-        .photosPicker(isPresented: $showImagePicker, selection: $photoItem)
-        .onChange(of: photoItem){ newValue in
-            if let newValue {
-                Task{
-                    if let rawImageData = try? await newValue.loadTransferable(type: Data.self), let image = UIImage(data: rawImageData), let compressedImageData = image.jpegData(compressionQuality: 0.5){
-                        await MainActor.run(body: {
-                            imageData = compressedImageData
-                            photoItem = nil
-                        })
+            .vAlign(.top)
+            .photosPicker(isPresented: $showImagePicker, selection: $photoItem)
+            .onChange(of: photoItem){ newValue in
+                if let newValue {
+                    Task{
+                        if let rawImageData = try? await newValue.loadTransferable(type: Data.self), let image = UIImage(data: rawImageData), let compressedImageData = image.jpegData(compressionQuality: 0.5){
+                            await MainActor.run(body: {
+                                imageData = compressedImageData
+                                photoItem = nil
+                            })
+                        }
                     }
                 }
             }
-        }
-        .alert(errorMessage, isPresented: $showError, actions: {})
-        .overlay{
-            LoadingView(show: $isLoading)
+            .alert(errorMessage, isPresented: $showError, actions: {})
+            .overlay{
+                LoadingView(show: $isLoading)
+            }
+            if showGarage{
+                GeometryReader{geo in
+                    UserGarageView()
+                        .position(x: geo.size.width/2, y: geo.size.height/2)
+                }
+                .background(Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        self.showGarage = false
+                    }
+                    .frame(width: 700)
+                )
+                .task {
+                    await self.fetchUserSounds()
+                }
+            }
         }
     }
     
@@ -133,10 +154,10 @@ struct NewPostView: View {
         Task{
             do{
                 guard let profileURL = profileURL else {return}
-
+                
                 let imageReferenceID = "\(userUID)\(Date())"
                 let storageReference = Storage.storage().reference().child("Post_media").child(imageReferenceID)
-
+                
                 if let imageData {
                     let _ = try await storageReference.putDataAsync(imageData)
                     let downloadURL = try await storageReference.downloadURL()
@@ -172,6 +193,66 @@ struct NewPostView: View {
             errorMessage = error.localizedDescription
             showError.toggle()
         })
+    }
+    
+    func fetchUserSounds() async{
+        do{
+            var query: Query!
+            query = Firestore.firestore().collection("Playground").whereField("userid", isEqualTo: userUID)
+            let docs = try await query.getDocuments()
+            let fetchedSounds = docs.documents.compactMap{ doc -> PlaygroundSound? in
+                try? doc.data(as: PlaygroundSound.self)
+            }
+            
+            await MainActor.run {
+                self.sounds = fetchedSounds
+                print(self.sounds)
+            }
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    @ViewBuilder
+    func UserGarageView()->some View {
+        NavigationView{
+            ScrollView{
+                LazyVGrid(columns: [GridItem()],spacing: 10){
+                    ForEach(sounds){ sound in
+                        VStack(alignment: .leading) {
+                            Text(sound.instrumentIcon+sound.instrumentName)
+                                .font(.system(size: 16))
+                                .foregroundColor(Color.black)
+                                .bold()
+                                .padding(.horizontal, 10)
+                                .padding(.top,1)
+                            Text(sound.publishedDate.formatted(date: .numeric, time: .shortened))
+                                .font(.system(size: 12))
+                                .foregroundColor(Color.gray)
+                                .padding(.horizontal, 10)
+                                .padding(.top,1)
+                            Text(sound.soundDescription)
+                                .font(.system(size: 14))
+                                .foregroundColor(Color.black)
+                                .padding(.horizontal, 10)
+                                .padding(.top,2)
+                            
+                        }
+                        .frame(width: UIScreen.main.bounds.size.width / 1.3,alignment: .topLeading)
+                        Divider()
+                            .padding(.horizontal,5)
+                            .padding(.bottom, 20)
+                            .padding(.top, 5)
+                    }
+                }
+            }
+            .navigationBarTitle("Garage")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .background(Color.white)
+        .cornerRadius(20)
+        .frame(width: UIScreen.main.bounds.size.width / 1.2, height: UIScreen.main.bounds.size.height / 1.5)
     }
 }
 
