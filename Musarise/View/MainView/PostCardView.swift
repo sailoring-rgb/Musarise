@@ -118,17 +118,31 @@ struct PostCardView: View {
     
     @ViewBuilder
     func PostInteration()->some View{
-        HStack(spacing: 6){
-            Button(action: likePost){
-                Image(systemName: post.likedIDs.contains(userUID) ? "heart.fill": "heart")
+        HStack(spacing: 10){
+            HStack(spacing: 6){
+                Button(action: likePost){
+                    Image(systemName: post.likedIDs.contains(userUID) ? "heart.fill": "heart")
+                }
+                
+                Text("\(post.likedIDs.count)")
+                    .font(.caption)
+                    .foregroundColor(.gray)
             }
-            
-            Text("\(post.likedIDs.count)")
-                .font(.caption)
-                .foregroundColor(.gray)
+            .foregroundColor(.black)
+            .padding(.vertical,8)
+            NavigationLink(destination: CommentsView(post: self.post)) {
+                HStack(spacing: 6){
+                    Image(systemName: "text.bubble")
+                    if let comments = post.comments {
+                        Text("\(comments.count)")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                }
+                .foregroundColor(.black)
+                .padding(.vertical,8)
+            }
         }
-        .foregroundColor(.black)
-        .padding(.vertical,8)
     }
     
     func likePost(){
