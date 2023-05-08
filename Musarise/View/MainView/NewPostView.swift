@@ -81,6 +81,18 @@ struct NewPostView: View {
                             .clipped()
                             .frame(height: 220)
                         }
+                        
+                        if let soundSelected = soundURLSelected{
+                            let sound = getSound(soundURLSelected: soundSelected)
+                            
+                            if let sound = sound{
+                                HStack{
+                                    Text(sound.instrumentIcon)
+                                    
+                                    Text(sound.soundTitle)
+                                }
+                            }
+                        }
                     }
                     .padding(15)
                 }
@@ -223,6 +235,15 @@ struct NewPostView: View {
         catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func getSound(soundURLSelected: URL) -> PlaygroundSound?{
+        for sound in sounds{
+            if sound.soundURL == soundURLSelected{
+                return sound
+            }
+        }
+        return nil
     }
     
     @ViewBuilder

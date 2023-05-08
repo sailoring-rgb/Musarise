@@ -21,18 +21,19 @@ extension View{
 
     func fontSize() -> CGFloat{
         let screenWidth = UIScreen.main.bounds.size.width
-
+        
+        print(screenWidth)
+        
         var fontSize: CGFloat = 0.0
         
-        switch screenWidth {
-            case 375, 390:
-                fontSize = 7.0
-            case 414:
-                fontSize = 12.0
-            case 428:
-                fontSize = 14.0
-            default:
-                fontSize = 14.0
+        if screenWidth <= 390{
+            fontSize = 7.5
+        }
+        else if screenWidth > 390 && screenWidth <= 414{
+            fontSize = 11.5
+        }
+        else if screenWidth > 414{
+            fontSize = 14.0
         }
         return fontSize
     }

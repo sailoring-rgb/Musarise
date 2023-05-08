@@ -12,6 +12,9 @@
 		106FA45929E71BD70007903B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45829E71BD70007903B /* FirebaseFirestore */; };
 		106FA45B29E71BDD0007903B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45A29E71BDD0007903B /* FirebaseStorage */; };
 		106FA45D29E71BE90007903B /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45C29E71BE90007903B /* FirebaseFirestoreSwift */; };
+		10702DB42A0923A3009ABE1C /* PlaygroundSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10702DB32A0923A3009ABE1C /* PlaygroundSound.swift */; };
+		10702DB62A09255B009ABE1C /* GarageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10702DB52A09255B009ABE1C /* GarageView.swift */; };
+		10702DB82A092570009ABE1C /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10702DB72A092570009ABE1C /* ScreenRecorder.swift */; };
 		10899C6D29DE1A7E00AC874C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10899C6C29DE1A7E00AC874C /* Assets.xcassets */; };
 		10899C7129DE1A7E00AC874C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10899C7029DE1A7E00AC874C /* Preview Assets.xcassets */; };
 		10899C7B29DE1A7E00AC874C /* testeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10899C7A29DE1A7E00AC874C /* testeTests.swift */; };
@@ -75,6 +78,9 @@
 		106FA46129E724DC0007903B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		106FA46529E729DB0007903B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		106FA46829E72A990007903B /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
+		10702DB32A0923A3009ABE1C /* PlaygroundSound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundSound.swift; sourceTree = "<group>"; };
+		10702DB52A09255B009ABE1C /* GarageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarageView.swift; sourceTree = "<group>"; };
+		10702DB72A092570009ABE1C /* ScreenRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenRecorder.swift; sourceTree = "<group>"; };
 		10899C6529DE1A7D00AC874C /* Musarise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Musarise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10899C6829DE1A7D00AC874C /* testeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testeApp.swift; sourceTree = "<group>"; };
 		10899C6A29DE1A7D00AC874C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -163,10 +169,12 @@
 				10E73BB02A0560EC0010733D /* ReusableProfileContent.swift */,
 				10E73BA92A0560E10010733D /* PostCardView.swift */,
 				10E73B962A0560BE0010733D /* DrumsView.swift */,
+				10702DB72A092570009ABE1C /* ScreenRecorder.swift */,
 				10E73BA82A0560E10010733D /* NewPostView.swift */,
 				10E73B952A0560BD0010733D /* VoiceView.swift */,
 				10E73B972A0560BE0010733D /* PianoView.swift */,
 				10E73B992A0560BE0010733D /* PlayCardView.swift */,
+				10702DB52A09255B009ABE1C /* GarageView.swift */,
 				10E73B982A0560BE0010733D /* GuitarView.swift */,
 				10E73B942A0560BD0010733D /* PlaygroundView.swift */,
 				10E73BA12A0560CC0010733D /* RecordPianoView.swift */,
@@ -185,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				106FA45F29E71DE30007903B /* User.swift */,
+				10702DB32A0923A3009ABE1C /* PlaygroundSound.swift */,
 				1065FACA29FBFA2400303ADD /* Drum.swift */,
 				10D21DA52A0068290067A18D /* Guitar.swift */,
 				1021B38329E8D2D70012A1CA /* Post.swift */,
@@ -435,6 +444,7 @@
 				10E73BB62A0560EC0010733D /* OtherProfileView.swift in Sources */,
 				10E73BB72A0560EC0010733D /* SearchUserView.swift in Sources */,
 				10E73BAC2A0560E10010733D /* NewPostView.swift in Sources */,
+				10702DB82A092570009ABE1C /* ScreenRecorder.swift in Sources */,
 				10E73BAD2A0560E10010733D /* PostCardView.swift in Sources */,
 				10E73BAE2A0560E10010733D /* PostsView.swift in Sources */,
 				10E73BAF2A0560E10010733D /* ReusablePostsContent.swift in Sources */,
@@ -443,6 +453,7 @@
 				10E73BA42A0560CC0010733D /* RecordPianoView.swift in Sources */,
 				10E73BA52A0560CC0010733D /* SelectSoundView.swift in Sources */,
 				10E73B9A2A0560BE0010733D /* PlaygroundView.swift in Sources */,
+				10702DB62A09255B009ABE1C /* GarageView.swift in Sources */,
 				10E73B9B2A0560BE0010733D /* VoiceView.swift in Sources */,
 				10E73B9C2A0560BE0010733D /* DrumsView.swift in Sources */,
 				10E73B9D2A0560BE0010733D /* PianoView.swift in Sources */,
@@ -458,6 +469,7 @@
 				10E73B8A2A0560990010733D /* Drum.swift in Sources */,
 				10E73B8B2A0560990010733D /* Guitar.swift in Sources */,
 				10E73B8C2A0560990010733D /* Post.swift in Sources */,
+				10702DB42A0923A3009ABE1C /* PlaygroundSound.swift in Sources */,
 				10E73B8D2A0560990010733D /* Piano.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

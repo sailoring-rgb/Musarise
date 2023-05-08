@@ -9,6 +9,7 @@ struct PlaygroundSound: Identifiable, Codable{
     var instrumentName: String
     var instrumentIcon: String
     var userid: String
+    var soundTitle: String
     var soundDescription: String
 
     enum CodingKeys: CodingKey{
@@ -18,6 +19,7 @@ struct PlaygroundSound: Identifiable, Codable{
         case instrumentName
         case instrumentIcon
         case userid
+        case soundTitle
         case soundDescription
     }
 }
