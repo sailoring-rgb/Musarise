@@ -8,6 +8,7 @@ struct GarageView: View {
     @AppStorage("user_UID") var userUID: String = ""
     @State private var player: AVPlayer?
     @State private var isPlaying: Bool = false
+    @State private var selectedSound: PlaygroundSound?
     
     var body: some View {
         NavigationView{
@@ -24,17 +25,23 @@ struct GarageView: View {
                                     .padding(.top,10)
                                 
                                 Button(action: {
-                                    self.isPlaying.toggle()
-                                    do {
-                                        let playerItem: AVPlayerItem = AVPlayerItem(url: sound.soundURL)
-                                        self.player = AVPlayer(playerItem: playerItem)
-                                        self.player?.volume = 1
-                                        self.player?.play()
-                                    } catch {
-                                        print("Error playing audio")
+                                    if isPlaying {
+                                        self.player?.pause()
+                                        self.isPlaying = false
+                                    } else {
+                                        selectedSound = sound
+                                        self.isPlaying = true
+                                        do {
+                                            let playerItem: AVPlayerItem = AVPlayerItem(url: sound.soundURL)
+                                            self.player = AVPlayer(playerItem: playerItem)
+                                            self.player?.volume = 1
+                                            self.player?.play()
+                                        } catch {
+                                            print("Error playing audio")
+                                        }
                                     }
                                 }){
-                                    Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                                    Image(systemName: selectedSound?.soundURL == sound.soundURL && isPlaying ? "pause.circle.fill" : "play.circle.fill")
                                         .font(.system(size: 25))
                                         .foregroundColor(.white)
                                         .colorMultiply(.yellow)
