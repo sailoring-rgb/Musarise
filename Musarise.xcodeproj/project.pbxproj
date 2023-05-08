@@ -15,6 +15,7 @@
 		10702DB42A0923A3009ABE1C /* PlaygroundSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10702DB32A0923A3009ABE1C /* PlaygroundSound.swift */; };
 		10702DB62A09255B009ABE1C /* GarageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10702DB52A09255B009ABE1C /* GarageView.swift */; };
 		10702DB82A092570009ABE1C /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10702DB72A092570009ABE1C /* ScreenRecorder.swift */; };
+		10702DBA2A096644009ABE1C /* SaveSoundForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10702DB92A096643009ABE1C /* SaveSoundForm.swift */; };
 		10899C6D29DE1A7E00AC874C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10899C6C29DE1A7E00AC874C /* Assets.xcassets */; };
 		10899C7129DE1A7E00AC874C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10899C7029DE1A7E00AC874C /* Preview Assets.xcassets */; };
 		10899C7B29DE1A7E00AC874C /* testeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10899C7A29DE1A7E00AC874C /* testeTests.swift */; };
@@ -39,7 +40,6 @@
 		10E73B9E2A0560BE0010733D /* GuitarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E73B982A0560BE0010733D /* GuitarView.swift */; };
 		10E73B9F2A0560BE0010733D /* PlayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E73B992A0560BE0010733D /* PlayCardView.swift */; };
 		10E73BA32A0560CC0010733D /* FollowersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E73BA02A0560CC0010733D /* FollowersListView.swift */; };
-		10E73BA42A0560CC0010733D /* RecordPianoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E73BA12A0560CC0010733D /* RecordPianoView.swift */; };
 		10E73BA52A0560CC0010733D /* SelectSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E73BA22A0560CC0010733D /* SelectSoundView.swift */; };
 		10E73BA72A0560D60010733D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E73BA62A0560D60010733D /* MainView.swift */; };
 		10E73BAC2A0560E10010733D /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E73BA82A0560E10010733D /* NewPostView.swift */; };
@@ -81,6 +81,7 @@
 		10702DB32A0923A3009ABE1C /* PlaygroundSound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundSound.swift; sourceTree = "<group>"; };
 		10702DB52A09255B009ABE1C /* GarageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarageView.swift; sourceTree = "<group>"; };
 		10702DB72A092570009ABE1C /* ScreenRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenRecorder.swift; sourceTree = "<group>"; };
+		10702DB92A096643009ABE1C /* SaveSoundForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveSoundForm.swift; sourceTree = "<group>"; };
 		10899C6529DE1A7D00AC874C /* Musarise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Musarise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10899C6829DE1A7D00AC874C /* testeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testeApp.swift; sourceTree = "<group>"; };
 		10899C6A29DE1A7D00AC874C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		10E73B982A0560BE0010733D /* GuitarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarView.swift; sourceTree = "<group>"; };
 		10E73B992A0560BE0010733D /* PlayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayCardView.swift; sourceTree = "<group>"; };
 		10E73BA02A0560CC0010733D /* FollowersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersListView.swift; sourceTree = "<group>"; };
-		10E73BA12A0560CC0010733D /* RecordPianoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPianoView.swift; sourceTree = "<group>"; };
 		10E73BA22A0560CC0010733D /* SelectSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSoundView.swift; sourceTree = "<group>"; };
 		10E73BA62A0560D60010733D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		10E73BA82A0560E10010733D /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
@@ -177,7 +177,6 @@
 				10702DB52A09255B009ABE1C /* GarageView.swift */,
 				10E73B982A0560BE0010733D /* GuitarView.swift */,
 				10E73B942A0560BD0010733D /* PlaygroundView.swift */,
-				10E73BA12A0560CC0010733D /* RecordPianoView.swift */,
 				10E73BA22A0560CC0010733D /* SelectSoundView.swift */,
 				10E73BA02A0560CC0010733D /* FollowersListView.swift */,
 				10E73BAA2A0560E10010733D /* PostsView.swift */,
@@ -185,6 +184,7 @@
 				10E73BB32A0560EC0010733D /* SearchUserView.swift */,
 				10E73BB12A0560EC0010733D /* ProfileView.swift */,
 				10E73BB22A0560EC0010733D /* OtherProfileView.swift */,
+				10702DB92A096643009ABE1C /* SaveSoundForm.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -450,7 +450,6 @@
 				10E73BAF2A0560E10010733D /* ReusablePostsContent.swift in Sources */,
 				10E73BA72A0560D60010733D /* MainView.swift in Sources */,
 				10E73BA32A0560CC0010733D /* FollowersListView.swift in Sources */,
-				10E73BA42A0560CC0010733D /* RecordPianoView.swift in Sources */,
 				10E73BA52A0560CC0010733D /* SelectSoundView.swift in Sources */,
 				10E73B9A2A0560BE0010733D /* PlaygroundView.swift in Sources */,
 				10702DB62A09255B009ABE1C /* GarageView.swift in Sources */,
@@ -466,6 +465,7 @@
 				10E73B932A0560A50010733D /* ContentView.swift in Sources */,
 				10E73B8E2A05609D0010733D /* ViewDesign.swift in Sources */,
 				10E73B892A0560990010733D /* User.swift in Sources */,
+				10702DBA2A096644009ABE1C /* SaveSoundForm.swift in Sources */,
 				10E73B8A2A0560990010733D /* Drum.swift in Sources */,
 				10E73B8B2A0560990010733D /* Guitar.swift in Sources */,
 				10E73B8C2A0560990010733D /* Post.swift in Sources */,

@@ -17,7 +17,7 @@ struct GarageView: View {
                         VStack(alignment: .leading) {
                             HStack{
                                 Text(sound.instrumentIcon+"   "+sound.instrumentName)
-                                    .font(.system(size: fontSize() + 8.0))
+                                    .font(.system(size: fontSize() + 7.0))
                                     .foregroundColor(Color.black)
                                     .bold()
                                     .padding(.horizontal, 10)
@@ -42,10 +42,9 @@ struct GarageView: View {
                                         .padding(.top,5)
                                         .padding(.horizontal, 10)
                                 }
-                                
                             }
                             Text(sound.soundTitle)
-                                .font(.system(size: fontSize() + 7.0))
+                                .font(.system(size: fontSize() + 5.0))
                                 .foregroundColor(Color.black)
                                 .bold()
                                 .padding(.horizontal, 10)
@@ -56,7 +55,7 @@ struct GarageView: View {
                                 .padding(.horizontal, 10)
                                 .padding(.top,-2)
                             Text(sound.soundDescription)
-                                .font(.system(size: fontSize() + 6.0))
+                                .font(.system(size: fontSize() + 4.0))
                                 .foregroundColor(Color.black)
                                 .padding(.horizontal, 10)
                                 .padding(.top,10)

@@ -10,6 +10,11 @@ struct DrumsView: View {
     @State private var showModal : Bool = false
     @State private var audioSelected : URL?
     
+    @StateObject var screenRecorder = ScreenRecorder()
+    @State private var isRecording = false
+    @State private var recorded = false
+    @State private var timer: Timer?
+    
     var body: some View {
         ZStack {
             NavigationView{

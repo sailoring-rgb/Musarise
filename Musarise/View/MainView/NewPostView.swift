@@ -292,7 +292,6 @@ struct NewPostView: View {
                                 .font(.system(size: 12.0))
                                 .foregroundColor(Color.gray)
                                 .padding(.horizontal, 10)
-                                .padding(.top,0.5)
                             Text(sound.soundDescription)
                                 .font(.system(size: 14.0))
                                 .foregroundColor(Color.black)

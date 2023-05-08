@@ -6,8 +6,13 @@ import AVKit
 struct PianoView: View {
     @State private var keys: [Piano] = []
     @State private var player: AVPlayer?
-    @State private var showModal: Bool = true
     @State private var toRecord: Bool = false
+    
+    @StateObject var screenRecorder = ScreenRecorder()
+    @State private var recorded = false
+    @State private var confirmSave = false
+    @State private var timer: Timer?
+    @State private var elapsedTime: TimeInterval = 0
     
     var body: some View {
         ZStack {
@@ -18,25 +23,28 @@ struct PianoView: View {
                     }
                 }
                 .scaleEffect(0.9)
-                .padding(.top, -15)
+                .padding(.top, -20)
                 .padding(.bottom, 70)
                 .task {
                     await fetchPianoSounds()
                 }
                 .toolbar(content: {
-                    if toRecord{
+                    if self.toRecord{
                         ToolbarItem(placement: .navigationBarTrailing){
                             Button(action: {
-                                toRecord = false
+                                self.timer?.invalidate()
+                                screenRecorder.stopRecording()
+                                self.toRecord = false
+                                self.recorded = true
                             }) {
                                 HStack{
                                     Text("Stop")
                                         .tint(.black)
-                                        .scaleEffect(0.9)
+                                        .scaleEffect(1.0)
                                     
                                     Image(systemName: "stop.circle")
                                         .tint(.black)
-                                        .scaleEffect(0.9)
+                                        .scaleEffect(1.0)
                                 }
                             }
                         }
@@ -44,45 +52,54 @@ struct PianoView: View {
                     else {
                         ToolbarItem(placement: .navigationBarLeading){
                             Button(action: {
-                                toRecord = true
+                                self.toRecord = true
+                                self.recorded = false
+                                self.elapsedTime = 0
+                                screenRecorder.startRecording(mic: false)
+                                self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+                                    if self.toRecord {
+                                        self.elapsedTime += 0.1
+                                    } else {
+                                        timer.invalidate()
+                                    }
+                                }
                             }) {
                                 HStack{
                                     Image(systemName: "stop.circle.fill")
                                         .tint(.black)
-                                        .scaleEffect(0.9)
+                                        .scaleEffect(1.0)
                                     
                                     Text("Start")
                                         .tint(.black)
-                                        .scaleEffect(0.9)
+                                        .scaleEffect(1.0)
                                 }
                             }
                         }
+                        if recorded{
+                            ToolbarItem(placement: .navigationBarTrailing){
+                                Button(action: {
+                                    self.confirmSave = true
+                                }) {
+                                    Text("Save")
+                                        .foregroundColor(Color.green)
+                                }
+                                .disabled(!recorded)
+                            }
+                        }
+                    }
+                    ToolbarItem(placement: .principal){
+                        Text("\(elapsedTime, specifier: "%.1f")s")
+                            .tint(.black)
+                            .scaleEffect(1.0)
                     }
                 })
             }
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $confirmSave){
+                SaveSoundForm(instrument: "Piano", instrumentIcon: "🎹", recorded: $recorded, confirmSave: $confirmSave)
+            }
+            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
             .padding(.top,15)
-            
-            if showModal{
-                Color.black
-                    .opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        self.showModal = false
-                    }
-                GeometryReader{geo in
-                    RecordPianoView(onClose: {
-                        self.showModal = false
-                    }, toRecord: $toRecord)
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .position(x: geo.size.width/2, y: geo.size.height/2.1)
-                    
-                }
-            }
-            
-            if toRecord{
-                // START RECORDING
-            }
         }
     }
     

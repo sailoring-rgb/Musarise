@@ -20,8 +20,6 @@ struct GuitarView: View {
     @State private var timer: Timer?
     @StateObject var screenRecorder = ScreenRecorder()
     @State private var confirmSave: Bool = false
-    @State private var soundTitle = ""
-    @State private var soundDescription = ""
     @State private var halfDistance: Double = 6.14
     @State private var sumDistance: Double = 0.0
     @State private var noteState: Int = 0
@@ -83,56 +81,7 @@ struct GuitarView: View {
             }
         }
         .sheet(isPresented: $confirmSave) {
-            VStack(alignment: .leading){
-                Text("Enter a title")
-                    .bold()
-                    .font(.system(size: 32))
-                    .padding(.horizontal,16)
-                TextField("Title", text: $soundTitle)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal,16)
-                Text("Enter a description")
-                    .bold()
-                    .font(.system(size: 32))
-                    .padding(.horizontal,16)
-                    .padding(.top,30)
-                TextField("Description", text: $soundDescription)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal,16)
-                HStack {
-                    Button(action: {
-                        screenRecorder.saveSoundInFirebase(instrumentName: "Guitar", instrumentIcon: "🎸", soundTitle: self.soundTitle, soundDescription: self.soundDescription)
-                        confirmSave.toggle()
-                        self.recorded = false
-                        
-                    }){
-                        Text("Confirm")
-                            .padding(10)
-                    }
-                    .foregroundColor(.white)
-                    .background(Color.yellow)
-                    .cornerRadius(10)
-                    .frame(width: 150)
-                    .padding(.horizontal,16)
-                    .padding(.top,35)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        confirmSave.toggle()
-                    }){
-                        Text("Cancel")
-                            .padding(10)
-                    }
-                    .foregroundColor(.white)
-                    .background(Color.red)
-                    .cornerRadius(10)
-                    .frame(width: 150)
-                    .padding(.horizontal,10)
-                    .padding(.top,35)
-                }
-            }
-            .frame(maxHeight: UIScreen.main.bounds.height / 2)
+            SaveSoundForm(instrument: "Guitar", instrumentIcon: "🎸", recorded: $recorded, confirmSave: $confirmSave)
         }
         .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         .background(isRecording ? Color.yellow : Color.white)

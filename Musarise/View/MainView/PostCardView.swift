@@ -39,7 +39,10 @@ struct PostCardView: View {
                     .padding(.vertical,8)
                 
                 if let postMediaURL = post.imageURL{
-                    NavigationLink(destination: DetailView(postMediaURL: postMediaURL)) {
+                    var justPicture = post.soundURL == nil
+                    let justPictureBinded = Binding<Bool>(get: {return justPicture}, set: {newValue in justPicture = newValue})
+                    
+                    NavigationLink(destination: DetailView(postMediaURL: postMediaURL), isActive: justPictureBinded) {
                         GeometryReader { geometry in
                             let size = geometry.size
                             ZStack {
@@ -68,6 +71,7 @@ struct PostCardView: View {
                         .frame(height: 200)
                     }
                     .navigationBarBackButtonHidden(false)
+                    .disabled(!justPicture)
                 }
                 
                 PostInteration()
@@ -187,38 +191,38 @@ struct DetailView: View {
         NavigationView{
             ZStack {
                 WebImage(url: postMediaURL)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .scaleEffect(scale)
-                        .offset(offset)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .scaleEffect(scale)
+                    .offset(offset)
 
-                        .gesture(magnification)
-                        .gesture(TapGesture(count: 2)
-                            .onEnded {
+                    .gesture(magnification)
+                    .gesture(TapGesture(count: 2)
+                        .onEnded {
+                            withAnimation{
+                                scale = 1.0
+                            }
+                        }
+                    )
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
                                 withAnimation{
-                                    scale = 1.0
+                                    if scale > 1{
+                                        offset = value.translation
+                                    }
                                 }
                             }
-                        )
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    withAnimation{
-                                        if scale > 1{
-                                            offset = value.translation
-                                        }
+                            .onEnded { value in
+                                if value.translation.width > UIScreen.main.bounds.width * 0.3 {
+                                    presentationMode.wrappedValue.dismiss()
+                                } else {
+                                    withAnimation(.spring()) {
+                                        offset = .zero
                                     }
                                 }
-                                .onEnded { value in
-                                    if value.translation.width > UIScreen.main.bounds.width * 0.3 {
-                                        presentationMode.wrappedValue.dismiss()
-                                    } else {
-                                        withAnimation(.spring()) {
-                                            offset = .zero
-                                        }
-                                    }
-                                }
-                        )
+                            }
+                    )
                 }
                 
                 Color.black.opacity(offset.width > 0 ? Double(offset.width / UIScreen.main.bounds.width) : 0)
