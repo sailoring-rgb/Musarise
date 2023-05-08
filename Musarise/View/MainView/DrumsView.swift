@@ -146,7 +146,7 @@ struct PlayCardView: View {
                                 self.isRecording = true
                                 self.recorded = false
                                 self.elapsedTime = 0
-                                screenRecorder.startRecording(mic:true)
+                                screenRecorder.startRecording()
                                 self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
                                     if self.isRecording {
                                         self.elapsedTime += 0.1
@@ -171,7 +171,7 @@ struct PlayCardView: View {
             }
         }
         .sheet(isPresented: $confirmSave) {
-            SaveSoundForm(instrument: "Drums", instrumentIcon: "🥁", recorded: $recorded, confirmSave: $confirmSave)
+            SaveSoundForm(instrument: "Drums", instrumentIcon: "🥁", recorded: $recorded, confirmSave: $confirmSave, screenRecorder: screenRecorder)
         }
         .frame(width: UIScreen.main.bounds.size.width / 1.3, height: UIScreen.main.bounds.size.height / 3)
         .padding(.bottom, 10)

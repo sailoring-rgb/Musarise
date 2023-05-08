@@ -71,7 +71,7 @@ struct PostCardView: View {
                         .frame(height: 200)
                     }
                     .navigationBarBackButtonHidden(false)
-                    .disabled(!justPicture)
+                    
                 }
                 
                 PostInteration()

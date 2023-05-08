@@ -64,7 +64,7 @@ struct VoiceView: View {
             .disabled(!recorded)
         }
         .sheet(isPresented: $confirmSave) {
-            SaveSoundForm(instrument: "Voice", instrumentIcon: "🎙", recorded: $recorded, confirmSave: $confirmSave)
+            SaveSoundForm(instrument: "Voice", instrumentIcon: "🎙", recorded: $recorded, confirmSave: $confirmSave, screenRecorder: screenRecorder)
         }
         .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         .background(isRecording ? Color.yellow : Color.white)

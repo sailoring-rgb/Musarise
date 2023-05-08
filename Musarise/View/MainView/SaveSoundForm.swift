@@ -7,7 +7,7 @@ struct SaveSoundForm: View {
     @State var instrumentIcon: String
     @Binding var recorded: Bool
     @Binding var confirmSave: Bool
-    @StateObject var screenRecorder = ScreenRecorder()
+    @State var screenRecorder: ScreenRecorder
     
     var body: some View{
         VStack(alignment: .leading){
@@ -29,7 +29,7 @@ struct SaveSoundForm: View {
             
             HStack {
                 Button(action: {
-                    screenRecorder.saveSoundInFirebase(instrumentName: "Voice", instrumentIcon: "🎙", soundTitle: self.soundTitle, soundDescription: self.soundDescription)
+                    screenRecorder.saveSoundInFirebase(instrumentName: self.instrument, instrumentIcon: self.instrumentIcon, soundTitle: self.soundTitle, soundDescription: self.soundDescription)
                     confirmSave.toggle()
                     self.recorded = false
                     

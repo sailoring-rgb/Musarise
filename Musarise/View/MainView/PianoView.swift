@@ -22,7 +22,7 @@ struct PianoView: View {
                         BlackFrameView(colorCode: index+1, key: key)
                     }
                 }
-                .scaleEffect(0.9)
+                .scaleEffect(scaleSize())
                 .padding(.top, -20)
                 .padding(.bottom, 70)
                 .task {
@@ -96,7 +96,7 @@ struct PianoView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $confirmSave){
-                SaveSoundForm(instrument: "Piano", instrumentIcon: "🎹", recorded: $recorded, confirmSave: $confirmSave)
+                SaveSoundForm(instrument: "Piano", instrumentIcon: "🎹", recorded: $recorded, confirmSave: $confirmSave, screenRecorder: screenRecorder)
             }
             .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
             .padding(.top,15)

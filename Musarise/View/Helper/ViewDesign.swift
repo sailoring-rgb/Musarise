@@ -18,7 +18,26 @@ extension View{
     func closeKeyboard(){
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+    
+    func scaleSize() -> CGFloat{
+        let screenWidth = UIScreen.main.bounds.size.width
 
+        var scale: CGFloat = 0.0
+        
+        
+        if screenWidth <= 390{
+            scale = 0.65
+        }
+        else if screenWidth > 390 && screenWidth <= 414{
+            scale = 0.75
+        }
+        else if screenWidth > 414{
+            scale = 0.9
+        }
+        return scale
+
+    }
+    
     func fontSize() -> CGFloat{
         let screenWidth = UIScreen.main.bounds.size.width
         
