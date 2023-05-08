@@ -14,9 +14,8 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
     @Published var isRecording = false
     @Published var recorded = false
     
-    // start the recording
     // mic only true in Voice mode
-    func startRecording(mic:Bool=false) {
+    func startRecording(mic: Bool = false) {
         guard RPScreenRecorder.shared().isAvailable else {
             print("Screen recording is not available")
             return
@@ -46,16 +45,12 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
         return nil
     };
     
-    // stop the recording
     func stopRecording() {
-        
         let outputURL = tempURL(extensionS:".mov")
-        
         guard let outputURL = outputURL else {
             print("Failed to get outputURL")
             return
         }
-        
         RPScreenRecorder.shared().stopRecording(withOutput: outputURL) { error in
             if let error = error {
                 print("Failed to save video: \(error.localizedDescription)")
@@ -64,7 +59,6 @@ class ScreenRecorder: NSObject, ObservableObject, RPPreviewViewControllerDelegat
                 self.videoFileURL = outputURL
             }
         }
-        
     }
     
     // internal function used in "saveSoundInFirebase" to save the audio file and return downloadURL

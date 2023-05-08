@@ -41,8 +41,9 @@ struct NewPostView: View {
                             .foregroundColor(.white)
                             .padding(.horizontal,20)
                             .padding(.vertical,6)
-                            .background(.black, in: Capsule())
+                            .background(notValidPost(type: 0).wrappedValue ? .gray : .black, in: Capsule())
                     }
+                    .disabled(notValidPost(type: 0).wrappedValue ? true : false)
                 }
                 .padding(.horizontal,15)
                 .padding(.vertical,10)
@@ -84,13 +85,20 @@ struct NewPostView: View {
                         
                         if let soundSelected = soundURLSelected{
                             let sound = getSound(soundURLSelected: soundSelected)
-                            
                             if let sound = sound{
-                                HStack{
-                                    Text(sound.instrumentIcon)
-                                    
+                                HStack(){
                                     Text(sound.soundTitle)
+                                        .font(.system(size: fontSize()))
+                                        .foregroundColor(Color.gray)
+                                        .padding(.horizontal, 3)
+                                        .padding(.top, 8)
+                                    
+                                    Text(sound.instrumentIcon)
+                                        .font(.system(size: fontSize()))
+                                        .foregroundColor(Color.gray)
+                                        .padding(.top, 5)
                                 }
+                                .hAlign(.trailing)
                             }
                         }
                     }
@@ -142,6 +150,7 @@ struct NewPostView: View {
             .overlay{
                 LoadingView(show: $isLoading)
             }
+            
             if showGarage{
                 GeometryReader{geo in
                     UserGarageView()
@@ -158,6 +167,22 @@ struct NewPostView: View {
                     await self.fetchUserSounds()
                 }
             }
+        }
+        .alert("An audio requires an icon! Please, select a photo.", isPresented: notValidPost(type: 1), actions: {})
+    }
+    
+    func notValidPost(type: Int) -> Binding<Bool> {
+        // Condição para lançar um erro caso um sound seja selecionado sem um icon
+        if type == 1{
+            return Binding<Bool>(get: {
+                return self.soundURLSelected != nil && self.imageData == nil
+            }, set: { _ in })
+        }
+        // Condição para desativar o botão "Post" caso o post não seja válido
+        else{
+            return Binding<Bool>(get: {
+                return (self.imageData == nil && self.text == "") || (self.soundURLSelected != nil && self.imageData == nil)
+            }, set: { _ in })
         }
     }
     
@@ -177,21 +202,19 @@ struct NewPostView: View {
                     let downloadURL = try await storageReference.downloadURL()
                     let post = Post(text: text, imageURL: downloadURL, imageReferenceID: imageReferenceID, userName: userName, userid: userUID, iconURL: profileURL, soundURL: self.soundURLSelected)
                     try await createDocAtFirebase(post)
-                } // have just sound
-                else if let soundURLSelected{
-                    let post = Post(text: text, userName: userName, userid: userUID, iconURL: profileURL,soundURL: self.soundURLSelected)
-                    try await createDocAtFirebase(post)
-                    // have just image
-                }else if let imageData{
+                }
+                // have just image
+                else if let imageData{
                     let _ = try await storageReference.putDataAsync(imageData)
                     let downloadURL = try await storageReference.downloadURL()
                     let post = Post(text: text, imageURL: downloadURL, imageReferenceID: imageReferenceID, userName: userName, userid: userUID, iconURL: profileURL)
                     try await createDocAtFirebase(post)
-                }else{ // do not have image and sound
+                }
+                // do not have image and sound
+                else {
                     let post = Post(text: text, userName: userName, userid: userUID, iconURL: profileURL)
                     try await createDocAtFirebase(post)
                 }
-                
             } catch {
                 await setError(error)
             }
@@ -253,22 +276,28 @@ struct NewPostView: View {
                 LazyVGrid(columns: [GridItem()],spacing: 10){
                     ForEach(sounds){ sound in
                         VStack(alignment: .leading) {
-                            Text(sound.instrumentIcon+sound.instrumentName)
-                                .font(.system(size: 16))
+                            Text(sound.instrumentIcon+"   "+sound.instrumentName)
+                                .font(.system(size: 16.0))
                                 .foregroundColor(Color.black)
                                 .bold()
                                 .padding(.horizontal, 10)
-                                .padding(.top,1)
+                                .padding(.top,3)
+                            Text(sound.soundTitle)
+                                .font(.system(size: 15.0))
+                                .foregroundColor(Color.black)
+                                .bold()
+                                .padding(.horizontal, 10)
+                                .padding(.top,3)
                             Text(sound.publishedDate.formatted(date: .numeric, time: .shortened))
-                                .font(.system(size: 12))
+                                .font(.system(size: 12.0))
                                 .foregroundColor(Color.gray)
                                 .padding(.horizontal, 10)
-                                .padding(.top,1)
+                                .padding(.top,0.5)
                             Text(sound.soundDescription)
-                                .font(.system(size: 14))
+                                .font(.system(size: 14.0))
                                 .foregroundColor(Color.black)
                                 .padding(.horizontal, 10)
-                                .padding(.top,2)
+                                .padding(.top,6)
                             
                         }
                         .frame(width: UIScreen.main.bounds.size.width / 1.3,alignment: .topLeading)
@@ -279,7 +308,7 @@ struct NewPostView: View {
                         Divider()
                             .padding(.horizontal,5)
                             .padding(.bottom, 20)
-                            .padding(.top, 5)
+                            .padding(.top, 10)
                     }
                 }
             }
@@ -295,7 +324,6 @@ struct NewPostView: View {
 struct NewPostView_Previews: PreviewProvider {
     static var previews: some View {
         NewPostView{ _ in
-            
         }
     }
 }
