@@ -69,6 +69,7 @@ struct DrumsView: View {
             .alert("There are 3 different drums in 3 different positions. Move your phone horizontally to play them.", isPresented: $freeMode, actions: {})
             .task {
                 await fetchDrumsAudios()
+                fetchFreeModeAudios()
             }
 
             if showSelectModal || showPlayCardModal{
@@ -97,8 +98,11 @@ struct DrumsView: View {
                             PlayCardView(
                                 onClose: {
                                     self.showPlayCardModal = false
+                                    self.freeMode = false
                                 },
-                                audioURL: audioSelected
+                                audioURL: audioSelected,
+                                freeMode: freeMode,
+                                playersFreeMode: playersFreeMode
                             )
                             .frame(width: geo.size.width, height: geo.size.height)
                             .position(x: geo.size.width/2, y: geo.size.height/2)
@@ -107,6 +111,12 @@ struct DrumsView: View {
                 }
             }
         }
+    }
+    
+    func fetchFreeModeAudios(){
+        self.playersFreeMode.append(drums[3])
+        self.playersFreeMode.append(drums[1])
+        self.playersFreeMode.append(drums[0])
     }
     
     func fetchDrumsAudios() async{

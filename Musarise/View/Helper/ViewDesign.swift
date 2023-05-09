@@ -21,10 +21,7 @@ extension View{
     
     func scaleSize() -> CGFloat{
         let screenWidth = UIScreen.main.bounds.size.width
-
         var scale: CGFloat = 0.0
-        
-        
         if screenWidth <= 390{
             scale = 0.65
         }
@@ -40,11 +37,7 @@ extension View{
     
     func fontSize() -> CGFloat{
         let screenWidth = UIScreen.main.bounds.size.width
-        
-        print(screenWidth)
-        
         var fontSize: CGFloat = 0.0
-        
         if screenWidth <= 390{
             fontSize = 7.5
         }
