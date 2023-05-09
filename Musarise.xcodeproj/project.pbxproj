@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		100D84AC29E233910047290D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 100D84AB29E233910047290D /* GoogleService-Info.plist */; };
 		100F876029E234B500212225 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 100F875F29E234B500212225 /* FirebaseAuth */; };
+		10323C752A0A3D4B005D3E0A /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10323C742A0A3D4B005D3E0A /* CommentsView.swift */; };
 		106FA45929E71BD70007903B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45829E71BD70007903B /* FirebaseFirestore */; };
 		106FA45B29E71BDD0007903B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45A29E71BDD0007903B /* FirebaseStorage */; };
 		106FA45D29E71BE90007903B /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 106FA45C29E71BE90007903B /* FirebaseFirestoreSwift */; };
@@ -72,6 +73,7 @@
 		100D84A629E21AEA0047290D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		100D84AB29E233910047290D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1021B38329E8D2D70012A1CA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		10323C742A0A3D4B005D3E0A /* CommentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
 		1065FACA29FBFA2400303ADD /* Drum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drum.swift; sourceTree = "<group>"; };
 		106FA45F29E71DE30007903B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		106FA46129E724DC0007903B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				10E73B972A0560BE0010733D /* PianoView.swift */,
 				10702DB52A09255B009ABE1C /* GarageView.swift */,
 				10E73B982A0560BE0010733D /* GuitarView.swift */,
+				10323C742A0A3D4B005D3E0A /* CommentsView.swift */,
 				10E73B942A0560BD0010733D /* PlaygroundView.swift */,
 				10E73BA22A0560CC0010733D /* SelectSoundView.swift */,
 				10E73BA02A0560CC0010733D /* FollowersListView.swift */,
@@ -450,6 +453,7 @@
 				10E73BA52A0560CC0010733D /* SelectSoundView.swift in Sources */,
 				10E73B9A2A0560BE0010733D /* PlaygroundView.swift in Sources */,
 				10702DB62A09255B009ABE1C /* GarageView.swift in Sources */,
+				10323C752A0A3D4B005D3E0A /* CommentsView.swift in Sources */,
 				10E73B9B2A0560BE0010733D /* VoiceView.swift in Sources */,
 				10E73B9C2A0560BE0010733D /* DrumsView.swift in Sources */,
 				10E73B9D2A0560BE0010733D /* PianoView.swift in Sources */,
