@@ -1,4 +1,5 @@
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct PlaygroundView: View {
     
@@ -31,8 +32,15 @@ struct PlaygroundView: View {
                                 Text("🎙    Voice")
                             })
                     }
+                    Text("Musarise brings the entire musical environment to you! Your movements are converted into sounds and your ideas are transformed into reality.").font(.system(size:fontSize() + 7)).padding(.leading,6)
+                    WebImage(url:URL(string:"https://firebasestorage.googleapis.com/v0/b/csound-967d4.appspot.com/o/General%2Fbanda.png?alt=media&token=33271b06-e62f-4319-af17-9e76b0ca46f0"))
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .scaledToFit()
+                        .clipped()
+                        .padding(4)
+                    
                     .navigationTitle("Music Instruments")
-                    .padding(.top, 20)
                 }
                 .background(Color.white)
             }
