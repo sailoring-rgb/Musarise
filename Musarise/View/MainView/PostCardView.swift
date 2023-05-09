@@ -42,7 +42,7 @@ struct PostCardView: View {
                     var justPicture = post.soundURL == nil
                     let justPictureBinded = Binding<Bool>(get: {return justPicture}, set: {newValue in justPicture = newValue})
                     
-                    NavigationLink(destination: DetailView(postMediaURL: postMediaURL), isActive: justPictureBinded) {
+                    NavigationLink(destination: DetailView(postMediaURL: postMediaURL, justPicture: justPicture)) {
                         GeometryReader { geometry in
                             let size = geometry.size
                             ZStack {
@@ -54,11 +54,17 @@ struct PostCardView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                                 if let soundURL = post.soundURL{
                                     Button(action: {
-                                        self.isPlaying.toggle()
-                                        let playerItem: AVPlayerItem = AVPlayerItem(url: post.soundURL ?? URL(fileURLWithPath: ""))
-                                        self.player = AVPlayer(playerItem: playerItem)
-                                        self.player?.volume = 1
-                                        self.player?.play()
+                                        if isPlaying{
+                                            self.isPlaying = false
+                                            self.player?.pause()
+                                        }
+                                        else{
+                                            self.isPlaying = true
+                                            let playerItem: AVPlayerItem = AVPlayerItem(url: post.soundURL ?? URL(fileURLWithPath: ""))
+                                            self.player = AVPlayer(playerItem: playerItem)
+                                            self.player?.volume = 1
+                                            self.player?.play()
+                                        }
                                     }) {
                                         Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
                                             .font(.system(size: 50))
@@ -180,6 +186,7 @@ struct DetailView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State var postMediaURL: URL
+    @State var justPicture: Bool
     @State private var offset = CGSize.zero
     @State private var lastOffset = CGSize.zero
     @State private var scale: CGFloat = 1.0
@@ -202,46 +209,50 @@ struct DetailView: View {
     }
     
     var body: some View {
-        NavigationView{
-            ZStack {
-                WebImage(url: postMediaURL)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .scaleEffect(scale)
-                    .offset(offset)
+        if justPicture{
+            NavigationView{
+                ZStack {
+                    WebImage(url: postMediaURL)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .scaleEffect(scale)
+                        .offset(offset)
 
-                    .gesture(magnification)
-                    .gesture(TapGesture(count: 2)
-                        .onEnded {
-                            withAnimation{
-                                scale = 1.0
-                            }
-                        }
-                    )
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
+                        .gesture(magnification)
+                        .gesture(TapGesture(count: 2)
+                            .onEnded {
                                 withAnimation{
-                                    if scale > 1{
-                                        offset = value.translation
-                                    }
+                                    scale = 1.0
                                 }
                             }
-                            .onEnded { value in
-                                if value.translation.width > UIScreen.main.bounds.width * 0.3 {
-                                    presentationMode.wrappedValue.dismiss()
-                                } else {
-                                    withAnimation(.spring()) {
-                                        offset = .zero
+                        )
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    withAnimation{
+                                        if scale > 1{
+                                            offset = value.translation
+                                        }
                                     }
                                 }
-                            }
-                    )
+                                .onEnded { value in
+                                    if value.translation.width > UIScreen.main.bounds.width * 0.3 {
+                                        presentationMode.wrappedValue.dismiss()
+                                    } else {
+                                        withAnimation(.spring()) {
+                                            offset = .zero
+                                        }
+                                    }
+                                }
+                        )
                 }
-                
                 Color.black.opacity(offset.width > 0 ? Double(offset.width / UIScreen.main.bounds.width) : 0)
                     .edgesIgnoringSafeArea(.all)
             }
+        }
+        else {
+            // SOUND WAVEFORM LAYOUT
+        }
     }
     
     func adjustScale(from state: MagnificationGesture.Value){
