@@ -70,7 +70,7 @@ struct PlayCardView: View {
     let motionManager = CMMotionManager()
     var onClose: () -> Void
     @State var players: [AVPlayer] = []
-    @State var audioURL: URL
+    @State var audioURL: URL?
     @State var freeMode: Bool
     @State var playersFreeMode: [Drum]
     
@@ -160,15 +160,18 @@ struct PlayCardView: View {
     }
     
     func playSound(volume: Float){
-
+        print("free mode: "+String(freeMode))
         if !freeMode{
-            let playerItem: AVPlayerItem = AVPlayerItem(url: self.audioURL)
-            let player: AVPlayer = AVPlayer(playerItem: playerItem)
-            self.players.append(player)
-            player.volume = volume
-            player.play()
+            if let audioURL = self.audioURL{
+                let playerItem: AVPlayerItem = AVPlayerItem(url: audioURL)
+                let player: AVPlayer = AVPlayer(playerItem: playerItem)
+                self.players.append(player)
+                player.volume = volume
+                player.play()
+            }
         }
         else {
+            print("no. drum: "+String(freeModeDrum))
             let playerItem: AVPlayerItem = AVPlayerItem(url: self.playersFreeMode[freeModeDrum].soundURL)
             let player: AVPlayer = AVPlayer(playerItem: playerItem)
             self.players.append(player)
@@ -189,16 +192,16 @@ struct PlayCardView: View {
     func checkAcceleration(acceleration: CMAcceleration) -> Int{
         
         // aceleração inicialmente positiva
-        if (acceleration.y >= 0 && !isDetected) {
+        if (acceleration.z >= 0 && !isDetected) {
             isDetected = false
         }
         // aceleração positiva para negativa
-        else if (acceleration.y < 0 && !isDetected) {
+        else if (acceleration.z < 0 && !isDetected) {
             isDetected = true
             startime = Date()
         }
         // aceleração negativa para positiva
-        else if (acceleration.y >= 0 && isDetected){
+        else if (acceleration.z >= 0 && isDetected){
             if let startime = startime{
                 let duration = Date().timeIntervalSince(startime)
                 let volume = getAmplitude(duration: duration)
@@ -211,8 +214,9 @@ struct PlayCardView: View {
     }
     
     func checkMovement(acceleration: CMAcceleration) -> Int{
-        print(acceleration.x)
-        
+        print("Z: "+String(acceleration.z))
+        print("X: "+String(acceleration.x))
+        print("Y: "+String(acceleration.y))
         if freeMode{
             // posição mais à direita
             if (acceleration.x >= 0.2) {
@@ -223,14 +227,12 @@ struct PlayCardView: View {
                 return 0
             }
             // posição central (local)
-            else{
+            else if (acceleration.x > -0.2 && acceleration.x < 0.2){
                 return 1
             }
         }
-        else{
-            // se não for free mode, retorna -1
-            return -1
-        }
+        // se não for free mode, retorna -1
+        return -1
     }
 
     func startAccelerometerUpdates(){

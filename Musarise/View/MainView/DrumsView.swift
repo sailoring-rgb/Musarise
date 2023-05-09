@@ -94,19 +94,17 @@ struct DrumsView: View {
                         }
                     }
                     else if showPlayCardModal{
-                        if let audioSelected = audioSelected{
-                            PlayCardView(
-                                onClose: {
-                                    self.showPlayCardModal = false
-                                    self.freeMode = false
-                                },
-                                audioURL: audioSelected,
-                                freeMode: freeMode,
-                                playersFreeMode: playersFreeMode
-                            )
-                            .frame(width: geo.size.width, height: geo.size.height)
-                            .position(x: geo.size.width/2, y: geo.size.height/2)
-                        }
+                        PlayCardView(
+                            onClose: {
+                                self.showPlayCardModal = false
+                                self.freeMode = false
+                            },
+                            audioURL: nil,
+                            freeMode: freeMode,
+                            playersFreeMode: playersFreeMode
+                        )
+                        .frame(width: geo.size.width, height: geo.size.height)
+                        .position(x: geo.size.width/2, y: geo.size.height/2)
                     }
                 }
             }
