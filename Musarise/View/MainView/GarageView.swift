@@ -13,11 +13,11 @@ struct GarageView: View {
     var body: some View {
         NavigationView{
             ScrollView {
-                LazyVGrid(columns: [GridItem()],spacing: 10) {
+                LazyVGrid(columns: [GridItem()],spacing: 35) {
                     ForEach(sounds) { sound in
                         VStack(alignment: .leading) {
                             HStack{
-                                Text(sound.instrumentIcon+"   "+sound.instrumentName)
+                                Text(sound.instrumentIcon+" "+sound.instrumentName)
                                     .font(.system(size: fontSize() + 7.0))
                                     .foregroundColor(Color.black)
                                     .bold()
@@ -42,7 +42,7 @@ struct GarageView: View {
                                     }
                                 }){
                                     Image(systemName: selectedSound?.soundURL == sound.soundURL && isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                                        .font(.system(size: 25))
+                                        .font(.system(size: 30))
                                         .foregroundColor(.white)
                                         .colorMultiply(.yellow)
                                         .hAlign(.trailing)
@@ -51,7 +51,7 @@ struct GarageView: View {
                                 }
                             }
                             Text(sound.soundTitle)
-                                .font(.system(size: fontSize() + 5.0))
+                                .font(.system(size: fontSize() + 7.0))
                                 .foregroundColor(Color.black)
                                 .bold()
                                 .padding(.horizontal, 10)
@@ -62,14 +62,14 @@ struct GarageView: View {
                                 .padding(.horizontal, 10)
                                 .padding(.top,-2)
                             Text(sound.soundDescription)
-                                .font(.system(size: fontSize() + 4.0))
+                                .font(.system(size: fontSize() + 5.0))
                                 .foregroundColor(Color.black)
                                 .padding(.horizontal, 10)
                                 .padding(.top,10)
                             Divider()
                                 .padding(.horizontal,5)
-                                .padding(.bottom, 20)
                                 .padding(.top, 10)
+                                .padding(.bottom,10)
                         }
                         .frame(width: UIScreen.main.bounds.width - 25, height: UIScreen.main.bounds.height/5,alignment: .topLeading)
                     }
