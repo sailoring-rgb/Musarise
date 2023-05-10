@@ -15,57 +15,55 @@ struct DrumsView: View {
     
     var body: some View {
         ZStack {
-            NavigationView{
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))],spacing: 20) {
-                        ForEach(drums) { drum in
-                            VStack {
-                                Text(drum.name)
-                                    .font(.system(size: 22))
-                                    .padding(10)
-                                    .foregroundColor(Color.black)
-                                Image(systemName: "music.note")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(.yellow)
-                            }
-                            .frame(width:140,height:140)
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(12)
-                            .gesture(TapGesture().onEnded{
-                                self.audioSelected = drum.soundURL
-                                withAnimation{
-                                    self.showSelectModal = true
-                                }
-                                do {
-                                    let playerItem: AVPlayerItem = AVPlayerItem(url: drum.soundURL)
-                                    player = AVPlayer(playerItem: playerItem)
-                                    player?.volume = 0.5
-                                    player?.play()
-                                } catch {
-                                    print("Error playing audio")
-                                }
-                            })
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))],spacing: 15) {
+                    ForEach(drums) { drum in
+                        VStack {
+                            Text(drum.name)
+                                .font(.system(size: 22))
+                                .padding(10)
+                                .foregroundColor(Color.black)
+                            Image(systemName: "music.note")
+                                .font(.system(size: 40))
+                                .foregroundColor(.yellow)
                         }
-                        
-                        Button(action: {
+                        .frame(width:120,height:120)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(12)
+                        .gesture(TapGesture().onEnded{
+                            self.audioSelected = drum.soundURL
                             withAnimation{
-                                self.showPlayCardModal = true
-                                self.freeMode = true
+                                self.showSelectModal = true
                             }
-                        }){
-                            Text("Choose free mode")
-                                .font(.system(size: 16))
-                                .foregroundColor(.white)
-                        }
-                        .frame(width:100, height: 100)
-                        .background(Color.yellow)
-                        .cornerRadius(10)
+                            do {
+                                let playerItem: AVPlayerItem = AVPlayerItem(url: drum.soundURL)
+                                player = AVPlayer(playerItem: playerItem)
+                                player?.volume = 0.5
+                                player?.play()
+                            } catch {
+                                print("Error playing audio")
+                            }
+                        })
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(30)
+                    
+                    Button(action: {
+                        withAnimation{
+                            self.showPlayCardModal = true
+                            self.freeMode = true
+                        }
+                    }){
+                        Text("Choose free mode")
+                            .font(.system(size: 16))
+                            .foregroundColor(.white)
+                    }
+                    .frame(width:100, height: 100)
+                    .background(Color.yellow)
+                    .cornerRadius(10)
                 }
-                .navigationTitle("Choose sound")
+                .frame(maxWidth: .infinity)
+                .padding(30)
             }
+            .navigationTitle("Choose sound")
             .alert("There are 3 different drums in 3 different positions. Move your phone horizontally to play them.", isPresented: $freeMode, actions: {})
             .task {
                 await fetchDrumsAudios()
