@@ -5,6 +5,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseStorage
 import ReplayKit
+import SDWebImageSwiftUI
 
 struct GuitarView: View {
     @State private var guitarNotes: [Guitar] = []
@@ -16,6 +17,7 @@ struct GuitarView: View {
     @State private var systemNameDone = "checkmark.circle"
     @State private var elapsedTime: TimeInterval = 0
     @State private var isRecording = false
+    @State private var isTraining = false
     @State private var recorded = false
     @State private var timer: Timer?
     @StateObject var screenRecorder = ScreenRecorder()
@@ -24,29 +26,61 @@ struct GuitarView: View {
     @State private var sumDistance: Double = 0.0
     @State private var noteState: Int = 0
     @State private var numberOfNotes: Int = 6
+    @State private var trainingData = []
+    @State private var tapped = false
     
     var body: some View {
         VStack{
             if let rotation = rotationRateData{
                 VStack{
-                    ZStack {
-                        Circle()
-                            .fill(Color.yellow)
-                            .frame(width: 150, height: 150)
-                            .overlay(
-                                VStack{
-                                    Text(isRecording ? "Stop" : "Record")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 25))
-                                    
-                                    Text("\(elapsedTime, specifier: "%.1f")s")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                        .padding(.top, 10)
+                    
+                    Text("Move your hand as if you were holding the pick and playing the guitar rhythm! When you want to record your sound, press the yellow button. If you want to provide data to help us improve our algorithm, click the green button!")
+                        .font(.system(size: fontSize() + 7.0))
+                        .padding(12)
+                    Divider().padding(12)
+                    WebImage(url:URL(string:"https://firebasestorage.googleapis.com/v0/b/csound-967d4.appspot.com/o/General%2Fguitarrista.png?alt=media&token=d650b7f3-d5c3-4855-b5e9-d9ea23951a58"))
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:UIScreen.main.bounds.size.width/2.5)
+                    
+                    Spacer()
+                    HStack{
+                        VStack{
+                            Image(systemName: "bolt.horizontal.circle.fill")
+                                .font(.system(size: 60))
+                                .foregroundColor(.green)
+                                .onTapGesture {
+                                    if isTraining {
+                                        self.isTraining = false
+                                    } else {
+                                        self.isTraining = true
+                                    }
                                 }
-                                    .padding(.bottom, 5)
-                                    .padding(.top, 15)
-                            )
+                                .padding(.horizontal, 12)
+                                .padding(.bottom, 12)
+                        }
+                        Spacer()
+                        VStack{
+                            Button(action: {
+                                print("let's save!")
+                                self.confirmSave = true // open PopUp
+                            }) {
+                                Text("Save")
+                            }
+                            .disabled(!recorded)
+                            if isRecording{
+                                Text("\(elapsedTime, specifier: "%.1f")s")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding(.top, 10)
+                            }
+                        }
+                        Spacer()
+                        Image(systemName: "stop.circle.fill")
+                            .font(.system(size: 60))
+                            .foregroundColor(.yellow)
+                            .padding(.horizontal, 12)
+                            .padding(.bottom, 12)
                             .onTapGesture {
                                 if isRecording {
                                     self.isRecording = false
@@ -68,13 +102,6 @@ struct GuitarView: View {
                                 }
                             }
                     }
-                    Button(action: {
-                        print("let's save!")
-                        self.confirmSave = true // open PopUp
-                    }) {
-                        Text("Save")
-                    }
-                    .disabled(!recorded)
                 }
             }else {
                 ProgressView()
@@ -83,11 +110,12 @@ struct GuitarView: View {
         .sheet(isPresented: $confirmSave) {
             SaveSoundForm(instrument: "Guitar", instrumentIcon: "🎸", recorded: $recorded, confirmSave: $confirmSave, screenRecorder: screenRecorder)
         }
-        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        .background(isRecording ? Color.yellow : Color.white)
+        
+        .background(isRecording ? Color.yellow : (isTraining ? Color.green : Color.white))
         .onAppear {
             startGyroscopeUpdates()
         }
+        .navigationTitle("Guitar")
         .onDisappear {
             stopAccelerometerUpdates()
             players.forEach { $0.pause() }
@@ -137,6 +165,9 @@ struct GuitarView: View {
         }
     }
     
+    func sendTrainingData(rotation: CMRotationRate){
+        // self.trainingData.append({"x":rotation.x,"y":rotation.y,"z":rotation.z,"tapped":self.tapped})
+    }
     
     func startGyroscopeUpdates() {
         if motionManager.isGyroAvailable {
@@ -144,7 +175,11 @@ struct GuitarView: View {
             motionManager.startGyroUpdates(to: .main) { data, error in
                 if let rotationRate = data?.rotationRate {
                     self.rotationRateData = rotationRate
-                    checkRotation(rotation:rotationRate)
+                    if !self.isTraining{
+                        checkRotation(rotation:rotationRate)
+                    }else if self.isTraining{
+                        sendTrainingData(rotation:rotationRate)
+                    }
                 }
             }
         }
