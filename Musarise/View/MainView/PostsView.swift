@@ -1,4 +1,5 @@
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct PostsView: View {
     @State private var recentPosts: [Post] = []
@@ -22,11 +23,22 @@ struct PostsView: View {
                     .padding(15)
                 }
                 .toolbar(content: {
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        NavigationLink{
-                            SearchUserView()
-                        } label:{
-                             Image(systemName: "magnifyingglass")
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        NavigationLink(destination: ChallengeView()) {
+                            Image(systemName: "map")
+                                .tint(.black)
+                                .scaleEffect(0.9)
+                        }
+                    }
+                    ToolbarItem(placement: .principal) {
+                        WebImage(url: URL(string:"https://firebasestorage.googleapis.com/v0/b/csound-967d4.appspot.com/o/General%2Flogo.png?alt=media&token=e63ff60f-49d4-473d-86b2-afbd88ae5000"))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding(7)
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: SearchUserView()) {
+                            Image(systemName: "magnifyingglass")
                                 .tint(.black)
                                 .scaleEffect(0.9)
                         }
