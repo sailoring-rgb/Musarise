@@ -19,6 +19,7 @@ struct GuitarView: View {
     @State private var isRecording = false
     @State private var isTraining = false
     @State private var recorded = false
+    @State private var trained = false
     @State private var timer: Timer?
     @StateObject var screenRecorder = ScreenRecorder()
     @State private var confirmSave: Bool = false
@@ -26,59 +27,100 @@ struct GuitarView: View {
     @State private var sumDistance: Double = 0.0
     @State private var noteState: Int = 0
     @State private var numberOfNotes: Int = 6
-    @State private var trainingData = []
+    @State private var trainingData: TrainingData = TrainingData(rotationList: [])
     @State private var tapped = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    @State private var showAlert = false
     
     var body: some View {
         VStack{
             if let rotation = rotationRateData{
                 VStack{
-                    
                     Text("Move your hand as if you were holding the pick and playing the guitar rhythm! When you want to record your sound, press the yellow button. If you want to provide data to help us improve our algorithm, click the green button!")
                         .font(.system(size: fontSize() + 7.0))
                         .padding(12)
                     Divider().padding(12)
-                    WebImage(url:URL(string:"https://firebasestorage.googleapis.com/v0/b/csound-967d4.appspot.com/o/General%2Fguitarrista.png?alt=media&token=d650b7f3-d5c3-4855-b5e9-d9ea23951a58"))
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width:UIScreen.main.bounds.size.width/2.5)
-                    
+                    if (isTraining){
+                        Text("Click in the screen when you intend for the sound of the guitar to come out.")
+                            .font(.system(size: fontSize() + 9.0)).padding(12).bold()
+                            .onTapGesture {
+                                self.tapped = true
+                            }
+                    }
+                    else if (isRecording){
+                        Text("\(elapsedTime, specifier: "%.1f")s")
+                            .foregroundColor(.white)
+                            .padding(.top, 10)
+                            .font(.system(size: fontSize() + 16.0))
+                            .bold()
+                    }else{
+                        WebImage(url:URL(string:"https://firebasestorage.googleapis.com/v0/b/csound-967d4.appspot.com/o/General%2Fguitarrista.png?alt=media&token=72d914aa-ae54-4997-a4e2-07c40879f6b9"))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:UIScreen.main.bounds.size.width/2.5)
+                    }
                     Spacer()
                     HStack{
                         VStack{
                             Image(systemName: "bolt.horizontal.circle.fill")
                                 .font(.system(size: 60))
-                                .foregroundColor(.green)
+                                .foregroundColor(isTraining ? .white : .green)
                                 .onTapGesture {
                                     if isTraining {
                                         self.isTraining = false
+                                        self.trained = true
                                     } else {
                                         self.isTraining = true
+                                        self.trained = false
+                                        self.recorded = false
                                     }
                                 }
                                 .padding(.horizontal, 12)
                                 .padding(.bottom, 12)
+                                .disabled(isRecording)
                         }
                         Spacer()
                         VStack{
-                            Button(action: {
-                                print("let's save!")
-                                self.confirmSave = true // open PopUp
-                            }) {
-                                Text("Save")
+                            if self.recorded{
+                                Button(action: {
+                                    print("let's save!")
+                                    self.confirmSave = true // open PopUp
+                                }) {
+                                    Text("Save")
+                                }
+                                .disabled(!recorded)
+                                if isRecording{
+                                    Text("\(elapsedTime, specifier: "%.1f")s")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .padding(.top, 10)
+                                }
                             }
-                            .disabled(!recorded)
-                            if isRecording{
-                                Text("\(elapsedTime, specifier: "%.1f")s")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding(.top, 10)
+                            if self.trained{
+                                Button(action: {
+                                    Task{
+                                        do{
+                                            try await self.saveTrainingData()
+                                            self.showAlert = true
+                                            self.alertTitle = "Success"
+                                            self.alertMessage = "successfully saved training data"
+                                        }catch{
+                                            self.showAlert = true
+                                            self.alertTitle = "Fail"
+                                            self.alertMessage = "Fail to save training data"
+                                        }
+                                    }
+                                }) {
+                                    Text("Send data")
+                                }
+                                .disabled(!trained)
                             }
                         }
                         Spacer()
                         Image(systemName: "stop.circle.fill")
                             .font(.system(size: 60))
-                            .foregroundColor(.yellow)
+                            .foregroundColor(isRecording ? .white : .yellow)
                             .padding(.horizontal, 12)
                             .padding(.bottom, 12)
                             .onTapGesture {
@@ -90,6 +132,7 @@ struct GuitarView: View {
                                 } else {
                                     self.isRecording = true
                                     self.recorded = false
+                                    self.trained = false
                                     self.elapsedTime = 0
                                     screenRecorder.startRecording()
                                     self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
@@ -101,6 +144,7 @@ struct GuitarView: View {
                                     }
                                 }
                             }
+                            .disabled(isTraining)
                     }
                 }
             }else {
@@ -123,6 +167,15 @@ struct GuitarView: View {
         }
         .task {
             await fetchGuitarAudios()
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text(self.alertTitle),
+                message: Text(self.alertMessage),
+                dismissButton: .default(Text("OK")){
+                    self.showAlert = false
+                }
+            )
         }
     }
     
@@ -165,8 +218,26 @@ struct GuitarView: View {
         }
     }
     
-    func sendTrainingData(rotation: CMRotationRate){
-        // self.trainingData.append({"x":rotation.x,"y":rotation.y,"z":rotation.z,"tapped":self.tapped})
+    func appendTrainingData(rotation: CMRotationRate){
+        self.trainingData.rotationList.append(Rotation(
+            x:rotation.x,
+            y:rotation.y,
+            z:rotation.z,
+            tapped:self.tapped
+        ))
+        if self.tapped == true{
+            self.tapped = false
+        }
+    }
+    
+    func saveTrainingData() async throws{
+        print("let's send!")
+        let doc = Firestore.firestore().collection("Training").document()
+        let _ = try doc.setData(from: self.trainingData, completion: {
+            error in if error == nil {
+                self.trained = false
+            }
+        })
     }
     
     func startGyroscopeUpdates() {
@@ -178,7 +249,7 @@ struct GuitarView: View {
                     if !self.isTraining{
                         checkRotation(rotation:rotationRate)
                     }else if self.isTraining{
-                        sendTrainingData(rotation:rotationRate)
+                        appendTrainingData(rotation:rotationRate)
                     }
                 }
             }
