@@ -5,6 +5,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseStorage
 import ReplayKit
+import SDWebImageSwiftUI
 
 struct VoiceView: View {
     @State private var elapsedTime: TimeInterval = 0
@@ -16,10 +17,17 @@ struct VoiceView: View {
     
     var body: some View {
         VStack{
+            WebImage(url:URL(string:"https://firebasestorage.googleapis.com/v0/b/csound-967d4.appspot.com/o/General%2Fcantora.png?alt=media&token=7df4761e-2a4c-4a1b-8f78-0b7d7f5d88b8"))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width:UIScreen.main.bounds.size.width/2.8)
+            Text("Let your voice out, let the melody take you. Dream of singing like Halsey? Then show us your talent!").padding(12).font(.system(size: fontSize() + 7.0))
+            Divider().padding(12)
+            Spacer()
             ZStack {
                 Circle()
                     .fill(Color.yellow)
-                    .frame(width: 150, height: 150)
+                    .frame(width: 125, height: 125)
                     .overlay(
                         VStack{
                             Text(isRecording ? "Stop" : "Record")
@@ -62,11 +70,12 @@ struct VoiceView: View {
                 Text("Save")
             }
             .disabled(!recorded)
+            .padding(12)
         }
+        .navigationTitle("Voice")
         .sheet(isPresented: $confirmSave) {
             SaveSoundForm(instrument: "Voice", instrumentIcon: "🎙", recorded: $recorded, confirmSave: $confirmSave, screenRecorder: screenRecorder)
         }
-        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         .background(isRecording ? Color.yellow : Color.white)
     }
 }
