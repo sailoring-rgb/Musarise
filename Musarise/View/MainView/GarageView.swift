@@ -62,7 +62,7 @@ struct GarageView: View {
                                 .padding(.horizontal, 10)
                                 .padding(.top,-2)
                             Text(sound.soundDescription)
-                                .font(.system(size: fontSize() + 5.0))
+                                .font(.system(size: fontSize() + 7.0))
                                 .foregroundColor(Color.black)
                                 .padding(.horizontal, 10)
                                 .padding(.top,10)
