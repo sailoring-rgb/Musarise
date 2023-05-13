@@ -252,7 +252,6 @@ struct NewPostView: View {
             
             await MainActor.run {
                 self.sounds = fetchedSounds
-                print(self.sounds)
             }
         }
         catch {

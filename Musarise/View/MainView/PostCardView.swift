@@ -42,7 +42,7 @@ struct PostCardView: View {
                     var justPicture = post.soundURL == nil
                     let justPictureBinded = Binding<Bool>(get: {return justPicture}, set: {newValue in justPicture = newValue})
                     
-                    NavigationLink(destination: DetailView(postMediaURL: postMediaURL, justPicture: justPicture)) {
+                    NavigationLink(destination: DetailView(soundURL: post.soundURL, postMediaURL: postMediaURL, justPicture: justPicture)) {
                         GeometryReader { geometry in
                             let size = geometry.size
                             ZStack {
@@ -52,6 +52,7 @@ struct PostCardView: View {
                                     .frame(width: size.width, height: size.height)
                                     .overlay(Color.black.opacity(0.1))
                                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                
                                 if let soundURL = post.soundURL{
                                     Button(action: {
                                         if isPlaying{
@@ -77,7 +78,6 @@ struct PostCardView: View {
                         .frame(height: 200)
                     }
                     .navigationBarBackButtonHidden(false)
-                    
                 }
                 
                 PostInteration()
@@ -136,6 +136,7 @@ struct PostCardView: View {
             }
             .foregroundColor(.black)
             .padding(.vertical,8)
+            
             NavigationLink(destination: CommentsView(post: self.post)) {
                 HStack(spacing: 6){
                     Image(systemName: "text.bubble")
@@ -169,7 +170,6 @@ struct PostCardView: View {
     func deletePost(){
         Task{
             do{
-                print("deleting post: "+post.imageReferenceID)
                 if post.imageReferenceID != "" {
                     try await Storage.storage().reference().child("Post_media").child(post.imageReferenceID).delete()
                 }
@@ -185,6 +185,8 @@ struct PostCardView: View {
 struct DetailView: View {
     @Environment(\.presentationMode) var presentationMode
     
+    @State var soundURL: URL?
+    @State var soundTitle: String?
     @State var postMediaURL: URL
     @State var justPicture: Bool
     @State private var offset = CGSize.zero
@@ -209,23 +211,50 @@ struct DetailView: View {
     }
     
     var body: some View {
-        if justPicture{
-            NavigationView{
-                ZStack {
-                    WebImage(url: postMediaURL)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .scaleEffect(scale)
-                        .offset(offset)
-
-                        .gesture(magnification)
-                        .gesture(TapGesture(count: 2)
-                            .onEnded {
-                                withAnimation{
-                                    scale = 1.0
+        Group{
+            if justPicture{
+                NavigationView{
+                    ZStack {
+                        WebImage(url: postMediaURL)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .scaleEffect(scale)
+                            .offset(offset)
+                        
+                            .gesture(magnification)
+                            .gesture(TapGesture(count: 2)
+                                .onEnded {
+                                    withAnimation{
+                                        scale = 1.0
+                                    }
                                 }
-                            }
-                        )
+                            )
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        withAnimation{
+                                            if scale > 1{
+                                                offset = value.translation
+                                            }
+                                        }
+                                    }
+                                    .onEnded { value in
+                                        if value.translation.width > UIScreen.main.bounds.width * 0.3 {
+                                            presentationMode.wrappedValue.dismiss()
+                                        } else {
+                                            withAnimation(.spring()) {
+                                                offset = .zero
+                                            }
+                                        }
+                                    }
+                            )
+                    }
+                    Color.black.opacity(offset.width > 0 ? Double(offset.width / UIScreen.main.bounds.width) : 0)
+                        .edgesIgnoringSafeArea(.all)
+                }
+            } else {
+                if let soundURL = self.soundURL{
+                    WaveformView(soundURL: soundURL, backgroundImage: postMediaURL)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
@@ -246,13 +275,18 @@ struct DetailView: View {
                                 }
                         )
                 }
-                Color.black.opacity(offset.width > 0 ? Double(offset.width / UIScreen.main.bounds.width) : 0)
-                    .edgesIgnoringSafeArea(.all)
             }
         }
-        else {
-            // SOUND WAVEFORM LAYOUT
-        }
+    }
+    
+    
+    func getTitleFromURL(soundURL: URL) async throws -> String?{
+        let userReference = Firestore.firestore().collection("Playground_media")
+        let query = userReference.whereField("soundURL", isEqualTo: soundURL)
+        let snapshot = try await query.getDocuments()
+        
+        guard let title = snapshot.documents.first?.data()["soundTitle"] as? String else { return nil }
+        return title
     }
     
     func adjustScale(from state: MagnificationGesture.Value){
