@@ -16,18 +16,28 @@ struct WaveformView: View {
         in: .common
     ).autoconnect()
     
-    @State private var playerManager = PlayerManager()
-    @State private var player: AVPlayer?
-    @State private var playerStatus = AVPlayer.TimeControlStatus.paused
+    @State var postDescription: String
     @State var soundURL: URL
     @State var backgroundImage: URL
     @State var tapped: Bool = false
     @State var data: [Float] = Array(repeating: 0, count: Constants.barAmount)
         .map{ _ in Float.random(in: 0 ... Constants.magnitudeLimit) }
     
+    @State private var playerManager = PlayerManager()
+    @State private var player: AVPlayer?
+    @State private var playerStatus = AVPlayer.TimeControlStatus.paused
+    
     var body: some View {
             VStack {
+                Text(postDescription)
+                    .padding()
+                    .font(.system(.title3))
+                    .foregroundColor(.white)
+                    .hAlign(.leading)
+                    .padding()
+                
                 Spacer()
+                
                 VStack {
                     Chart(Array(data.enumerated()), id: \.0) { index, magnitude in
                         BarMark(
@@ -83,15 +93,17 @@ struct WaveformView: View {
                     Color.clear
                 }
             }
-            .overlay {
+            .ignoresSafeArea()
+            .aspectRatio(contentMode: .fill)
+            .opacity(0.5)
+            .background(Color.black)
+            /*.overlay {
                 LinearGradient(
                     colors: [.clear, .black],
                     startPoint: .center,
                     endPoint: .bottom
                 )
-            }
-            .ignoresSafeArea()
-            .aspectRatio(contentMode: .fill)
+            }*/
         }
     
     var playerControls: some View{

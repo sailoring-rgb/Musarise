@@ -171,6 +171,12 @@ struct BlackFrameView: View {
             .padding(.top, 50)
             .background(isTapped ? backgroundColor : .black)
             .cornerRadius(10)
+            .background(
+                Rectangle()
+                    .fill(Color.black)
+                    .frame(height: 1.5)
+                    .frame(width: UIScreen.main.bounds.size.width*2)
+            )
             .onTapGesture {
                 playSound(audioURL: key.soundURL)
                 

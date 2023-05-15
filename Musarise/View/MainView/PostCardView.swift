@@ -42,7 +42,7 @@ struct PostCardView: View {
                     var justPicture = post.soundURL == nil
                     let justPictureBinded = Binding<Bool>(get: {return justPicture}, set: {newValue in justPicture = newValue})
                     
-                    NavigationLink(destination: DetailView(soundURL: post.soundURL, postMediaURL: postMediaURL, justPicture: justPicture)) {
+                    NavigationLink(destination: DetailView(postDescription: post.text, soundURL: post.soundURL, postMediaURL: postMediaURL, justPicture: justPicture)) {
                         GeometryReader { geometry in
                             let size = geometry.size
                             ZStack {
@@ -185,6 +185,7 @@ struct PostCardView: View {
 struct DetailView: View {
     @Environment(\.presentationMode) var presentationMode
     
+    @State var postDescription: String
     @State var soundURL: URL?
     @State var soundTitle: String?
     @State var postMediaURL: URL
@@ -254,7 +255,7 @@ struct DetailView: View {
                 }
             } else {
                 if let soundURL = self.soundURL{
-                    WaveformView(soundURL: soundURL, backgroundImage: postMediaURL)
+                    WaveformView(postDescription: postDescription, soundURL: soundURL, backgroundImage: postMediaURL)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in

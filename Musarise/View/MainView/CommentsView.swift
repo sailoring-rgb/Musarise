@@ -29,15 +29,19 @@ struct CommentsView: View {
                                         .clipShape(Circle())
                                     
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(comment.userName)
-                                            .fontWeight(.semibold)
-                                        
+                                        HStack{
+                                            Text(comment.userName)
+                                                .fontWeight(.semibold)
+                                            
+                                            Text(comment.publishedDate.formatted(date: .numeric, time: .shortened))
+                                                .font(.caption)
+                                                .foregroundColor(.gray)
+                                                .padding(.horizontal,7)
+                                        }
                                         Text(comment.text)
-                                        
-                                        Text(comment.publishedDate.formatted(date: .numeric, time: .shortened))
-                                            .font(.caption)
-                                            .foregroundColor(.gray)
+                                            .padding(.top, 2)
                                     }
+                                    .padding(.horizontal, 5)
                                 }
                                 .frame(width: UIScreen.main.bounds.width - 25,alignment: .topLeading)
                                 .padding(.horizontal, 16)
@@ -58,19 +62,24 @@ struct CommentsView: View {
                     .frame(width: 35, height: 35)
                     .clipShape(Circle())
                     .padding(.leading,8)
+                
                 TextField("Add a comment...", text: $newCommentText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(4)
+                
                 Button(action: postComment) {
                     Text("Post")
                         .fontWeight(.semibold)
-                        .padding(8)
+                        .padding(6)
                 }
-                .padding(.leading,8)
+                .padding(.horizontal,5)
                 .foregroundColor(.white)
                 .background(Color.yellow)
                 .cornerRadius(15)
             }
+            .padding(.trailing,10)
+            .padding(.leading,5)
+            .padding(.top,10)
             .background(Color.gray.opacity(0.1))
         }
         .navigationBarTitle("Comments")
