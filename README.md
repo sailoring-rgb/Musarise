@@ -23,16 +23,13 @@ TODO
 
 ### Bateria
 
-```
-TODO
-```
+O **sensor acelerómetro** é utilizado para criar o som da **bateria**. Esse sensor mede as acelerações do dispositivo em diferentes direções, permitindo detetar o momento em que a batida é tocada e a intensidade dos golpes dados na bateria virtual. A aplicação disponibiliza 5 tipos de sons diferentes -- 1 *floor tom*, 1 *rack tom* e 2 *crash cymbal*, todos extraídos a partir da plataforma *online* [Virtual Drumming](https://www.virtualdrumming.com/drums/online-virtual-games/online-virtual-games-drums.html).
+
+A estratégia adotada para a reprodução do som da bateria baseia-se na análise da variação do sinal da aceleração, tendo em conta a sua polaridade. No processo de execução, quando a baqueta começa o seu movimento descendente em direção ao instrumento, os valores da aceleração são registados como positivos. No entanto, à medida que se aproxima do ponto de impacto, ocorre uma transição para valores negativos, sendo este intervalo crucial para determinar o volume sonoro. Quanto mais rápido for esse intervalo de tempo em que a aceleração é negativa, maior será a intensidade resultante. Este intervalo termina assim que aceleração voltar a ser positiva, representando este o momento em que a baqueta se eleva e se afasta do instrumento. A figura seguinte ilustra a posição que o dispositivo deve assumir para a concretização do processo descrito.
 
 ![Texto alternativo da imagem](docImages/battery.png)
 
-
-```
-TODO
-``` 
+No contexto da bateria virtual, existem dois modos possíveis de reprodução: o modo simples e o modo livre. No <ins>modo simples</ins>, é apenas tocado um dos 5 sons disponíveis ao longo da simulação. Em contrapartida, o <ins>no modo livre</ins>, já não inclui uma seleção pré-definida de um som. Em vez disso, existem 3 partes da bateria em posições diferentes. A ideia é que, ao mover-se mais para a direita, esquerda ou centro, o resultado gerado varia de acordo com a tal parte do instrumento que se encontra nessa posição. Esta abordagem proporciona uma experiência mais realista e expressiva à simulação.
 
 ### Guitarra
 
@@ -49,9 +46,15 @@ As seis notas são armazenadas numa lista (seguindo a ordem "de cima para baixo"
 
 ### Piano
 
-```
-TODO
-```
+O **sensor de *touch*** é usado para recolher o toque do usuário nas 6 teclas virtuais do piano. Os sons de cada tecla foram conseguidos através da plataforma [Recursive Arts](https://recursivearts.com/virtual-piano/). Quanto mais suave for o toque, melhor será a resposta às variações de pressão exercidas e, consequentemente, mais precisa será a sequência de sons produzida. Esta funcionalidade é preciosa para aspirantes a pianista que, com a capacidade de se expressarem musicalmente através de um toque, podem criar uma experiência interessante de tocar piano.
+
+![Texto alternativo da imagem](docImages/piano.png)
+
+### Voice
+
+O **sensor do microfone** é utilizado para a captação do áudio do utilizador. Quanto mais perto da boca do utilizador, melhor as ondas sonoras são captadas pelo sensor. O objetivo desta *feature* é permitir o utilizador sentir-se como o cantor de uma banda.
+
+![Texto alternativo da imagem](docImages/voice.png)
 
 <h2> 👥 Equipa </h2>
 
