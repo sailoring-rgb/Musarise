@@ -279,8 +279,7 @@ struct DetailView: View {
             }
         }
     }
-    
-    
+
     func getTitleFromURL(soundURL: URL) async throws -> String?{
         let userReference = Firestore.firestore().collection("Playground_media")
         let query = userReference.whereField("soundURL", isEqualTo: soundURL)

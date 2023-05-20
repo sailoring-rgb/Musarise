@@ -1,6 +1,7 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 import AVKit
 
 struct GarageView: View {
@@ -8,6 +9,9 @@ struct GarageView: View {
     @AppStorage("user_UID") var userUID: String = ""
     @State private var player: AVPlayer?
     @State private var isPlaying: Bool = false
+    @State private var errorMessage: String = ""
+    @State private var showError: Bool = false
+    @State private var showTrash: Bool = false
     @State private var selectedSound: PlaygroundSound?
     
     var body: some View {
@@ -66,6 +70,18 @@ struct GarageView: View {
                                 .foregroundColor(Color.black)
                                 .padding(.horizontal, 10)
                                 .padding(.top,10)
+                            Button(action: {
+                                self.selectedSound = sound
+                                if let selectedSound = self.selectedSound{
+                                    deleteSound(sound: selectedSound)
+                                }
+                            }){
+                                Image(systemName: "trash")
+                                    .tint(.red)
+                                    .hAlign(.trailing)
+                                    .vAlign(.bottom)
+                                    .padding(.horizontal, 15)
+                            }
                             Divider()
                                 .padding(.horizontal,5)
                                 .padding(.top, 10)
@@ -99,6 +115,24 @@ struct GarageView: View {
         }
         catch {
             print(error.localizedDescription)
+        }
+    }
+    
+    func deleteSound(sound: PlaygroundSound){
+        Task{
+            do{
+                //let mediaNameAux = (sound.soundURL.absoluteString).split(separator: "Playground_media%")[1]
+                //let mediaName = mediaNameAux.split(separator: "?alt")[0]
+                //let storageRef = Storage.storage().reference().child("Playground_media").child("\(mediaName)")
+                //try await storageRef.delete()
+                guard let soundID = sound.id else {return}
+                try await Firestore.firestore().collection("Playground").document(soundID).delete()
+                if let index = sounds.firstIndex(where: { $0.id == sound.id }) {
+                    sounds.remove(at: index)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
 }
