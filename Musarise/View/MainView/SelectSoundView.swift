@@ -7,6 +7,7 @@ struct SelectSoundView: View {
     var onClose: () -> Void
     @State var showPlayCard: Bool = false
     @State var audioSelected: URL
+    @State var freeMode: Bool
     
     var body: some View {
         Color.clear
@@ -57,6 +58,7 @@ struct SelectSoundView: View {
         if showPlayCard{
             PlayCardView(onClose: {
                 self.showPlayCard = false
+                self.freeMode = false
                 onClose()
             }, audioURL: audioSelected,
                freeMode: false,
@@ -67,8 +69,12 @@ struct SelectSoundView: View {
 }
 
 struct PlayCardView: View {
+    
     let motionManager = CMMotionManager()
     var onClose: () -> Void
+    
+    @State private var previousPosition: Double = 0.0
+    @State private var currentPosition: Double = 0.0
     @State var players: [AVPlayer] = []
     @State var audioURL: URL?
     @State var freeMode: Bool
@@ -160,7 +166,6 @@ struct PlayCardView: View {
     }
     
     func playSound(volume: Float){
-        print("free mode: "+String(freeMode))
         if !freeMode{
             if let audioURL = self.audioURL{
                 let playerItem: AVPlayerItem = AVPlayerItem(url: audioURL)
@@ -171,7 +176,6 @@ struct PlayCardView: View {
             }
         }
         else {
-            print("no. drum: "+String(freeModeDrum))
             let playerItem: AVPlayerItem = AVPlayerItem(url: self.playersFreeMode[freeModeDrum].soundURL)
             let player: AVPlayer = AVPlayer(playerItem: playerItem)
             self.players.append(player)
@@ -188,8 +192,7 @@ struct PlayCardView: View {
         return volume
     }
     
-    // retorna a posição da aceleração (0 a 2), que correspondem a cada posição dos drums (caso seja free mode)
-    func checkAcceleration(acceleration: CMAcceleration) -> Int{
+    func checkAcceleration(acceleration: CMAcceleration) {
         
         // aceleração inicialmente positiva
         if (acceleration.z >= 0 && !isDetected) {
@@ -202,6 +205,9 @@ struct PlayCardView: View {
         }
         // aceleração negativa para positiva
         else if (acceleration.z >= 0 && isDetected){
+            previousPosition = currentPosition
+            currentPosition += acceleration.x
+            checkMovement(acceleration: acceleration, currentPosition: currentPosition, previousPosition: previousPosition)
             if let startime = startime{
                 let duration = Date().timeIntervalSince(startime)
                 let volume = getAmplitude(duration: duration)
@@ -209,30 +215,30 @@ struct PlayCardView: View {
             }
             isDetected = false
         }
-        
-        return checkMovement(acceleration: acceleration)
     }
     
-    func checkMovement(acceleration: CMAcceleration) -> Int{
-        print("Z: "+String(acceleration.z))
-        print("X: "+String(acceleration.x))
-        print("Y: "+String(acceleration.y))
+    func checkMovement(acceleration: CMAcceleration, currentPosition: Double, previousPosition: Double){
+
         if freeMode{
-            // posição mais à direita
-            if (acceleration.x >= 0.2) {
-                return 2
+            
+            let positionDifference = currentPosition - previousPosition
+            print("positionDifference: \(positionDifference)")
+            if positionDifference > 0.2 {
+                // posição mais à direita
+                print("direita")
+                self.freeModeDrum = 2
             }
             // posição mais à esquerda
-            else if (acceleration.x <= -0.2) {
-                return 0
+            else if (positionDifference < -0.2) {
+                print("esquerda")
+                self.freeModeDrum = 0
             }
             // posição central (local)
-            else if (acceleration.x > -0.2 && acceleration.x < 0.2){
-                return 1
+            else {
+                print("centro")
+                self.freeModeDrum = 1
             }
         }
-        // se não for free mode, retorna -1
-        return -1
     }
 
     func startAccelerometerUpdates(){
@@ -241,7 +247,7 @@ struct PlayCardView: View {
             motionManager.startAccelerometerUpdates(to: .main) { data, error in
                 if let acceleration = data?.acceleration {
                     accelerationData = acceleration
-                    freeModeDrum = checkAcceleration(acceleration: acceleration)
+                    checkAcceleration(acceleration: acceleration)
                 }
             }
         }

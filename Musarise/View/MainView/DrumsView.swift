@@ -85,7 +85,8 @@ struct DrumsView: View {
                                 onClose: {
                                     self.showSelectModal = false
                                 },
-                                audioSelected: audioSelected
+                                audioSelected: audioSelected,
+                                freeMode: false
                             )
                             .frame(width: geo.size.width, height: geo.size.height)
                             .position(x: geo.size.width/2, y: geo.size.height/2)
@@ -96,6 +97,7 @@ struct DrumsView: View {
                             onClose: {
                                 self.showPlayCardModal = false
                                 self.freeMode = false
+                                motionManager.stopAccelerometerUpdates()
                             },
                             audioURL: nil,
                             freeMode: freeMode,
