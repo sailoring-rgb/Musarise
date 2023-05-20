@@ -9,7 +9,6 @@ struct DrumsView: View {
     @State private var player: AVPlayer?
     @State private var showSelectModal : Bool = false
     @State private var audioSelected : URL?
-    @State private var freeMode: Bool = false
     @State private var playersFreeMode: [Drum] = []
     @State private var showPlayCardModal: Bool = false
     
@@ -49,7 +48,6 @@ struct DrumsView: View {
                     Button(action: {
                         withAnimation{
                             self.showPlayCardModal = true
-                            self.freeMode = true
                         }
                     }){
                         Text("Choose free mode")
@@ -64,7 +62,7 @@ struct DrumsView: View {
                 .padding(30)
             }
             .navigationTitle("Choose sound")
-            .alert("There are 3 different drums in 3 different positions. Move your phone horizontally to play them.", isPresented: $freeMode, actions: {})
+            //.alert("There are 3 different drums in 3 different positions. Move your phone horizontally to play them.", isPresented: $freeMode, actions: {})
             .task {
                 await fetchDrumsAudios()
                 fetchFreeModeAudios()
@@ -77,6 +75,7 @@ struct DrumsView: View {
                     .onTapGesture {
                         self.showSelectModal = false
                         self.showPlayCardModal = false
+                        //self.freeMode = false
                     }
                 GeometryReader{geo in
                     if showSelectModal{
@@ -84,6 +83,8 @@ struct DrumsView: View {
                             SelectSoundView(
                                 onClose: {
                                     self.showSelectModal = false
+                                    self.showPlayCardModal = false
+                                    //self.freeMode = false
                                 },
                                 audioSelected: audioSelected,
                                 freeMode: false
@@ -96,11 +97,11 @@ struct DrumsView: View {
                         PlayCardView(
                             onClose: {
                                 self.showPlayCardModal = false
-                                self.freeMode = false
-                                motionManager.stopAccelerometerUpdates()
+                                self.showSelectModal = false
+                                //self.freeMode = false
                             },
                             audioURL: nil,
-                            freeMode: freeMode,
+                            freeMode: true,
                             playersFreeMode: playersFreeMode
                         )
                         .frame(width: geo.size.width, height: geo.size.height)
