@@ -41,23 +41,37 @@ struct SearchUserView: View {
         })
     }
         
-    func searchUsers()async{
-        do{
-            let documents = try await Firestore.firestore().collection("Users")
-                .whereField("username", isGreaterThanOrEqualTo: searchText)
-                .getDocuments()
+    func searchUsers() async {
+        do {
+            let searchTextLowercased = searchText.lowercased()
             
-            let users = try documents.documents.compactMap { doc -> User? in
-                try doc.data(as: User.self)
+            let query = try await Firestore.firestore().collection("Users").whereField("username", isEqualTo: searchTextLowercased).getDocuments()
+            
+            var users = query.documents.compactMap { doc -> User? in
+                try? doc.data(as: User.self)
             }
             
-            await MainActor.run(body:{
-                fetchedUsers = users
-            })
-        }catch{
+            if users.isEmpty {
+                let startWithQuery = try await Firestore.firestore().collection("Users").whereField("username", isGreaterThanOrEqualTo: searchTextLowercased).getDocuments()
+                
+                for userDocument in startWithQuery.documents {
+                    if let user = try? userDocument.data(as: User.self), user.username.lowercased().hasPrefix(searchTextLowercased) {
+                        users.append(user)
+                    }
+                }
+            }
+            
+            let usersFiltered = users
+            
+            await MainActor.run {
+                fetchedUsers = usersFiltered
+            }
+        } catch {
             print(error.localizedDescription)
         }
     }
+
+
 }
 
 struct SearchUserView_Previews: PreviewProvider {
