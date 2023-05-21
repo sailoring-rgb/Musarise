@@ -15,9 +15,33 @@
 
 <a name="redeSocial"><h2>📱 Rede social</h2></a>
 
-```
-TODO
-```
+- <h4>Registo da conta e *login*</h4>
+
+Ao registrar uma conta na aplicação, o utilizador deve fornecer os seguintes dados pessoais: (1) o *email*, (2) o *username* e (3) a senha. Opcionalmente, é possível adicionar uma foto de perfil. No momento do *login*, o utilizador pode escolher inserir o seu *email* ou o *username*, juntamente com a senha. Existem duas situações de erro que ocorrem quando já existe uma conta com o *email*, ou o nome de usuário, introduzido, e quando a palavra-passe fornecida está incorreta, respectivamente.
+
+- <h4>Perfil de um usuário</h4>
+
+Para além das informações pessoais fornecidas durante o registo da conta, a página de perfil de um utilizador exibe o número total de publicações feitas por ele, bem como *links* para o número de seguidores e de contas seguidas, que mostram exatamente esses indivíduos. A página apresenta, ainda, todos *posts* feitos pelo usuário em questão. Quando se trata do perfil de outro usuário, a lista de publicações é apresentada como "Their Posts". No entanto, quando se trata do perfil do próprio usuário, a lista é denominada por "My Posts". É possível chegar ao perfil de outro usuário de diversas maneiras, nomeadamente através da opção de pesquisa.
+
+- <h4>Criação de uma publicação</h4>
+
+A criação de um *post* pode incluir texto, imagem ou áudio. Contudo, ao adicionar um áudio previamente armazenado na garagem de sons que o usuário criou, é obrigatório também adicionar uma imagem. Isto porque, essa imagem servirá como um género de *cover* para o áudio.
+
+- <h4>Características de uma publicação</h4>
+
+Após ser compartilhada com os demais membros da aplicação, a publicação assume a sua forma completa, composta pelo seu conteúdo, pelo *username* e pelo *icon* do usuário que a criou, juntamente com a data e hora em que foi publicada. Ao clicar na identificação do criador, a página é redirecionada para o perfil dele. Além dessas características, há também uma secção de *likes* e comentários, onde aqueles que têm acesso ao *post* -- <ins>os seguidores do criador</ins>, podem interagir e fornecer seu *feedback*. Ao carregar na capa do áudio, a aplicação é redirecionada para a página com a *waveform* do áudio. Esta página tem como imagem de fundo a capa do som publicado, mostrando também a descrição da publicação. 
+
+- <h4>Registo dos valores do giroscópio para treinar modelos</h4>
+
+A rede social oferece, adicionalmente, um modo de captura de valores gerados pelo giroscópio, visando a sua utilização para o aprimoramento da sensorização. Como cobaia, temos a guitarra virtual da *Musarise* que, ao carregar no botão localizado no canto inferior esquerdo, o utilizador pode decidir o momento exato em que os dados devem começar a ser registados. A consequência dessa ação é a mudança de cor da tela para sinalizar o acontecimento e a contribuição para um melhor funcionamento da aplicação.
+
+- <h4>Gravação e armazenamento do som</h4>
+
+Depois de produzir um som, o utilizador não é obrigado a publicar o resultado final. Em vez disso, ele tem a opção de gravar e guardar a sua criação na sua biblioteca de áudios, para posterior audição e, quem sabe, compartilhamento com os seus seguidores. O formulário para salvar o resultado final permite que sejam atribuídos um título e uma descrição.
+
+- <h4>Participação em desafios musicais</h4>
+
+ A *Musarise* ambiciona entreter aqueles que usufruem dela, mas, acima de tudo, motivar e inspirar os amantes da música. Surgiu, assim, a ideia de desafiar os usuários a recriar sons bastante conhecidos. Basta consultar a página onde estão divulgados esses desafios e mergulhar na diversão que a música proporciona.
 
 <a name="instrumentos"><h2>🎵 Instrumentos</h2></a>
 
