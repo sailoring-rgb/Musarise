@@ -8,6 +8,8 @@
 </a>
 </p>
 
+<p align="center">Classificação: 19.2/20</p>
+
 <h2> Features </h2>
 
 * [📱 Rede social](#redeSocial)
