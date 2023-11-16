@@ -86,4 +86,4 @@ O **sensor do microfone** é utilizado para a captação do áudio do utilizador
 
 
 - <a href="https://github.com/sailoring-rgb">Ana Henriques</a>
-- <a href="https://github.com/LittleLevi05">Henrique Costa</a>
+- <a href="https://github.com/parola05">Henrique Costa</a>
